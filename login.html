@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniLink - Login</title>
+  <style>
+    /* Reset & Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at 10% 20%, #eff3ff 0%, #f4f6fc 50%, #eef7f8 100%);
+      color: #334155;
+      padding: 40px 20px;
+    }
+
+    /* Outer Wrapper */
+    .page-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 520px;
+    }
+
+    /* Main Card */
+    .card {
+      background-color: #ffffff;
+      width: 100%;
+      padding: 40px 48px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    /* Header & Logo */
+    .brand-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      background-color: #0042c8;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-text {
+      font-size: 28px;
+      font-weight: 800;
+      color: #0037a5;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #64748b;
+      line-height: 1.5;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    /* Tab Switcher */
+    .tab-container {
+      display: flex;
+      background-color: #f1f4fb;
+      padding: 4px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 10px 16px;
+      border: none;
+      background: transparent;
+      font-size: 14px;
+      font-weight: 600;
+      color: #556987;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .tab.active {
+      background-color: #ffffff;
+      color: #0042c8;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon-right {
+      position: absolute;
+      right: 14px;
+      color: #94a3b8;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 14px 14px 14px 42px;
+      background-color: #f3f5fc;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      font-size: 14px;
+      color: #334155;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-input::placeholder {
+      color: #94a3b8;
+    }
+
+    .form-input:focus {
+      background-color: #ffffff;
+      border-color: #0042c8;
+      box-shadow: 0 0 0 3px rgba(0, 66, 200, 0.1);
+    }
+
+    /* Options Row (Checkbox & Forgot Password) */
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      font-size: 13px;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #475569;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .checkbox-label input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #0042c8;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .forgot-link {
+      color: #0042c8;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .forgot-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Primary Submit Button */
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background-color: #0037a5;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-submit:hover {
+      background-color: #002b82;
+    }
+
+    /* Info Callout Banner */
+    .info-banner {
+      background-color: #f1f4fb;
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: #475569;
+      margin-bottom: 24px;
+    }
+
+    .info-icon {
+      color: #0d9488;
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .badge-edu {
+      background-color: #dbeafe;
+      color: #1d4ed8;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    /* Card Footer Link */
+    .card-footer {
+      text-align: center;
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .signup-link {
+      color: #0042c8;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .signup-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Below Card Badges & Info */
+    .features-list {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 28px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #475569;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .feature-icon {
+      color: #059669;
+      display: flex;
+      align-items: center;
+    }
+
+    .feature-dot {
+      width: 4px;
+      height: 4px;
+      background-color: #cbd5e1;
+      border-radius: 50%;
+    }
+
+    /* Online Status Pill */
+    .status-pill {
+      background-color: #eaf3fa;
+      padding: 8px 18px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #10b981;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+    <!-- Main Form Card -->
+    <div class="card">
+      
+      <!-- Logo Header -->
+      <div class="brand-header">
+        <div class="logo-container">
+          <div class="logo-icon">
+            <!-- UniLink Custom Ribbon Logo SVG -->
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 16V9A5 5 0 0 1 17 9V16" stroke="white" stroke-width="3" stroke-linecap="round"/>
+              <path d="M12 11V16" stroke="white" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="logo-text">UniLink</span>
+        </div>
+        <p class="subtitle">Access your verified campus community, peer-reviewed notes, and academic circles.</p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tab-container">
+        <button type="button" class="tab active">
+          <!-- Login Icon -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+            <polyline points="10 17 15 12 10 7"/>
+            <line x1="15" y1="12" x2="3" y2="12"/>
+          </svg>
+          Log In
+        </button>
+        <button type="button" class="tab">
+          <!-- User Plus Icon -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="8.5" cy="7" r="4"/>
+            <line x1="20" y1="8" x2="20" y2="14"/>
+            <line x1="23" y1="11" x2="17" y2="11"/>
+          </svg>
+          Create Account
+        </button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" action="api/auth/login" method="POST">
+        
+        <!-- Email Field -->
+        <div class="form-group">
+          <label class="form-label" for="email">University Email</label>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <!-- Academic Cap Icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+              </svg>
+            </span>
+            <input 
+              type="email" 
+              id="email" 
+              class="form-input" 
+              placeholder="rakib.hasan@northsouth.edu" 
+              
+              required
+            >
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <!-- Lock Icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </span>
+            <input 
+              type="password" 
+              id="password" 
+              class="form-input" 
+               
+              required
+            >
+            <span class="input-icon-right">
+              <!-- Eye Icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- Form Checkbox & Link -->
+        <div class="form-options">
+          <label class="checkbox-label">
+            <input type="checkbox" checked>
+            Remember me
+          </label>
+          <span class="forgot-link" aria-disabled="true">Password reset is not enabled for this MVP.</span>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-submit">
+          Log In
+          <!-- Right Arrow Icon -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </button>
+      </form>
+
+      <!-- Verification Info Banner -->
+      <div class="info-banner">
+        <span class="info-icon">
+          <!-- Shield Check Icon -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <polyline points="9 12 11 14 15 10"/>
+          </svg>
+        </span>
+        <span>Log in using your verified <span class="badge-edu">.edu</span> or official student portal credentials.</span>
+      </div>
+
+      <!-- Card Bottom Switch Link -->
+      <div class="card-footer">
+        New to campus? <a href="registration.html" class="signup-link">Create an account</a>
+      </div>
+
+    </div>
+
+    <!-- Below Card Badges -->
+    <div class="features-list">
+      <div class="feature-item">
+        <span class="feature-icon">
+          <!-- Shield Badge -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+          </svg>
+        </span>
+        Verified Student Network
+      </div>
+
+      <div class="feature-dot"></div>
+
+      <div class="feature-item">
+        <span class="feature-icon" style="color: #0042c8;">
+          <!-- Lightning Icon -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M13 2L3 14h7v8l10-12h-7z"/>
+          </svg>
+        </span>
+        Instant Academic Access
+      </div>
+
+      <div class="feature-dot"></div>
+
+      <div class="feature-item">
+        <span class="feature-icon" style="color: #0042c8;">
+          <!-- Mortarboard Icon -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/>
+          </svg>
+        </span>
+        University Email Required
+      </div>
+    </div>
+
+    <!-- Online Counter Pill -->
+    <div class="status-pill">
+      <span class="status-dot"></span>
+      <span>1,420+ students online from NSU, DU & BRACU</span>
+    </div>
+
+  </div>
+
+</body>
+<script src="assets/js/api.js?v=2"></script>
+<script>
+const loginForm = document.getElementById('loginForm');
+const loginMessage = document.createElement('div');
+loginMessage.setAttribute('role','status');
+loginMessage.style.cssText='margin:0 0 14px;font-weight:700;color:#b42318';
+loginForm.prepend(loginMessage);
+loginForm.addEventListener('submit', async function(e) {
+  e.preventDefault();
+  loginMessage.textContent='';
+  const submit=this.querySelector('button[type="submit"]');
+  submit.disabled=true;
+  try {
+    await UniLinkAPI.post('/auth/login', {
+      email: document.getElementById('email').value.trim(),
+      password: document.getElementById('password').value
+    });
+    const next = new URLSearchParams(location.search).get('next');
+    location.href = next && next.startsWith('/') ? next : 'unilink_main_feed.html';
+  } catch (err) {
+    loginMessage.textContent=err.message;
+  } finally { submit.disabled=false; }
+});
+</script>
+</html>

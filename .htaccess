@@ -1,0 +1,11 @@
+Options -Indexes
+RewriteEngine On
+
+# Never serve private application/database/storage files directly.
+RewriteRule ^(?:backend|database|storage|\.git)(?:/|$) - [F,L,NC]
+RewriteRule ^(?:\.env(?:\..*)?|.*\.sql|req\.json)$ - [F,L,NC]
+
+# Existing public HTML/assets can be served normally; everything else (notably
+# /api/* and /) goes through the application router.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ router.php [QSA,L]

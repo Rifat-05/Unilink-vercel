@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniLink - Create your account</title>
+  <style>
+    /* Reset & Global Box Sizing */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f6f8fd;
+      color: #334155;
+      min-height: 100vh;
+      display: flex;
+    }
+
+    .page-container {
+      display: flex;
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    /* LEFT PANEL */
+    .left-panel {
+      width: 45%;
+      background: radial-gradient(circle at 10% 20%, #eaf1ff 0%, #f4f7fe 60%, #eef8f8 100%);
+      padding: 60px 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid #eef2f6;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+
+    .logo-box {
+      width: 38px;
+      height: 38px;
+      background-color: #1a56db;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-text {
+      font-size: 24px;
+      font-weight: 800;
+      color: #1e3a8a;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-title {
+      font-size: 38px;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      color: #64748b;
+      line-height: 1.5;
+      margin-bottom: 36px;
+      max-width: 420px;
+    }
+
+    /* Feature Cards */
+    .feature-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .feature-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      gap: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    }
+
+    .feature-icon-wrapper {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .icon-blue { background-color: #e0f2fe; color: #0284c7; }
+    .icon-purple { background-color: #f0fdf4; color: #16a34a; }
+    .icon-amber { background-color: #fffbe completed; background-color: #fef3c7; color: #d97706; }
+
+    .feature-content {
+      flex: 1;
+    }
+
+    .feature-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .feature-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .badge-blue {
+      background-color: #dbeafe;
+      color: #2563eb;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+    }
+
+    .badge-green {
+      color: #16a34a;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .green-dot {
+      width: 6px;
+      height: 6px;
+      background-color: #22c55e;
+      border-radius: 50%;
+    }
+
+    .feature-desc {
+      font-size: 12px;
+      color: #64748b;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .tags-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .tag {
+      background-color: #f1f5f9;
+      color: #64748b;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    /* Testimonial Quote */
+    .quote-box {
+      border-left: 3px solid #2563eb;
+      padding-left: 16px;
+      margin-top: 10px;
+      margin-bottom: 40px;
+    }
+
+    .quote-text {
+      font-size: 13px;
+      font-style: italic;
+      color: #475569;
+      line-height: 1.5;
+      margin-bottom: 6px;
+    }
+
+    .quote-author {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    /* Left Footer */
+    .left-footer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+
+    /* RIGHT PANEL */
+    .right-panel {
+      width: 55%;
+      background: #ffffff;
+      padding: 60px 70px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow-y: auto;
+    }
+
+    .form-header {
+      margin-bottom: 28px;
+    }
+
+    .form-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .form-subtitle {
+      font-size: 14px;
+      color: #64748b;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      flex: 1;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #475569;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .required-star {
+      color: #ef4444;
+    }
+
+    .input-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .form-input, .form-select {
+      width: 100%;
+      padding: 12px 14px;
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 14px;
+      color: #1e293b;
+      outline: none;
+      transition: all 0.2s ease;
+      appearance: none;
+    }
+
+    .form-input:focus, .form-select:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .input-has-icon {
+      padding-left: 40px;
+    }
+
+    .input-icon-left {
+      position: absolute;
+      left: 14px;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon-right {
+      position: absolute;
+      right: 14px;
+      color: #94a3b8;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+
+    .select-chevron {
+      position: absolute;
+      right: 14px;
+      pointer-events: none;
+      color: #64748b;
+    }
+
+    .field-hint {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 6px;
+    }
+
+    /* Password Strength Meter */
+    .strength-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-top: 8px;
+      margin-bottom: 6px;
+      color: #64748b;
+    }
+
+    .strength-status {
+      font-weight: 700;
+      color: #16a34a;
+    }
+
+    .strength-bars {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .strength-bar {
+      height: 4px;
+      flex: 1;
+      background-color: #22c55e;
+      border-radius: 2px;
+    }
+
+    /* Verification Box Banner */
+    .verification-box {
+      background-color: #eff6ff;
+      border: 1px solid #dbeafe;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .verification-icon {
+      color: #2563eb;
+      display: flex;
+      align-items: flex-start;
+      margin-top: 2px;
+    }
+
+    .verification-content {
+      font-size: 12px;
+      color: #3b82f6;
+      line-height: 1.5;
+    }
+
+    .verification-title {
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      color: #1e40af;
+      font-size: 11px;
+    }
+
+    /* Terms Checkbox */
+    .terms-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      font-size: 13px;
+      color: #475569;
+    }
+
+    .terms-group input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #2563eb;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .terms-group a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .terms-group a:hover {
+      text-decoration: underline;
+    }
+
+    /* Submit Button */
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background-color: #2563eb;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 24px;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-submit:hover {
+      background-color: #1d4ed8;
+    }
+
+    .form-footer {
+      text-align: center;
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .login-link {
+      color: #2563eb;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .login-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+      .page-container {
+        flex-direction: column;
+      }
+      .left-panel, .right-panel {
+        width: 100%;
+        padding: 40px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-container">
+    
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+      <div>
+        <!-- Brand Logo -->
+        <div class="brand-logo">
+          <div class="logo-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 16V9A5 5 0 0 1 17 9V16" stroke="white" stroke-width="3" stroke-linecap="round"/>
+              <path d="M12 11V16" stroke="white" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="logo-text">UniLink</span>
+        </div>
+
+        <!-- Main Headline -->
+        <h1 class="hero-title">Join your campus community.</h1>
+        <p class="hero-subtitle">Share notes, discover opportunities, connect with students, and stay updated with campus life.</p>
+
+        <!-- Feature Cards -->
+        <div class="feature-cards">
+          
+          <!-- Card 1 -->
+          <div class="feature-card">
+            <div class="feature-icon-wrapper icon-blue">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+              </svg>
+            </div>
+            <div class="feature-content">
+              <div class="feature-header">
+                <span class="feature-title">Verified Academic Notes</span>
+                <span class="badge-blue">Peer-Reviewed</span>
+              </div>
+              <p class="feature-desc">Access curated class notes, midterm guides, and syllabus materials.</p>
+              <div class="tags-row">
+                <span class="tag">CSE311</span>
+                <span class="tag">MAT120</span>
+                <span class="tag">ENG102</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="feature-card">
+            <div class="feature-icon-wrapper icon-purple">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <div class="feature-content">
+              <div class="feature-header">
+                <span class="feature-title">Direct Peer Collaboration</span>
+                <span class="badge-green">
+                  <span class="green-dot"></span>
+                  15,000+ Active
+                </span>
+              </div>
+              <p class="feature-desc">Form instant study circles with course-mates from your same section.</p>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="feature-card">
+            <div class="feature-icon-wrapper icon-amber">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+              </svg>
+            </div>
+            <div class="feature-content">
+              <div class="feature-header">
+                <span class="feature-title">Campus Club & Career Hub</span>
+              </div>
+              <p class="feature-desc">Internal hackathons, verified campus clubs, and alumni mentorship.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Quote -->
+        <div class="quote-box">
+          <p class="quote-text">“UniLink helped our study group ace our midterms. Having real notes from top-tier seniors changed the semester for us.”</p>
+          <div class="quote-author">— NSU CS '25 Student</div>
+        </div>
+      </div>
+
+      <!-- Footer Badge -->
+      <div class="left-footer">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <polyline points="9 12 11 14 15 10"/>
+        </svg>
+        <span>Exclusive student network • Strict institutional verification required</span>
+      </div>
+    </div>
+
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+      <div class="form-header">
+        <h2 class="form-title">Create your UniLink account</h2>
+        <p class="form-subtitle">Join your university community in just a few steps.</p>
+      </div>
+
+      <form id="registrationForm" action="api/auth/register" method="POST">
+        
+        <!-- Full Name -->
+        <div class="form-group">
+          <label class="form-label" for="fullname">FULL NAME <span class="required-star">*</span></label>
+          <input type="text" id="fullname" class="form-input" required>
+        </div>
+
+        <!-- University & Department Row -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="university">UNIVERSITY <span class="required-star">*</span></label>
+            <div class="input-box">
+              <select id="university" class="form-select" required>
+                <option value="North South University" selected>North South University</option>
+                <option value="University of Dhaka">University of Dhaka</option>
+                <option value="BRAC University">BRAC University</option>
+              </select>
+              <svg class="select-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="department">DEPARTMENT / MAJOR <span class="required-star">*</span></label>
+            <div class="input-box">
+              <select id="department" class="form-select" required>
+                <option selected>Computer Science & Engineering</option>
+                <option>Electrical Engineering</option>
+                <option>BBA</option>
+              </select>
+              <svg class="select-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Student ID -->
+        <div class="form-group">
+          <label class="form-label" for="studentid">STUDENT ID <span class="required-star">*</span></label>
+          <input type="text" id="studentid" class="form-input" required>
+          <div class="field-hint">Your student ID helps us confirm your university identity.</div>
+        </div>
+
+        <!-- University Email -->
+        <div class="form-group">
+          <label class="form-label" for="email">UNIVERSITY EMAIL <span class="required-star">*</span></label>
+          <div class="input-box">
+            <span class="input-icon-left">@</span>
+            <input type="email" id="email" class="form-input input-has-icon" required>
+          </div>
+          <div class="field-hint">Use an email address you can remember for tomorrow's test.</div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label class="form-label" for="password">PASSWORD <span class="required-star">*</span></label>
+          <div class="input-box">
+            <span class="input-icon-left">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </span>
+            <input type="password" id="password" class="form-input input-has-icon" required>
+            <span class="input-icon-right">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </span>
+          </div>
+          
+          <!-- Password Strength Indicator -->
+          <div class="strength-header">
+            <span>Password strength:</span>
+            <span class="strength-status">Strong</span>
+          </div>
+          <div class="strength-bars">
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+          </div>
+          <div class="field-hint">At least 8 characters • One number recommended</div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group">
+          <label class="form-label" for="confirm-password">CONFIRM PASSWORD <span class="required-star">*</span></label>
+          <div class="input-box">
+            <span class="input-icon-left">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </span>
+            <input type="password" id="confirm-password" class="form-input input-has-icon" required>
+          </div>
+        </div>
+
+        <!-- Student Verification Banner -->
+        <div class="verification-box">
+          <div class="verification-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <polyline points="9 12 11 14 15 10"/>
+            </svg>
+          </div>
+          <div class="verification-content">
+            <div class="verification-title">STUDENT VERIFICATION</div>
+            To keep UniLink exclusive to university students, your Student ID and university details are stored with your account for the MVP.
+          </div>
+        </div>
+
+        <!-- Checkbox -->
+        <div class="terms-group">
+          <input type="checkbox" id="terms" checked required>
+          <label for="terms">I agree to UniLink's Terms of Service and Privacy Policy for this class MVP.</label>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-submit">
+          Create Account
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </button>
+
+        <!-- Footer Link -->
+        <div class="form-footer">
+          Already have an account? <a href="login.html" class="login-link">Log in</a>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+
+</body>
+<script src="assets/js/api.js?v=2"></script>
+<script>
+const registrationForm = document.getElementById('registrationForm');
+const registrationMessage = document.createElement('div');
+registrationMessage.setAttribute('role','status');
+registrationMessage.style.cssText='margin:0 0 14px;font-weight:700;color:#b42318';
+registrationForm.prepend(registrationMessage);
+registrationForm.addEventListener('submit', async function(e) {
+  e.preventDefault();
+  registrationMessage.textContent='';
+  const value=id => document.getElementById(id).value.trim();
+  if (value('password') !== value('confirm-password')) { registrationMessage.textContent='Passwords do not match.'; return; }
+  const submit=this.querySelector('button[type="submit"]');
+  submit.disabled=true;
+  try {
+    await UniLinkAPI.post('/auth/register', {
+      full_name:value('fullname'), email:value('email'), password:document.getElementById('password').value,
+      university_name:value('university'), student_id:value('studentid'), department:value('department')
+    });
+    registrationMessage.style.color='#067647';
+    registrationMessage.textContent='Account created. Redirecting to login…';
+    setTimeout(()=>{ location.href='login.html'; },500);
+  } catch (err) {
+    registrationMessage.style.color='#b42318';
+    registrationMessage.textContent=err.message;
+  } finally { submit.disabled=false; }
+});
+</script>
+</html>

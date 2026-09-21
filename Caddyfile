@@ -1,0 +1,10 @@
+:{$PORT:80} {
+    root * /app
+    encode zstd gzip
+
+    @private path /backend /backend/* /database /database/* /storage /storage/* /.env* /.git /.git/* /*.sql /req.json /PHP_SETUP.md /TEST_REPORT.md /README_LAUNCH.md /VERCEL_DEPLOY.md
+    respond @private 404
+
+    try_files {path} /router.php
+    php_server
+}

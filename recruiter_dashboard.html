@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniLink Partner Portal - Brain Station 23</title>
+  <style>
+    :root {
+      --bg-main: #f5f8ff;
+      --bg-card: #ffffff;
+      --primary: #004ee8;
+      --primary-hover: #003ebd;
+      --primary-light: #ebf3ff;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --teal-bg: #d1fae5;
+      --teal-text: #059669;
+      --blue-pill-bg: #e0e7ff;
+      --blue-pill-text: #3730a3;
+      --gray-pill-bg: #f1f5f9;
+      --gray-pill-text: #475569;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      font-size: 13px;
+      line-height: 1.4;
+      min-height: 100vh;
+    }
+
+    .app-container {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      min-height: 100vh;
+    }
+
+    /* --- SIDEBAR --- */
+    .sidebar {
+      background-color: var(--bg-card);
+      border-right: 1px solid var(--border-color);
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar-top {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 4px;
+    }
+
+    .logo-box {
+      width: 26px;
+      height: 26px;
+      background-color: var(--primary);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .logo-text {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.3px;
+    }
+
+    .badge-portal {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      font-size: 9px;
+      font-weight: 800;
+      padding: 3px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.3px;
+    }
+
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      list-style: none;
+    }
+
+    .nav-item a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.15s ease;
+    }
+
+    .nav-item a:hover {
+      background-color: #f8fafc;
+      color: var(--text-dark);
+    }
+
+    .nav-item.active a {
+      background-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .nav-icon {
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+    }
+
+    .sidebar-bottom {
+      border-top: 1px solid var(--border-color);
+      padding-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .sidebar-bottom-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 8px 8px;
+      border-radius: 6px;
+      transition: color 0.15s;
+    }
+
+    .sidebar-bottom-link:hover {
+      color: var(--primary);
+    }
+
+    /* --- MAIN CONTENT & HEADER --- */
+    .main-wrapper {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .top-navbar {
+      background-color: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      padding: 10px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .nav-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .breadcrumb-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .search-box {
+      position: relative;
+      width: 380px;
+    }
+
+    .search-input {
+      width: 100%;
+      background-color: #f1f5f9;
+      border: 1px solid transparent;
+      padding: 8px 36px 8px 32px;
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--text-dark);
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .search-input:focus {
+      background-color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-light);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 13px;
+    }
+
+    .shortcut-badge {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: #e2e8f0;
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: var(--text-muted);
+      position: relative;
+      padding: 4px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-btn:hover {
+      color: var(--text-dark);
+      background-color: #f1f5f9;
+    }
+
+    .notification-dot {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      width: 7px;
+      height: 7px;
+      background-color: #ef4444;
+      border-radius: 50%;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-left: 8px;
+      border-left: 1px solid var(--border-color);
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .user-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .user-role {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .content-area {
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* --- WELCOME BANNER CARD --- */
+    .welcome-card {
+      background: linear-gradient(135deg, #eef5ff 0%, #f7fafd 100%);
+      border: 1px solid #e0e9f6;
+      border-radius: 14px;
+      padding: 24px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .welcome-left {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .badge-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill-verified {
+      background-color: #dcfce7;
+      color: #166534;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .pill-id {
+      color: var(--text-muted);
+      font-size: 10.5px;
+      font-weight: 700;
+    }
+
+    .welcome-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.4px;
+    }
+
+    .welcome-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 580px;
+    }
+
+    .welcome-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-end;
+    }
+
+    /* --- BUTTONS --- */
+    .btn-primary {
+      background-color: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background-color 0.15s;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-outline {
+      background-color: var(--bg-card);
+      border: 1px solid #cbd5e1;
+      color: var(--text-dark);
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background-color 0.15s;
+    }
+
+    .btn-outline:hover {
+      background-color: #f8fafc;
+    }
+
+    .btn-light-blue {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    /* --- STATS GRID --- */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .stat-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .stat-label {
+      font-size: 10.5px;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .stat-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .stat-icon.blue { background-color: var(--primary-light); color: var(--primary); }
+    .stat-icon.teal { background-color: #ccfbf1; color: #0d9488; }
+    .stat-icon.purple { background-color: #f3e8ff; color: #7e22ce; }
+
+    .stat-value-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .stat-number {
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--text-dark);
+      line-height: 1;
+    }
+
+    .stat-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .stat-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .stat-footer-badge {
+      font-size: 11.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding-top: 4px;
+    }
+
+    .badge-text-green { color: var(--teal-text); }
+    .badge-text-blue { color: var(--primary); }
+    .badge-text-purple { color: #7e22ce; }
+
+    /* --- MAIN 2-COLUMN GRID --- */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .left-column, .right-column {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* CARD CONTAINER GENERAL */
+    .card-block {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card-header-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .card-header-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .card-header-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* JOB POSTS LIST */
+    .job-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .job-card {
+      background-color: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color 0.15s;
+    }
+
+    .job-card:hover {
+      border-color: #cbd5e1;
+    }
+
+    .job-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .job-tags-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .tag-internship {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .tag-active {
+      background-color: var(--teal-bg);
+      color: var(--teal-text);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .tag-location {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .job-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .job-action-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .action-icon-btn {
+      width: 28px;
+      height: 28px;
+      background-color: #f1f5f9;
+      border: none;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .action-icon-btn:hover {
+      background-color: #e2e8f0;
+      color: var(--text-dark);
+    }
+
+    .job-meta-footer {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    .applicants-count {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* QUICK JOB FORM */
+    .form-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .form-header-icon {
+      width: 32px;
+      height: 32px;
+      background-color: var(--primary-light);
+      color: var(--primary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+
+    .draft-mode-badge {
+      background-color: var(--gray-pill-bg);
+      color: var(--gray-pill-text);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.3px;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background-color: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 12.5px;
+      color: var(--text-dark);
+      outline: none;
+      transition: all 0.15s;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      background-color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-light);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 80px;
+      line-height: 1.4;
+    }
+
+    .skills-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .skill-chip {
+      background-color: var(--gray-pill-bg);
+      color: var(--gray-pill-text);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    .info-alert-box {
+      background-color: #eff6ff;
+      border: 1px solid #dbeafe;
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 11.5px;
+      color: #1e40af;
+      line-height: 1.4;
+    }
+
+    .info-alert-icon {
+      font-size: 14px;
+      margin-top: 1px;
+    }
+
+    .form-actions-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding-top: 8px;
+    }
+
+    /* --- RIGHT COLUMN CARDS --- */
+    .company-profile-card {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .company-brand-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .company-avatar {
+      width: 44px;
+      height: 44px;
+      background-color: #0284c7;
+      color: #ffffff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    .company-title-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .company-name {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .company-category {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .company-details-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .company-detail-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .company-detail-item a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .company-detail-item a:hover {
+      text-decoration: underline;
+    }
+
+    .pulse-card {
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      border: 1px solid var(--border-color);
+    }
+
+    .pulse-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .pulse-body {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .pulse-next-event {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-top: 4px;
+    }
+
+    .pulse-event-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .pulse-event-value {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    /* --- RESPONSIVE MEDIA QUERIES --- */
+    @media (max-width: 1024px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+      .search-box {
+        width: 240px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .app-container {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        display: none;
+      }
+      .top-navbar {
+        padding: 10px 16px;
+      }
+      .content-area {
+        padding: 16px;
+      }
+      .welcome-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .welcome-actions {
+        align-items: flex-start;
+        width: 100%;
+      }
+      .btn-primary, .btn-outline {
+        width: 100%;
+      }
+      .form-grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- LEFT SIDEBAR NAVIGATION -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="brand-logo">
+          <div class="logo-box">UL</div>
+          <span class="logo-text">UniLink</span>
+          <span class="badge-portal">PARTNER PORTAL</span>
+        </div>
+
+        <ul class="nav-menu">
+          <li class="nav-item active">
+            <a href="#">
+              <span class="nav-icon">📊</span>
+              <span>Overview</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#">
+              <span class="nav-icon">👥</span>
+              <span>Talent Search</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#">
+              <span class="nav-icon">💼</span>
+              <span>Job Postings</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#">
+              <span class="nav-icon">📄</span>
+              <span>Applications</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#">
+              <span class="nav-icon">📅</span>
+              <span>Campus Events</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#">
+              <span class="nav-icon">📈</span>
+              <span>Analytics</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-bottom">
+        <a href="#" class="sidebar-bottom-link">
+          <span>← Back to UniLink</span>
+        </a>
+        <a href="#" class="sidebar-bottom-link">
+          <span>↪ Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN SECTION -->
+    <main class="main-wrapper">
+      
+      <!-- TOP NAVIGATION BAR -->
+      <header class="top-navbar">
+        <div class="nav-breadcrumb">
+          <div class="logo-box" style="width:20px; height:20px; font-size:10px;">UL</div>
+          <span style="font-weight:700; color:var(--text-dark);">UniLink</span>
+          <span>Acme Corp Careers</span>
+          <span>›</span>
+          <span style="color:var(--text-dark);">University Relations</span>
+        </div>
+
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" placeholder="Search candidates, roles, universities...">
+          <span class="shortcut-badge">⌘K</span>
+        </div>
+
+        <div class="navbar-right">
+          <button class="icon-btn" title="Notifications">
+            🔔
+            <span class="notification-dot"></span>
+          </button>
+          
+          <button class="icon-btn" title="Settings">
+            ⚙️
+          </button>
+
+          <div class="user-profile">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80" alt="Elena Rostova" class="user-avatar">
+            <div class="user-info">
+              <span class="user-name">Elena Rostova</span>
+              <span class="user-role">Campus Recruiter</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- MAIN CONTENT -->
+      <div class="content-area">
+        
+        <!-- 1. WELCOME BANNER CARD -->
+        <section class="welcome-card">
+          <div class="welcome-left">
+            <div class="badge-group">
+              <span class="pill-verified">
+                <span>✓</span> VERIFIED RECRUITER
+              </span>
+              <span class="pill-id">• Portal ID: BS23-BD</span>
+            </div>
+            <h1 class="welcome-title">Welcome, Brain Station 23</h1>
+            <p class="welcome-desc">
+              Manage your company's opportunities on UniLink. Review university talent and track candidate pipelines in real time.
+            </p>
+          </div>
+
+          <div class="welcome-actions">
+            <button class="btn-primary">＋ Post Job</button>
+            <button class="btn-outline">📄 View Public Profile</button>
+          </div>
+        </section>
+
+        <!-- 2. STATS CARDS ROW (3 COLUMNS) -->
+        <section class="stats-grid">
+          
+          <!-- Card 1: Active Listings -->
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">ACTIVE LISTINGS</span>
+              <div class="stat-icon blue">💼</div>
+            </div>
+            <div class="stat-value-group">
+              <span class="stat-number">2</span>
+              <span class="stat-title">Active Jobs</span>
+              <span class="stat-sub">Accepting student applications</span>
+            </div>
+            <div class="stat-footer-badge badge-text-green">
+              <span>✓ Live across 14 partnered universities</span>
+            </div>
+          </div>
+
+          <!-- Card 2: Candidate Velocity -->
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">CANDIDATE VELOCITY</span>
+              <div class="stat-icon teal">👥</div>
+            </div>
+            <div class="stat-value-group">
+              <span class="stat-number">34</span>
+              <span class="stat-title">Applications</span>
+              <span class="stat-sub">8 new this week from NSU</span>
+            </div>
+            <div class="stat-footer-badge badge-text-blue">
+              <span>📈 +24% volume compared to last cycle</span>
+            </div>
+          </div>
+
+          <!-- Card 3: Talent Tracks -->
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">TALENT TRACKS</span>
+              <div class="stat-icon purple">🎓</div>
+            </div>
+            <div class="stat-value-group">
+              <span class="stat-number">1</span>
+              <span class="stat-title">Internship</span>
+              <span class="stat-sub">Software Engineering track</span>
+            </div>
+            <div class="stat-footer-badge badge-text-purple">
+              <span>🎯 Primary focus: React & Node.js</span>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- 3. MAIN GRID LAYOUT (2 COLUMNS) -->
+        <div class="main-grid">
+          
+          <!-- LEFT COLUMN -->
+          <div class="left-column">
+            
+            <!-- SECTION A: Your Job Posts -->
+            <div class="card-block">
+              <div class="card-header-flex">
+                <div>
+                  <h2 class="card-header-title">Your Job Posts</h2>
+                  <p class="card-header-sub">Live recruitment drives currently visible to enrolled students.</p>
+                </div>
+                <button class="btn-primary" style="padding: 8px 14px; font-size: 11.5px;">＋ Post New Job</button>
+              </div>
+
+              <div class="job-list">
+                
+                <!-- Job Card 1 -->
+                <div class="job-card">
+                  <div class="job-card-top">
+                    <div>
+                      <div class="job-tags-row">
+                        <span class="tag-internship">Internship</span>
+                        <span class="tag-active">• Active</span>
+                        <span class="tag-location">📍 Dhaka • Hybrid</span>
+                      </div>
+                      <h3 class="job-title">Software Engineering Intern</h3>
+                    </div>
+
+                    <div class="job-action-icons">
+                      <button class="action-icon-btn" title="View">👁️</button>
+                      <button class="action-icon-btn" title="Edit">✏️</button>
+                      <button class="action-icon-btn" title="Delete">🗑️</button>
+                    </div>
+                  </div>
+
+                  <div class="job-meta-footer">
+                    <span>📅 Deadline: September 30, 2026</span>
+                    <span>•</span>
+                    <span class="applicants-count">👥 24 applicants</span>
+                  </div>
+                </div>
+
+                <!-- Job Card 2 -->
+                <div class="job-card">
+                  <div class="job-card-top">
+                    <div>
+                      <div class="job-tags-row">
+                        <span class="tag-internship">Internship</span>
+                        <span class="tag-active">• Active</span>
+                        <span class="tag-location">🏢 Dhaka • On-site</span>
+                      </div>
+                      <h3 class="job-title">Product & Marketing Intern</h3>
+                    </div>
+
+                    <div class="job-action-icons">
+                      <button class="action-icon-btn" title="View">👁️</button>
+                      <button class="action-icon-btn" title="Edit">✏️</button>
+                      <button class="action-icon-btn" title="Delete">🗑️</button>
+                    </div>
+                  </div>
+
+                  <div class="job-meta-footer">
+                    <span>📅 Deadline: October 05, 2026</span>
+                    <span>•</span>
+                    <span class="applicants-count">👥 10 applicants</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- SECTION B: Quick Job Form / Create Opportunity -->
+            <div class="card-block">
+              <div class="card-header-flex">
+                <div class="form-header">
+                  <div class="form-header-icon">📄</div>
+                  <div>
+                    <h2 class="card-header-title">Quick Job Form / Create Opportunity</h2>
+                    <p class="card-header-sub">Post new positions directly to the central university feed.</p>
+                  </div>
+                </div>
+                <span class="draft-mode-badge">DRAFT MODE</span>
+              </div>
+
+              <!-- FORM FIELDS -->
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label">Job Title</label>
+                  <input type="text" class="form-input" value="Software Engineering Intern">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Job Type</label>
+                  <select class="form-select">
+                    <option selected>Internship</option>
+                    <option>Full-time</option>
+                    <option>Part-time</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label">Location</label>
+                  <div style="position:relative;">
+                    <input type="text" class="form-input" value="Dhaka" style="padding-left:28px;">
+                    <span style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--text-muted); font-size:12px;">📍</span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Application Deadline</label>
+                  <div style="position:relative;">
+                    <input type="text" class="form-input" value="Sep 30, 2026" style="padding-left:28px;">
+                    <span style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--text-muted); font-size:12px;">📅</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Required Skills</label>
+                <input type="text" class="form-input" value="JavaScript, React, Git, Node.js">
+                <div class="skills-chips">
+                  <span class="skill-chip">JavaScript</span>
+                  <span class="skill-chip">React</span>
+                  <span class="skill-chip">Git</span>
+                  <span class="skill-chip">Node.js</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Job Description</label>
+                <textarea class="form-textarea">Short description of key responsibilities and expectations for the incoming engineering cohort...</textarea>
+              </div>
+
+              <div class="info-alert-box">
+                <span class="info-alert-icon">ℹ️</span>
+                <span>Jobs are instantly published to the UniLink student Jobs & Internships board. Verified enrolled students can apply with their accredited transcripts.</span>
+              </div>
+
+              <div class="form-actions-row">
+                <button class="btn-outline">Cancel</button>
+                <button class="btn-primary">
+                  <span>📍</span> Publish Job
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- RIGHT COLUMN -->
+          <div class="right-column">
+            
+            <!-- SECTION A: Company Profile Card -->
+            <div class="card-block company-profile-card">
+              <div class="card-header-flex">
+                <h3 class="card-header-title" style="font-size:15px;">Company Profile</h3>
+                <span class="pill-verified" style="background-color:#f0fdf4; border:1px solid #bbf7d0;">
+                  <span>✓</span> Partner Verified
+                </span>
+              </div>
+
+              <div class="company-brand-header">
+                <div class="company-avatar">BS23</div>
+                <div class="company-title-wrap">
+                  <h4 class="company-name">Brain Station 23</h4>
+                  <span class="company-category">Software Development & I...</span>
+                </div>
+              </div>
+
+              <div class="company-details-list">
+                <div class="company-detail-item">
+                  <span>🌐</span>
+                  <a href="https://brainstation-23.com" target="_blank">https://brainstation-23.com</a>
+                </div>
+                <div class="company-detail-item">
+                  <span>📍</span>
+                  <span>Gulshan, Dhaka</span>
+                </div>
+                <div class="company-detail-item">
+                  <span>📄</span>
+                  <span>Leading enterprise software company building web, mobile, AI and cloud solutions.</span>
+                </div>
+              </div>
+
+              <div style="display:flex; flex-direction:column; gap:8px; margin-top:4px;">
+                <button class="btn-primary" style="width:100%;">
+                  <span>💾</span> Save Profile Changes
+                </button>
+                <button class="btn-light-blue" style="width:100%;">
+                  <span>👁️</span> Preview Public Listing
+                </button>
+              </div>
+            </div>
+
+            <!-- SECTION B: Campus Engagement Pulse Card -->
+            <div class="card-block pulse-card">
+              <div class="pulse-header">
+                <span>⚙️</span>
+                <span>Campus Engagement Pulse</span>
+              </div>
+
+              <p class="pulse-body">
+                Your team is connected with North South University (NSU), BRAC University, and BUET engineering departments.
+              </p>
+
+              <div class="pulse-next-event">
+                <span class="pulse-event-label">Next Career Fair</span>
+                <span class="pulse-event-value">NSU Tech Expo (Oct 12)</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+</html>

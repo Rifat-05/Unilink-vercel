@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>North South University - UniLink Partner Portal</title>
+  <style>
+    :root {
+      --bg-main: #f5f8ff;
+      --bg-card: #ffffff;
+      --primary: #004ee8;
+      --primary-hover: #003ebd;
+      --primary-light: #ebf3ff;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --teal-bg: #ccfbf1;
+      --teal-text: #0f766e;
+      --blue-pill-bg: #e0e7ff;
+      --blue-pill-text: #3730a3;
+      --gray-pill-bg: #f1f5f9;
+      --gray-pill-text: #475569;
+      --badge-verified-bg: #d1fae5;
+      --badge-verified-text: #059669;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      font-size: 13px;
+      line-height: 1.4;
+      min-height: 100vh;
+    }
+
+    .app-container {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background-color: var(--bg-card);
+      border-right: 1px solid var(--border-color);
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      z-index: 30;
+    }
+
+    .sidebar-top {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 4px;
+    }
+
+    .logo-box {
+      width: 26px;
+      height: 26px;
+      background-color: var(--primary);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .logo-text {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.3px;
+    }
+
+    .badge-portal {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      font-size: 8.5px;
+      font-weight: 800;
+      padding: 3px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.3px;
+      margin-left: -2px;
+    }
+
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      list-style: none;
+    }
+
+    .nav-item a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      transition: all 0.15s ease;
+    }
+
+    .nav-item a:hover {
+      background-color: #f8fafc;
+      color: var(--text-dark);
+    }
+
+    .nav-item.active a {
+      background-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .nav-icon {
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+    }
+
+    .sidebar-bottom {
+      border-top: 1px solid var(--border-color);
+      padding-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sidebar-bottom-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px;
+      border-radius: 6px;
+      transition: color 0.15s;
+    }
+
+    .sidebar-bottom-link:hover {
+      color: var(--primary);
+    }
+
+    .main-wrapper {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .top-navbar {
+      background-color: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      padding: 10px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .nav-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .search-box {
+      position: relative;
+      width: 360px;
+    }
+
+    .search-input {
+      width: 100%;
+      background-color: #f1f5f9;
+      border: 1px solid transparent;
+      padding: 8px 36px 8px 32px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      color: var(--text-dark);
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .search-input:focus {
+      background-color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-light);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 13px;
+    }
+
+    .shortcut-badge {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: #e2e8f0;
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 15px;
+      color: var(--text-muted);
+      position: relative;
+      padding: 5px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-btn:hover {
+      color: var(--text-dark);
+      background-color: #f1f5f9;
+    }
+
+    .notification-dot {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      width: 6px;
+      height: 6px;
+      background-color: #ef4444;
+      border-radius: 50%;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-left: 10px;
+      border-left: 1px solid var(--border-color);
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .user-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .user-role {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .content-area {
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .hero-card {
+      background: linear-gradient(135deg, #eef5ff 0%, #f7fafd 100%);
+      border: 1px solid #e0e9f6;
+      border-radius: var(--radius-lg);
+      padding: 22px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .badge-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill-teal {
+      background-color: var(--teal-bg);
+      color: var(--teal-text);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2.5px 8px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .pill-location {
+      background-color: var(--blue-pill-bg);
+      color: var(--blue-pill-text);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2.5px 8px;
+      border-radius: 12px;
+    }
+
+    .hero-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.4px;
+    }
+
+    .hero-subtitle {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 9px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background-color 0.15s;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-action-small {
+      background-color: #f1f5f9;
+      color: var(--text-dark);
+      border: none;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.15s;
+    }
+
+    .btn-action-small:hover {
+      background-color: #e2e8f0;
+    }
+
+    .btn-action-delete {
+      color: #dc2626;
+      background-color: #fef2f2;
+    }
+
+    .btn-action-delete:hover {
+      background-color: #fee2e2;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .kpi-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .kpi-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .kpi-label {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .kpi-icon-box {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      background-color: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .kpi-value-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .kpi-number {
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--text-dark);
+      line-height: 1.1;
+    }
+
+    .kpi-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .kpi-footnote {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      line-height: 1.35;
+    }
+
+    .middle-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .card-block {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .section-header-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-text-link {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-text-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Announcement Items */
+    .announcements-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .announcement-card {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background-color: #ffffff;
+    }
+
+    .announcement-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .announcement-badges {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-published {
+      background-color: var(--badge-verified-bg);
+      color: var(--badge-verified-text);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    .badge-draft {
+      background-color: var(--gray-pill-bg);
+      color: var(--gray-pill-text);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    .announcement-audience {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .announcement-date {
+      color: var(--text-muted);
+    }
+
+    .announcement-item-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .announcement-item-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .announcement-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    /* Right Form Card */
+    .create-form-card {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form-head-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .form-head-title {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .form-head-icon {
+      color: var(--primary);
+      font-size: 16px;
+      margin-top: 2px;
+    }
+
+    .badge-partner-desk {
+      background-color: var(--blue-pill-bg);
+      color: var(--blue-pill-text);
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 4px 8px;
+      border-radius: 4px;
+      line-height: 1.2;
+      text-align: right;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background-color: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 12px;
+      color: var(--text-dark);
+      outline: none;
+      transition: all 0.15s;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      background-color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-light);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 75px;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 11.5px;
+      color: var(--text-dark);
+      font-weight: 600;
+      line-height: 1.35;
+      margin-top: 2px;
+    }
+
+    .checkbox-row input {
+      margin-top: 2px;
+      accent-color: var(--primary);
+    }
+
+    .info-note {
+      background-color: #f0f7ff;
+      border-radius: 6px;
+      padding: 10px 12px;
+      font-size: 11px;
+      color: #1e40af;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      line-height: 1.4;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .btn-secondary {
+      background-color: var(--gray-pill-bg);
+      color: var(--text-dark);
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .table-container-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .table-header-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table-search-input {
+      width: 260px;
+      background-color: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 7px 12px 7px 30px;
+      font-size: 11.5px;
+      outline: none;
+    }
+
+    .compliance-banner {
+      background-color: #eff6ff;
+      border: 1px solid #dbeafe;
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .compliance-icon {
+      width: 28px;
+      height: 28px;
+      background-color: var(--primary-light);
+      color: var(--primary);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .compliance-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .compliance-desc {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    /* Table styling */
+    .data-table-wrapper {
+      overflow-x: auto;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .data-table th {
+      background-color: #f8fafc;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-color);
+      text-transform: capitalize;
+    }
+
+    .data-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 12.5px;
+      vertical-align: middle;
+    }
+
+    .student-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .student-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .avatar-initials {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: #e0e7ff;
+      color: #3730a3;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .student-name-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .student-name {
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .student-enrolled {
+      font-size: 10.5px;
+      color: var(--text-muted);
+    }
+
+    .badge-dept {
+      background-color: var(--blue-pill-bg);
+      color: var(--blue-pill-text);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .status-verified {
+      background-color: var(--badge-verified-bg);
+      color: var(--badge-verified-text);
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .status-pending {
+      background-color: var(--gray-pill-bg);
+      color: var(--gray-pill-text);
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .table-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      padding-top: 4px;
+    }
+
+    .pagination {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .page-btn {
+      width: 24px;
+      height: 24px;
+      border: 1px solid var(--border-color);
+      background-color: #ffffff;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .page-btn.active {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      border-color: transparent;
+      font-weight: 800;
+    }
+
+    @media (max-width: 1024px) {
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .middle-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .app-container {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        display: none;
+      }
+      .top-navbar {
+        padding: 10px 16px;
+      }
+      .content-area {
+        padding: 16px;
+      }
+      .hero-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .search-box {
+        width: 200px;
+      }
+      .kpi-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="brand-logo">
+          <div class="logo-box">UL</div>
+          <span class="logo-text">UniLink</span>
+          <span class="badge-portal">PARTNER PORTAL</span>
+        </div>
+
+        <ul class="nav-menu">
+          <li class="nav-item active">
+            <a href="#">
+              <span class="nav-icon">📊</span>
+              <span>Overview</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#">
+              <span class="nav-icon">👥</span>
+              <span>Talent Search</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#">
+              <span class="nav-icon">💼</span>
+              <span>Job Postings</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#">
+              <span class="nav-icon">📄</span>
+              <span>Applications</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#">
+              <span class="nav-icon">📅</span>
+              <span>Campus Events</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#">
+              <span class="nav-icon">📈</span>
+              <span>Analytics</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-bottom">
+        <a href="#" class="sidebar-bottom-link">
+          <span>← Back to UniLink</span>
+        </a>
+        <a href="#" class="sidebar-bottom-link">
+          <span>↪ Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <main class="main-wrapper">
+      
+      <header class="top-navbar">
+        <div class="nav-breadcrumb">
+          <div class="logo-box" style="width:18px; height:18px; font-size:9px;">UL</div>
+          <span style="font-weight:700; color:var(--text-dark);">UniLink</span>
+          <span>Acme Corp Careers</span>
+          <span>›</span>
+          <span style="color:var(--text-dark);">University Relations</span>
+        </div>
+
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" placeholder="Search candidates, roles, universities...">
+          <span class="shortcut-badge">⌘K</span>
+        </div>
+
+        <div class="navbar-right">
+          <button class="icon-btn" title="Notifications">
+            🔔
+            <span class="notification-dot"></span>
+          </button>
+          
+          <button class="icon-btn" title="Settings">
+            ⚙️
+          </button>
+
+          <div class="user-profile">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80" alt="Elena Rostova" class="user-avatar">
+            <div class="user-info">
+              <span class="user-name">Elena Rostova</span>
+              <span class="user-role">Campus Recruiter</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="content-area">
+        
+        <!-- 1. Hero Header Card -->
+        <section class="hero-card">
+          <div class="hero-left">
+            <div class="badge-group">
+              <span class="pill-teal">
+                <span>🛡️</span> Official Institutional Partner
+              </span>
+              <span class="pill-location">NSU · DHAKA</span>
+            </div>
+            <h1 class="hero-title">North South University</h1>
+            <p class="hero-subtitle">UniLink Campus Dashboard · Pilot Partner Portal</p>
+          </div>
+
+          <div>
+            <button class="btn-primary">＋ Create Announcement</button>
+          </div>
+        </section>
+
+        <section class="kpi-grid">
+          
+          <!-- Metric 1 -->
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-label">STUDENT COMMUNITY</span>
+              <div class="kpi-icon-box">🎓</div>
+            </div>
+            <div class="kpi-value-group">
+              <span class="kpi-number">1,245</span>
+              <span class="kpi-title">Verified Students</span>
+              <span class="kpi-footnote">Active accounts across CSE, BBA, EEE</span>
+            </div>
+          </div>
+
+          <!-- Metric 2 -->
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-label">ACADEMIC VAULT</span>
+              <div class="kpi-icon-box">📖</div>
+            </div>
+            <div class="kpi-value-group">
+              <span class="kpi-number">386</span>
+              <span class="kpi-title">Shared Resources</span>
+              <span class="kpi-footnote">Course notes, past exams & solution keys</span>
+            </div>
+          </div>
+
+          <!-- Metric 3 -->
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-label">CAMPUS LIFE</span>
+              <div class="kpi-icon-box">👥</div>
+            </div>
+            <div class="kpi-value-group">
+              <span class="kpi-number">18</span>
+              <span class="kpi-title">Active Clubs</span>
+              <span class="kpi-footnote">NSU Robotics Club, NSUCEC, Debate Club</span>
+            </div>
+          </div>
+
+          <!-- Metric 4 -->
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-label">CAREER OPPORTUNITIES</span>
+              <div class="kpi-icon-box">💼</div>
+            </div>
+            <div class="kpi-value-group">
+              <span class="kpi-number">24</span>
+              <span class="kpi-title">Active Jobs</span>
+              <span class="kpi-footnote">Partner verified campus opportunities</span>
+            </div>
+          </div>
+
+        </section>
+
+        <div class="middle-grid">
+          
+          <!-- LEFT: Campus Announcements List -->
+          <div class="card-block">
+            <div class="section-header-flex">
+              <h2 class="section-title">
+                <span style="color:var(--primary); font-size:12px;">●</span> Campus Announcements
+              </h2>
+              <button class="btn-text-link">+ New Notice</button>
+            </div>
+
+            <div class="announcements-list">
+              
+              <!-- Announcement 1 -->
+              <div class="announcement-card">
+                <div class="announcement-top-bar">
+                  <div class="announcement-badges">
+                    <span class="badge-published">● Published</span>
+                    <span class="announcement-audience">All Students</span>
+                  </div>
+                  <span class="announcement-date">Published September 15, 2026</span>
+                </div>
+                <h3 class="announcement-item-title">Fall 2026 Registration Deadline</h3>
+                <p class="announcement-item-text">
+                  Students must complete course registration by September 25. Advising holds will apply after 5:00 PM.
+                </p>
+                <div class="announcement-actions">
+                  <button class="btn-action-small">Edit</button>
+                  <button class="btn-action-small btn-action-delete">Delete</button>
+                </div>
+              </div>
+
+              <!-- Announcement 2 -->
+              <div class="announcement-card">
+                <div class="announcement-top-bar">
+                  <div class="announcement-badges">
+                    <span class="badge-published">● Published</span>
+                    <span class="announcement-audience">General Notice</span>
+                  </div>
+                  <span class="announcement-date">Published September 12, 2026</span>
+                </div>
+                <h3 class="announcement-item-title">Campus Closed on Thursday — National Holiday</h3>
+                <p class="announcement-item-text">
+                  Official university notice: All administrative offices and academic classes remain closed.
+                </p>
+                <div class="announcement-actions">
+                  <button class="btn-action-small">Edit</button>
+                  <button class="btn-action-small btn-action-delete">Delete</button>
+                </div>
+              </div>
+
+              <!-- Announcement 3 (Draft) -->
+              <div class="announcement-card">
+                <div class="announcement-top-bar">
+                  <div class="announcement-badges">
+                    <span class="badge-draft">● Draft</span>
+                    <span class="announcement-audience">Unpublished</span>
+                  </div>
+                  <span class="announcement-date">Last saved 2 hours ago</span>
+                </div>
+                <h3 class="announcement-item-title">Library 24/7 Extended Hours for Midterms</h3>
+                <p class="announcement-item-text">
+                  Central library study floors will stay open overnight from Oct 1 to Oct 15 for exam prep.
+                </p>
+                <div class="announcement-actions">
+                  <button class="btn-primary" style="padding: 4px 10px; font-size: 11px;">Publish</button>
+                  <button class="btn-action-small">Edit</button>
+                  <button class="btn-action-small btn-action-delete">Delete</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- RIGHT: Create Official Announcement Form -->
+          <div class="card-block create-form-card">
+            <div class="form-head-box">
+              <div class="form-head-title">
+                <span class="form-head-icon">📢</span>
+                <div>
+                  <h3 style="font-size:14px; font-weight:800; color:var(--text-dark);">Create Official Announcement</h3>
+                </div>
+              </div>
+              <span class="badge-partner-desk">Partner<br>Desk</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Announcement Title</label>
+              <input type="text" class="form-input" placeholder="e.g. Midterm Advising & Grade Submission Schedule">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Target Audience</label>
+              <select class="form-select">
+                <option>All Students</option>
+                <option>CSE Department</option>
+                <option>EEE Department</option>
+                <option>BBA Department</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Announcement Details</label>
+              <textarea class="form-textarea" placeholder="Enter verified announcement text visible to students on their home feed..."></textarea>
+            </div>
+
+            <label class="checkbox-row">
+              <input type="checkbox" checked>
+              <span>Mark as Urgent / Important Announcement<br><span style="font-weight:normal; font-size:10.5px; color:var(--text-muted);">(Pins to top of student feed)</span></span>
+            </label>
+
+            <div class="info-note">
+              <span>ℹ</span>
+              <span>Once published, announcement immediately appears on the student UniLink home feed.</span>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn-primary" style="flex:1; justify-content:center;">Publish Announcement</button>
+              <button class="btn-secondary">Cancel</button>
+            </div>
+          </div>
+
+        </div>
+
+        <section class="table-container-card">
+          
+          <div class="table-header-flex">
+            <div>
+              <h2 style="font-size:16px; font-weight:800; color:var(--text-dark);">Verified Students</h2>
+              <p style="font-size:11.5px; color:var(--text-muted);">Directory of enrolled students authenticated on NSU domain</p>
+            </div>
+
+            <div style="position:relative;">
+              <span style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--text-muted); font-size:11px;">🔍</span>
+              <input type="text" class="table-search-input" placeholder="Search student name, ID, or major...">
+            </div>
+          </div>
+
+          <!-- Compliance Banner -->
+          <div class="compliance-banner">
+            <div class="compliance-icon">🛡️</div>
+            <div>
+              <h4 class="compliance-title">Institutional Compliance Engine</h4>
+              <p class="compliance-desc">UniLink authenticates accounts via Student ID + Institutional Email (.edu) + OTP. University dashboard monitors verification compliance.</p>
+            </div>
+          </div>
+
+          <!-- Table -->
+          <div class="data-table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Student Name</th>
+                  <th>Student ID</th>
+                  <th>University Email</th>
+                  <th>Department</th>
+                  <th>Verification Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <!-- Row 1 -->
+                <tr>
+                  <td>
+                    <div class="student-cell">
+                      <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=80&q=80" class="student-avatar" alt="Rakib Hasan">
+                      <div class="student-name-wrap">
+                        <span class="student-name">Rakib Hasan</span>
+                        <span class="student-enrolled">Enrolled · Fall 2022</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td style="font-weight:700;">221123456</td>
+                  <td>rakib.hasan@northsouth.edu</td>
+                  <td><span class="badge-dept">CSE</span></td>
+                  <td><span class="status-verified">✓ Verified</span></td>
+                </tr>
+
+                <!-- Row 2 -->
+                <tr>
+                  <td>
+                    <div class="student-cell">
+                      <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80" class="student-avatar" alt="Nabila Hasan">
+                      <div class="student-name-wrap">
+                        <span class="student-name">Nabila Hasan</span>
+                        <span class="student-enrolled">Enrolled · Fall 2022</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td style="font-weight:700;">221145091</td>
+                  <td>nabila.h@northsouth.edu</td>
+                  <td><span class="badge-dept">EEE</span></td>
+                  <td><span class="status-verified">✓ Verified</span></td>
+                </tr>
+
+                <!-- Row 3 -->
+                <tr>
+                  <td>
+                    <div class="student-cell">
+                      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80" class="student-avatar" alt="Tanvir Islam">
+                      <div class="student-name-wrap">
+                        <span class="student-name">Tanvir Islam</span>
+                        <span class="student-enrolled">Enrolled · Spring 2021</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td style="font-weight:700;">213098124</td>
+                  <td>tanvir.islam@northsouth.edu</td>
+                  <td><span class="badge-dept">CSE</span></td>
+                  <td><span class="status-verified">✓ Verified</span></td>
+                </tr>
+
+                <!-- Row 4 -->
+                <tr>
+                  <td>
+                    <div class="student-cell">
+                      <div class="avatar-initials">SZ</div>
+                      <div class="student-name-wrap">
+                        <span class="student-name">Sara Zaker</span>
+                        <span class="student-enrolled">Enrolled · Summer 2023</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td style="font-weight:700;">231456782</td>
+                  <td>sara.z@northsouth.edu</td>
+                  <td><span class="badge-dept">BBA</span></td>
+                  <td><span class="status-verified">✓ Verified</span></td>
+                </tr>
+
+                <!-- Row 5 -->
+                <tr>
+                  <td>
+                    <div class="student-cell">
+                      <div class="avatar-initials" style="background-color:#f1f5f9; color:#475569;">FR</div>
+                      <div class="student-name-wrap">
+                        <span class="student-name">Fahim Rahman</span>
+                        <span class="student-enrolled">Enrolled · Spring 2024</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td style="font-weight:700;">241098765</td>
+                  <td>fahim.r@northsouth.edu</td>
+                  <td><span class="badge-dept">Economics</span></td>
+                  <td><span class="status-pending">⏳ Pending OTP</span></td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Table Footer Pagination -->
+          <div class="table-footer">
+            <span>Showing 5 of 1,245 verified North South University student records</span>
+            <div class="pagination">
+              <button class="page-btn">&lt;</button>
+              <button class="page-btn active">1</button>
+              <button class="page-btn">&gt;</button>
+            </div>
+          </div>
+
+        </section>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+</html>

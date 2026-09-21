@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NSU Robotics Club - Admin Dashboard</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    :root {
+      --bg-main: #f6f8fc;
+      --bg-card: #ffffff;
+      --primary: #004ee8;
+      --primary-hover: #003ebd;
+      --primary-light: #ebf3ff;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #eef2f6;
+      --teal-bg: #ccfbf1;
+      --teal-text: #0d9488;
+      --draft-bg: #f1f5f9;
+      --draft-text: #475569;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: #334155;
+      min-height: 100vh;
+      font-size: 13px;
+    }
+
+    .app-container {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background-color: var(--bg-card);
+      border-right: 1px solid var(--border-color);
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar-top {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 8px;
+    }
+
+    .logo-box {
+      width: 28px;
+      height: 28px;
+      background-color: var(--primary);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .logo-text {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.3px;
+    }
+
+    .badge-admin {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-left: 4px;
+    }
+
+    .nav-section-label {
+      font-size: 10px;
+      font-weight: 800;
+      color: #94a3b8;
+      letter-spacing: 0.5px;
+      padding: 0 12px;
+      margin-bottom: 6px;
+    }
+
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      list-style: none;
+    }
+
+    .nav-item a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-item a:hover {
+      background-color: #f8fafc;
+      color: var(--text-dark);
+    }
+
+    .nav-item.active a {
+      background-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .sidebar-bottom {
+      border-top: 1px solid var(--border-color);
+      padding-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 8px;
+      border-radius: 6px;
+    }
+
+    .sidebar-link:hover {
+      color: var(--primary);
+    }
+
+    .main-wrapper {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .top-header {
+      background-color: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      padding: 12px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .pill-gray {
+      background-color: #f1f5f9;
+      color: #475569;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .pill-teal {
+      background-color: var(--teal-bg);
+      color: var(--teal-text);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 12px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .btn-create-top {
+      background-color: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-create-top:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .icon-bell {
+      position: relative;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 6px;
+      color: var(--text-muted);
+    }
+
+    .bell-badge {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background-color: #ef4444;
+      color: #ffffff;
+      font-size: 9px;
+      font-weight: 800;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .user-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .user-role {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .content-area {
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .dashboard-hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .hero-main {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .hero-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .hero-badge-row span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .hero-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-dark);
+      letter-spacing: -0.4px;
+    }
+
+    .hero-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 600px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-light-blue {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      border: none;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-outline {
+      background-color: var(--bg-card);
+      border: 1px solid #cbd5e1;
+      color: var(--text-dark);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .link-public {
+      color: var(--primary);
+      font-size: 12.5px;
+      font-weight: 700;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 4px;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .metric-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+    }
+
+    .metric-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .metric-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 0.3px;
+    }
+
+    .metric-icon-box {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background-color: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+    }
+
+    .metric-value-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .metric-number {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--text-dark);
+      line-height: 1;
+    }
+
+    .metric-tag {
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .metric-tag.live { color: var(--teal-text); }
+    .metric-tag.lineup { background-color: var(--teal-bg); color: var(--teal-text); padding: 2px 6px; border-radius: 6px; }
+    .metric-tag.archived { color: var(--text-muted); font-weight: 600; }
+    .metric-tag.top { color: var(--teal-text); }
+
+    .metric-subtext {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .quick-actions-container {
+      background-color: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px 20px;
+    }
+
+    .quick-actions-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .quick-actions-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .quick-actions-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .quick-actions-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .action-card {
+      background-color: var(--bg-main);
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .action-card:hover {
+      background-color: #e2e8f0;
+    }
+
+    .action-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background-color: var(--primary);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .action-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .action-name {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .action-desc {
+      font-size: 10.5px;
+      color: var(--text-muted);
+    }
+
+    .dashboard-two-col {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    /* Column Headers */
+    .col-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .col-title-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .col-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .badge-count-teal {
+      background-color: var(--teal-bg);
+      color: var(--teal-text);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    /* Events Cards List */
+    .events-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .event-item-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .event-top-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .event-date-box {
+      background-color: #f1f5f9;
+      border-radius: 8px;
+      padding: 6px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 48px;
+    }
+
+    .date-month {
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .date-num {
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--text-dark);
+      line-height: 1;
+    }
+
+    .event-title-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .status-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-status-pub {
+      background-color: var(--teal-bg);
+      color: var(--teal-text);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .badge-status-draft {
+      background-color: var(--draft-bg);
+      color: var(--draft-text);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .event-time {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .event-item-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .event-details-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .event-loc-cap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .progress-bar-container {
+      width: 100px;
+      height: 6px;
+      background-color: #e2e8f0;
+      border-radius: 3px;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background-color: var(--primary);
+    }
+
+    .event-actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 8px;
+      border-top: 1px solid #f8fafc;
+    }
+
+    .btn-group-left {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn-sm-edit {
+      background-color: var(--bg-main);
+      border: 1px solid #cbd5e1;
+      color: var(--text-dark);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-sm-details {
+      background-color: var(--bg-main);
+      border: 1px solid #cbd5e1;
+      color: var(--text-dark);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-sm-publish {
+      background-color: var(--primary);
+      border: none;
+      color: #ffffff;
+      padding: 5px 14px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-sm-rsvp {
+      background-color: var(--primary-light);
+      border: none;
+      color: var(--primary);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .text-cancel-red {
+      color: #ef4444;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    .icon-delete-trash {
+      color: #ef4444;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-size: 14px;
+    }
+
+    .events-footer-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .link-archive {
+      color: var(--primary);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .announcements-column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .announcement-item-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .ann-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ann-tag-pinned {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .ann-tag-label {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 0.3px;
+    }
+
+    .ann-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #94a3b8;
+      font-size: 12px;
+    }
+
+    .ann-actions span {
+      cursor: pointer;
+    }
+
+    .ann-item-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.3;
+    }
+
+    .ann-meta-info {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .ann-body-preview {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .ann-footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10.5px;
+      color: #94a3b8;
+      margin-top: 4px;
+    }
+
+    .btn-browse-all {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      border: none;
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    .profile-status-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .status-left-group {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .progress-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: conic-gradient(var(--primary) 0% 95%, #e2e8f0 95% 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .progress-circle-inner {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 900;
+      color: var(--text-dark);
+    }
+
+    .status-info-box {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .status-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-title-text {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    .status-sub-text {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .status-pills-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+
+    .info-pill {
+      background-color: #f1f5f9;
+      color: #334155;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-manage-info {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 1100px) {
+      .metrics-grid, .quick-actions-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .dashboard-two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .app-container {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        display: none;
+      }
+      .metrics-grid, .quick-actions-grid {
+        grid-template-columns: 1fr;
+      }
+      .profile-status-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- 1. LEFT SIDEBAR NAVIGATION -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="brand-logo">
+          <div class="logo-box">UL</div>
+          <span class="logo-text">UniLink</span>
+          <span class="badge-admin">Club Admin</span>
+        </div>
+
+        <div>
+          <div class="nav-section-label">MANAGEMENT</div>
+          <ul class="nav-menu">
+            <li class="nav-item active"><a href="#">📊 Overview</a></li>
+            <li class="nav-item"><a href="#">📅 Events</a></li>
+            <li class="nav-item"><a href="#">📢 Announcements</a></li>
+            <li class="nav-item"><a href="#">📇 Club Profile</a></li>
+            <li class="nav-item"><a href="#">⚙️ Settings</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sidebar-bottom">
+        <a href="#" class="sidebar-link">
+          <span>View Public Profile</span>
+          <span>↗</span>
+        </a>
+        <a href="#" class="sidebar-link">
+          <span>← Back to UniLink</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN SECTION -->
+    <main class="main-wrapper">
+      
+      <!-- 2. TOP BAR / BREADCRUMB HEADER -->
+      <header class="top-header">
+        <div class="header-left">
+          <h1 class="header-title">NSU Robotics Club</h1>
+          <span class="pill-gray">Admin Workspace</span>
+          <span class="pill-teal">FALL 2026</span>
+        </div>
+
+        <div class="header-right">
+          <button class="btn-create-top">＋ Create</button>
+
+          <button class="icon-bell">
+            🔔
+            <span class="bell-badge">2</span>
+          </button>
+
+          <div class="user-profile">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Rahim Ahmed" class="user-avatar">
+            <div class="user-info">
+              <span class="user-name">Rahim Ahmed</span>
+              <span class="user-role">President</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- CONTENT AREA -->
+      <div class="content-area">
+        
+        <!-- 3. HERO TITLE & PRIMARY ACTIONS BANNER -->
+        <div class="dashboard-hero">
+          <div class="hero-main">
+            <div class="hero-badge-row">
+              <span>• ACTIVE ORG</span>
+              <span style="color: #94a3b8;">SEMESTER TERM • FALL 2026</span>
+            </div>
+            <h2 class="hero-title">NSU Robotics Club Dashboard</h2>
+            <p class="hero-subtitle">
+              Manage your club presence, publish upcoming campus events, and broadcast announcements to students.
+            </p>
+          </div>
+
+          <div class="hero-actions">
+            <button class="btn-primary">＋ Create Event</button>
+            <button class="btn-light-blue">📡 Post Announcement</button>
+            <button class="btn-outline">✏️ Edit Profile</button>
+            <a href="#" class="link-public">Public Profile ↗</a>
+          </div>
+        </div>
+
+        <!-- 4. METRICS CARDS GRID -->
+        <div class="metrics-grid">
+          <!-- Card 1 -->
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-title">REGISTERED MEMBERS</span>
+              <div class="metric-icon-box">👥</div>
+            </div>
+            <div class="metric-value-row">
+              <span class="metric-number">420</span>
+              <span class="metric-tag live">Live</span>
+            </div>
+            <div class="metric-subtext">
+              <span style="color: var(--teal-text); font-weight: 700;">↗ +28 new</span> this semester
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-title">UPCOMING EVENTS</span>
+              <div class="metric-icon-box">📅</div>
+            </div>
+            <div class="metric-value-row">
+              <span class="metric-number">3</span>
+              <span class="metric-tag lineup">Fall Lineup</span>
+            </div>
+            <div class="metric-subtext">
+              🕒 Next: Sep 20 Workshop
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-title">ANNOUNCEMENTS</span>
+              <div class="metric-icon-box">📢</div>
+            </div>
+            <div class="metric-value-row">
+              <span class="metric-number">12</span>
+              <span class="metric-tag archived">Archived & Live</span>
+            </div>
+            <div class="metric-subtext">
+              📌 2 pinned announcements
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-title">PROFILE VIEWS</span>
+              <div class="metric-icon-box">👁️</div>
+            </div>
+            <div class="metric-value-row">
+              <span class="metric-number">1,850</span>
+              <span class="metric-tag top">Top 5%</span>
+            </div>
+            <div class="metric-subtext">
+              📅 Past 30 days window
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. ADMIN QUICK ACTIONS GRID -->
+        <div class="quick-actions-container">
+          <div class="quick-actions-header">
+            <span class="quick-actions-title">⚡ ADMIN QUICK ACTIONS</span>
+            <span class="quick-actions-sub">Shortcuts for immediate campus dispatch</span>
+          </div>
+
+          <div class="quick-actions-grid">
+            <div class="action-card">
+              <div class="action-icon">📅</div>
+              <div class="action-info">
+                <span class="action-name">+ New Event</span>
+                <span class="action-desc">Fast form builder</span>
+              </div>
+            </div>
+
+            <div class="action-card">
+              <div class="action-icon" style="background-color: #7c3aed;">📡</div>
+              <div class="action-info">
+                <span class="action-name">Broadcast Feed</span>
+                <span class="action-desc">Send blast to feed</span>
+              </div>
+            </div>
+
+            <div class="action-card">
+              <div class="action-icon" style="background-color: #0d9488;">📋</div>
+              <div class="action-info">
+                <span class="action-name">Edit Profile Details</span>
+                <span class="action-desc">Header, socials & info</span>
+              </div>
+            </div>
+
+            <div class="action-card">
+              <div class="action-icon" style="background-color: #0284c7;">📥</div>
+              <div class="action-info">
+                <span class="action-name">Export Attendees</span>
+                <span class="action-desc">Download CSV roster</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. MAIN TWO-COLUMN LAYOUT -->
+        <div class="dashboard-two-col">
+          
+          <!-- LEFT COLUMN: Upcoming Events -->
+          <div>
+            <div class="col-header">
+              <div class="col-title-group">
+                <h3 class="col-title">Upcoming Events</h3>
+                <span class="badge-count-teal">3 Active</span>
+              </div>
+              <button class="btn-primary" style="padding: 6px 12px; font-size: 11.5px;">＋ Create Event</button>
+            </div>
+
+            <div class="events-list">
+              
+              <!-- Event 1 -->
+              <div class="event-item-card">
+                <div class="event-top-row">
+                  <div class="event-date-box">
+                    <span class="date-month">SEP</span>
+                    <span class="date-num">20</span>
+                  </div>
+                  <div class="event-title-meta">
+                    <div class="status-badge-row">
+                      <span class="badge-status-pub">PUBLISHED</span>
+                      <span class="event-time">🕒 3:00 PM</span>
+                    </div>
+                    <h4 class="event-item-title">Introduction to Robotics & ROS2 Hardware Workshop</h4>
+                  </div>
+                </div>
+
+                <div class="event-details-row">
+                  <div class="event-loc-cap">
+                    <span>📍 SAC Lab 402</span>
+                    <span>👥 26 RSVPs / 40 Capacity</span>
+                  </div>
+                  <div class="progress-bar-container">
+                    <div class="progress-bar-fill" style="width: 65%;"></div>
+                  </div>
+                  <span style="font-weight: 700; font-size: 11px;">65%</span>
+                </div>
+
+                <div class="event-actions-row">
+                  <div class="btn-group-left">
+                    <button class="btn-sm-edit">✏️ Edit</button>
+                    <button class="btn-sm-details">👁️ View Details</button>
+                  </div>
+                  <button class="btn-sm-rsvp">👥 Manage RSVPs</button>
+                </div>
+              </div>
+
+              <!-- Event 2 -->
+              <div class="event-item-card">
+                <div class="event-top-row">
+                  <div class="event-date-box">
+                    <span class="date-month">SEP</span>
+                    <span class="date-num">27</span>
+                  </div>
+                  <div class="event-title-meta">
+                    <div class="status-badge-row">
+                      <span class="badge-status-draft">DRAFT</span>
+                      <span class="event-time">🕒 2:30 PM</span>
+                    </div>
+                    <h4 class="event-item-title">Arduino & Autonomous Rover Bootcamp</h4>
+                  </div>
+                </div>
+
+                <div class="event-details-row">
+                  <div class="event-loc-cap">
+                    <span>📍 Auditorium A</span>
+                    <span style="color: var(--primary); font-weight: 700;">📝 Ready for review</span>
+                  </div>
+                  <span style="color: #d97706; font-weight: 700; font-size: 11px;">Pending Approval</span>
+                </div>
+
+                <div class="event-actions-row">
+                  <div class="btn-group-left">
+                    <button class="btn-sm-edit">✏️ Edit</button>
+                    <button class="btn-sm-publish">🚀 Publish</button>
+                  </div>
+                  <button class="icon-delete-trash">🗑️</button>
+                </div>
+              </div>
+
+              <!-- Event 3 -->
+              <div class="event-item-card">
+                <div class="event-top-row">
+                  <div class="event-date-box">
+                    <span class="date-month">OCT</span>
+                    <span class="date-num">12</span>
+                  </div>
+                  <div class="event-title-meta">
+                    <div class="status-badge-row">
+                      <span class="badge-status-pub">PUBLISHED</span>
+                      <span class="event-time">🕒 10:00 AM</span>
+                    </div>
+                    <h4 class="event-item-title">DUCS Inter-University Robot Combat Meetup</h4>
+                  </div>
+                </div>
+
+                <div class="event-details-row">
+                  <div class="event-loc-cap">
+                    <span>📍 Courtyard</span>
+                    <span class="pill-gray" style="color: var(--primary);">🌐 Public Event</span>
+                  </div>
+                  <span>Open to all universities</span>
+                </div>
+
+                <div class="event-actions-row">
+                  <button class="btn-sm-edit">✏️ Edit</button>
+                  <button class="text-cancel-red">✕ Cancel Event</button>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="events-footer-bar">
+              <span>Showing 3 active events for Fall 2026</span>
+              <a href="#" class="link-archive">View past events archive →</a>
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN: Club Announcements -->
+          <div class="announcements-column">
+            <div class="col-header">
+              <h3 class="col-title">Club Announcements</h3>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span class="pill-gray">12 Total</span>
+                <button class="btn-light-blue" style="padding: 4px 10px; font-size: 11px;">📣 + New</button>
+              </div>
+            </div>
+
+            <!-- Announcement Card 1 -->
+            <div class="announcement-item-card">
+              <div class="ann-card-top">
+                <span class="ann-tag-pinned">📌 Pinned Announcement</span>
+                <div class="ann-actions">
+                  <span>✏️</span>
+                  <span>📌</span>
+                  <span>🗑️</span>
+                </div>
+              </div>
+
+              <h4 class="ann-item-title">Robotics Bootcamp Fall 2026 Registration Open</h4>
+              <span class="ann-meta-info">2 hours ago • 🌐 All students</span>
+
+              <p class="ann-body-preview">
+                Registration for our 4-week Rover track is officially open for engineering and CS undergrads. Limited seats...
+              </p>
+
+              <div class="ann-footer-row">
+                <span>👁️ 142 views</span>
+                <span>ID: #ANN-89</span>
+              </div>
+            </div>
+
+            <!-- Announcement Card 2 -->
+            <div class="announcement-item-card">
+              <div class="ann-card-top">
+                <span class="ann-tag-label">CLUB BROADCAST</span>
+                <div class="ann-actions">
+                  <span>✏️</span>
+                  <span>📌</span>
+                  <span>🗑️</span>
+                </div>
+              </div>
+
+              <h4 class="ann-item-title">Fall 2026 Activities & General Body Meeting</h4>
+              <span class="ann-meta-info">Published Yesterday • 🔒 Members only</span>
+
+              <p class="ann-body-preview">
+                Join us this Thursday at 4:30 PM in SAC 402 for our semester orientation. Sub-team leadership assignments...
+              </p>
+
+              <div class="ann-footer-row">
+                <span>👁️ 289 views</span>
+                <span>ID: #ANN-88</span>
+              </div>
+            </div>
+
+            <!-- Announcement Card 3 -->
+            <div class="announcement-item-card">
+              <div class="ann-card-top">
+                <span class="ann-tag-label">MILESTONE ANNOUNCEMENT</span>
+                <div class="ann-actions">
+                  <span>✏️</span>
+                  <span>🗑️</span>
+                </div>
+              </div>
+
+              <h4 class="ann-item-title">Rover Team Finalist in Regional TechFest</h4>
+              <span class="ann-meta-info">Published 5 days ago</span>
+
+              <p class="ann-body-preview">
+                Congratulations to our chassis & navigation crew! NSU Rover Mk-IV has qualified for the final demonstration...
+              </p>
+
+              <div class="ann-footer-row">
+                <span>👁️ 512 views</span>
+                <span>ID: #ANN-85</span>
+              </div>
+            </div>
+
+            <button class="btn-browse-all">Browse All Announcements Feed</button>
+          </div>
+
+        </div>
+
+        <!-- 7. PUBLIC PROFILE STATUS CARD -->
+        <div class="profile-status-card">
+          <div class="status-left-group">
+            <div class="progress-circle">
+              <div class="progress-circle-inner">95%</div>
+            </div>
+
+            <div class="status-info-box">
+              <div class="status-title-row">
+                <h3 class="status-title-text">Public Profile Status</h3>
+                <span class="pill-teal">✓ Verified NSU Department Affiliation</span>
+              </div>
+
+              <p class="status-sub-text">
+                Your club page is indexed and actively visible on the campus explorer. Add a sponsor spotlight to reach 100%.
+              </p>
+
+              <div class="status-pills-row">
+                <span class="info-pill">🕒 Meetings: Thursdays 4:30 PM</span>
+                <span class="info-pill">✉️ Contact: robotics@northsouth.edu</span>
+                <span class="info-pill">📍 Hub: SAC Lab 402 & MakerSpace</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn-manage-info">⚙️ Manage Profile Information</button>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+</html>

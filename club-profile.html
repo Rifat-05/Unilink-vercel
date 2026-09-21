@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniLink - NSU Robotics Club</title>
+  <style>
+    /* Reset & Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f6f8fc;
+      color: #334155;
+      min-height: 100vh;
+    }
+
+    /* Main App Grid Layout */
+    .app-container {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: 100vh;
+    }
+
+    /* Left Sidebar Navigation */
+    .sidebar {
+      background-color: #ffffff;
+      border-right: 1px solid #eef2f6;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 12px 28px 12px;
+    }
+
+    .logo-box {
+      width: 32px;
+      height: 32px;
+      background-color: #1a56db;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    .logo-text {
+      font-size: 20px;
+      font-weight: 800;
+      color: #1e293b;
+      letter-spacing: -0.3px;
+    }
+
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      list-style: none;
+    }
+
+    .nav-item a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #64748b;
+      text-decoration: none;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-item a:hover {
+      background-color: #f1f5f9;
+      color: #1e293b;
+    }
+
+    .nav-item.active a {
+      background-color: #1d4ed8;
+      color: #ffffff;
+    }
+
+    .sidebar-footer {
+      border-top: 1px solid #f1f5f9;
+      padding-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    /* Main Section Wrapper */
+    .main-wrapper {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    /* Top Navbar */
+    .top-navbar {
+      background-color: #ffffff;
+      border-bottom: 1px solid #eef2f6;
+      padding: 12px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .top-search {
+      flex: 1;
+      max-width: 520px;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .top-search input {
+      width: 100%;
+      padding: 10px 40px 10px 38px;
+      background-color: #f1f5f9;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .search-icon-left {
+      position: absolute;
+      left: 12px;
+      color: #94a3b8;
+    }
+
+    .search-shortcut {
+      position: absolute;
+      right: 12px;
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 700;
+      background-color: #e2e8f0;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn-share {
+      background-color: #004ee8;
+      color: #ffffff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-icon-bell {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #64748b;
+      position: relative;
+      display: flex;
+      padding: 6px;
+    }
+
+    .bell-dot {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 6px;
+      height: 6px;
+      background-color: #ef4444;
+      border-radius: 50%;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: #cbd5e1;
+      overflow: hidden;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .user-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1e293b;
+      line-height: 1.2;
+    }
+
+    .user-dept {
+      font-size: 11px;
+      color: #64748b;
+    }
+
+    /* Content Area Container */
+    .content-container {
+      padding: 24px 32px;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Header Breadcrumb / Meta Row */
+    .header-navigation-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    .back-link {
+      color: #1e293b;
+      text-decoration: none;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-tags {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-live {
+      color: #0d9488;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-live::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background-color: #0d9488;
+      border-radius: 50%;
+    }
+
+    .btn-admin-manage {
+      background-color: #ebf3ff;
+      color: #004ee8;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Hero Banner Card */
+    .club-hero-card {
+      background-color: #ffffff;
+      border: 1px solid #eef2f6;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-cover-image {
+      height: 220px;
+      width: 100%;
+      position: relative;
+    }
+
+    .hero-cover-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .cover-badges {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .cover-badge {
+      background-color: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(4px);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .cover-badge.verified {
+      color: #0d9488;
+    }
+
+    .hero-content {
+      padding: 0 24px 20px 24px;
+      position: relative;
+      margin-top: -40px;
+    }
+
+    .club-header-top {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .club-logo-box {
+      width: 80px;
+      height: 80px;
+      background-color: #004ee8;
+      border: 4px solid #ffffff;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .club-action-buttons {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .btn-join {
+      background-color: #004ee8;
+      color: #ffffff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-action-light {
+      background-color: #f1f5f9;
+      color: #334155;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .club-title-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .club-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .category-badge {
+      background-color: #ccfbf1;
+      color: #0d9488;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 12px;
+    }
+
+    .club-tagline {
+      font-size: 13.5px;
+      color: #64748b;
+      max-width: 700px;
+      line-height: 1.4;
+      margin-bottom: 20px;
+    }
+
+    .hero-stats-bar {
+      background-color: #f8fafc;
+      border-radius: 12px;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .stat-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #334155;
+    }
+
+    .stat-pill strong {
+      color: #0f172a;
+      font-weight: 800;
+    }
+
+    .highlight-pill {
+      color: #0d9488;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Main Two-Column Layout Grid */
+    .two-column-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .left-content {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .right-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Section Headers */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title::before {
+      content: "";
+      width: 4px;
+      height: 18px;
+      background-color: #004ee8;
+      border-radius: 4px;
+    }
+
+    .badge-count {
+      background-color: #ebf3ff;
+      color: #004ee8;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 10px;
+    }
+
+    .link-action {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #004ee8;
+      text-decoration: none;
+    }
+
+    /* Upcoming Event Cards */
+    .event-card {
+      background-color: #ffffff;
+      border: 1px solid #eef2f6;
+      border-radius: 14px;
+      padding: 16px 20px;
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .date-badge {
+      background-color: #f1f5f9;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 64px;
+    }
+
+    .date-month {
+      font-size: 10px;
+      font-weight: 800;
+      color: #004ee8;
+      text-transform: uppercase;
+    }
+
+    .date-day {
+      font-size: 20px;
+      font-weight: 900;
+      color: #0f172a;
+      line-height: 1;
+      margin: 2px 0;
+    }
+
+    .date-weekday {
+      font-size: 9px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+    }
+
+    .event-details {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .event-tags-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tag-blue {
+      background-color: #ebf3ff;
+      color: #004ee8;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .tag-seats {
+      color: #0d9488;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tag-seats::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      background-color: #0d9488;
+      border-radius: 50%;
+    }
+
+    .event-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .event-meta {
+      font-size: 12px;
+      color: #64748b;
+      display: flex;
+      gap: 12px;
+    }
+
+    .event-desc {
+      font-size: 12.5px;
+      color: #64748b;
+      line-height: 1.4;
+      margin-top: 2px;
+    }
+
+    .event-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+      padding-top: 8px;
+    }
+
+    .rsvp-avatars {
+      display: flex;
+      align-items: center;
+    }
+
+    .avatar-stack {
+      display: flex;
+      margin-right: 8px;
+    }
+
+    .avatar-stack-item {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      background-color: #cbd5e1;
+      font-size: 8px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      margin-left: -6px;
+    }
+
+    .avatar-stack-item:first-child {
+      margin-left: 0;
+    }
+
+    .rsvp-text {
+      font-size: 11px;
+      font-weight: 700;
+      color: #64748b;
+    }
+
+    .event-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-sm-outline {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      color: #334155;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-sm-primary {
+      background-color: #004ee8;
+      color: #ffffff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .speaker-text {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    /* Club Announcements Section */
+    .announcements-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .announcement-card {
+      background-color: #ffffff;
+      border: 1px solid #eef2f6;
+      border-radius: 14px;
+      padding: 18px 20px;
+    }
+
+    .announcement-card.pinned {
+      border-left: 4px solid #004ee8;
+    }
+
+    .announcement-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .pinned-tag {
+      background-color: #ebf3ff;
+      color: #004ee8;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .post-author {
+      font-size: 11.5px;
+      color: #64748b;
+    }
+
+    .announcement-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .announcement-body {
+      font-size: 12.5px;
+      color: #64748b;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .attachment-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #1e293b;
+      cursor: pointer;
+    }
+
+    /* About Club & Features */
+    .about-card {
+      background-color: #ffffff;
+      border: 1px solid #eef2f6;
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .about-text {
+      font-size: 13px;
+      color: #64748b;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .feature-item {
+      background-color: #f8fafc;
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .feature-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background-color: #ebf3ff;
+      color: #004ee8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .feature-icon.green {
+      background-color: #ccfbf1;
+      color: #0d9488;
+    }
+
+    .feature-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 2px;
+    }
+
+    .feature-desc {
+      font-size: 11px;
+      color: #64748b;
+      line-height: 1.3;
+    }
+
+    /* Recent Lab Activities */
+    .activities-card {
+      background-color: #ffffff;
+      border: 1px solid #eef2f6;
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .gallery-item {
+      height: 140px;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 60%);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .gallery-badge {
+      align-self: flex-start;
+      background-color: #004ee8;
+      color: #ffffff;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+    }
+
+    .gallery-badge.green {
+      background-color: #0d9488;
+    }
+
+    .gallery-caption {
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    /* Right Sidebar Cards */
+    .sidebar-card {
+      background-color: #ffffff;
+      border: 1px solid #eef2f6;
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 12.5px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .info-label {
+      color: #64748b;
+    }
+
+    .info-value {
+      font-weight: 700;
+      color: #0f172a;
+      text-align: right;
+    }
+
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .btn-social {
+      background-color: #f1f5f9;
+      color: #334155;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Committee List */
+    .committee-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .member-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .member-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .member-avatar-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #dbeafe;
+      color: #1d4ed8;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .member-avatar-circle.teal {
+      background-color: #ccfbf1;
+      color: #0f766e;
+    }
+
+    .member-avatar-circle.purple {
+      background-color: #f3e8ff;
+      color: #6b21a8;
+    }
+
+    .member-name {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.2;
+    }
+
+    .member-role {
+      font-size: 11px;
+      color: #64748b;
+    }
+
+    .btn-msg {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+    }
+
+    .advisor-box {
+      background-color: #f8fafc;
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .advisor-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: #ebf3ff;
+      color: #004ee8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Affiliation Card */
+    .affiliation-card {
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .affiliation-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #166534;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .affiliation-desc {
+      font-size: 11.5px;
+      color: #15803d;
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .affiliation-valid {
+      font-size: 11px;
+      font-weight: 700;
+      color: #166534;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 1024px) {
+      .two-column-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .app-container {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        display: none;
+      }
+      .features-grid, .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div>
+        <div class="brand-logo">
+          <div class="logo-box">UL</div>
+          <span class="logo-text">UniLink</span>
+        </div>
+
+        <ul class="nav-menu">
+          <li class="nav-item"><a href="#">🏠 Home</a></li>
+          <li class="nav-item"><a href="#">📚 Resources</a></li>
+          <li class="nav-item"><a href="#">👥 Study Partners</a></li>
+          <li class="nav-item active"><a href="#">👥 Clubs</a></li>
+          <li class="nav-item"><a href="#">💼 Jobs & Internships</a></li>
+          <li class="nav-item"><a href="#">👤 Profile</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="nav-item"><a href="#">⚙️ Settings</a></div>
+        <div class="nav-item"><a href="#">🚪 Logout</a></div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-wrapper">
+      
+      <!-- Top Navbar -->
+      <header class="top-navbar">
+        <div class="top-search">
+          <span class="search-icon-left">🔍</span>
+          <input type="text" placeholder="Search resources, courses, peers, or clubs...">
+          <span class="search-shortcut">⌘K</span>
+        </div>
+
+        <div class="navbar-right">
+          <button class="btn-share">📄 Share Resource</button>
+          
+          <button class="btn-icon-bell">
+            🔔
+            <span class="bell-dot"></span>
+          </button>
+
+          <div class="user-profile">
+            <div class="avatar">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Rakib Hasan">
+            </div>
+            <div>
+              <div class="user-name">Rakib Hasan</div>
+              <div class="user-dept">Computer Science</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Container -->
+      <div class="content-container">
+        
+        <!-- Breadcrumb Bar -->
+        <div class="header-navigation-bar">
+          <a href="#" class="back-link">← Back to Clubs Directory</a>
+          <div class="status-tags">
+            <span class="status-live">Active Organization • Fall 2026</span>
+            <button class="btn-admin-manage">🛡️ Manage Club (Admin)</button>
+          </div>
+        </div>
+
+        <!-- Club Hero Banner Card -->
+        <div class="club-hero-card">
+          <div class="hero-cover-image">
+            <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80" alt="Robotics Lab">
+            <div class="cover-badges">
+              <span class="cover-badge verified">✓ Verified Official Club</span>
+              <span class="cover-badge">Est. 2018</span>
+            </div>
+          </div>
+
+          <div class="hero-content">
+            <div class="club-header-top">
+              <div class="club-logo-box">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="10" rx="2" />
+                  <circle cx="12" cy="5" r="2" />
+                  <path d="M12 7v4" />
+                  <line x1="8" y1="15" x2="8" y2="17" />
+                  <line x1="16" y1="15" x2="16" y2="17" />
+                </svg>
+              </div>
+
+              <div class="club-action-buttons">
+                <button class="btn-join">👤+ Join Club</button>
+                <button class="btn-action-light">🔔 Follow</button>
+                <button class="btn-action-light">🔗</button>
+              </div>
+            </div>
+
+            <div class="club-title-row">
+              <h1 class="club-title">NSU Robotics Club</h1>
+              <span class="category-badge">Technology & Engineering</span>
+            </div>
+
+            <p class="club-tagline">
+              Building, learning and innovating together. Fostering robotics engineering, automation, and AI robotics on campus.
+            </p>
+
+            <div class="hero-stats-bar">
+              <div class="stat-pill">👥 <strong>420</strong> Active Members</div>
+              <div class="stat-pill">📅 <strong>18</strong> Events Hosted</div>
+              <div class="stat-pill">🏢 <strong>Room SAC 402</strong> Robotics HQ</div>
+              <div class="highlight-pill">⚡ Applications open for Fall term</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Two Column Main Content -->
+        <div class="two-column-layout">
+          
+          <!-- LEFT COLUMN -->
+          <div class="left-content">
+            
+            <!-- Upcoming Events Section -->
+            <div>
+              <div class="section-header">
+                <h2 class="section-title">
+                  Upcoming Events
+                  <span class="badge-count">3 Scheduled</span>
+                </h2>
+                <a href="#" class="link-action">View Calendar ›</a>
+              </div>
+
+              <!-- Event Card 1 -->
+              <div class="event-card">
+                <div class="date-badge">
+                  <span class="date-month">SEP</span>
+                  <span class="date-day">20</span>
+                  <span class="date-weekday">FRI</span>
+                </div>
+                <div class="event-details">
+                  <div class="event-tags-row">
+                    <span class="tag-blue">Hardware Workshop</span>
+                    <span class="tag-seats">14 Seats Left</span>
+                  </div>
+                  <h3 class="event-title">Introduction to Robotics & ROS2 Hardware Workshop</h3>
+                  <div class="event-meta">
+                    <span>🕒 3:00 PM – 5:00 PM</span>
+                    <span>📍 NSU SAC Lab 402</span>
+                  </div>
+                  <p class="event-desc">
+                    Learn the fundamentals of microcontrollers, sensor integration with Arduino, and introductory ROS2 robot kinematics. Hands-on hardware kits provided for all activ...
+                  </p>
+                  <div class="event-footer">
+                    <div class="rsvp-avatars">
+                      <div class="avatar-stack">
+                        <div class="avatar-stack-item" style="background:#2563eb;">RA</div>
+                        <div class="avatar-stack-item" style="background:#0d9488;">NH</div>
+                        <div class="avatar-stack-item" style="background:#7c3aed;">TI</div>
+                      </div>
+                      <span class="rsvp-text">+26 RSVPs</span>
+                    </div>
+                    <div class="event-buttons">
+                      <button class="btn-sm-outline">🔖 Save</button>
+                      <button class="btn-sm-primary">✓ RSVP Now</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Event Card 2 -->
+              <div class="event-card">
+                <div class="date-badge">
+                  <span class="date-month">SEP</span>
+                  <span class="date-day">27</span>
+                  <span class="date-weekday">FRI</span>
+                </div>
+                <div class="event-details">
+                  <div class="event-tags-row">
+                    <span class="tag-blue">Bootcamp</span>
+                  </div>
+                  <h3 class="event-title">Arduino & Autonomous Rover Bootcamp</h3>
+                  <div class="event-meta">
+                    <span>🕒 2:30 PM – 6:00 PM</span>
+                    <span>📍 Auditorium A</span>
+                  </div>
+                  <p class="event-desc">
+                    Intensive 1-day crash course covering motor drivers, ultrasonic sensors, and PID path tracking. Bring your laptop with Arduino IDE configured.
+                  </p>
+                  <div class="event-footer">
+                    <span class="speaker-text">Speaker: Dr. M. R. Chowdhury & Leads</span>
+                    <div class="event-buttons">
+                      <button class="btn-sm-outline">View Details</button>
+                      <button class="btn-sm-primary">RSVP</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Event Card 3 -->
+              <div class="event-card">
+                <div class="date-badge">
+                  <span class="date-month">OCT</span>
+                  <span class="date-day">12</span>
+                  <span class="date-weekday">SAT</span>
+                </div>
+                <div class="event-details">
+                  <div class="event-tags-row">
+                    <span class="tag-blue">Competition</span>
+                  </div>
+                  <h3 class="event-title">DUCS Inter-University Robot Combat Meetup</h3>
+                  <div class="event-meta">
+                    <span>🕒 10:00 AM Onwards</span>
+                    <span>📍 Engineering Courtyard</span>
+                  </div>
+                  <p class="event-desc">
+                    Friendly intra-campus 15kg featherweight sparring and telemetry demonstrations with guest competitor teams from regional engineering colleges.
+                  </p>
+                  <div class="event-footer">
+                    <span class="speaker-text" style="color:#0d9488;">Free Entry • Open to all students</span>
+                    <button class="btn-sm-outline">View Details →</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Club Announcements Section -->
+            <div>
+              <div class="section-header">
+                <h2 class="section-title">Club Announcements</h2>
+                <span style="font-size: 11.5px; color: #64748b;">Updated daily</span>
+              </div>
+
+              <div class="announcements-container">
+                <!-- Announcement 1 -->
+                <div class="announcement-card pinned">
+                  <div class="announcement-header">
+                    <span class="pinned-tag">📌 Pinned Announcement</span>
+                    <span class="post-author">Posted 2 hours ago by <strong>Rahim Ahmed (President)</strong></span>
+                  </div>
+                  <h3 class="announcement-title">Robotics Bootcamp Fall 2026 Registration Open</h3>
+                  <p class="announcement-body">
+                    Registration for our upcoming 4-week Rover hardware track is officially open for all engineering and CS undergrads. Limited to 40 verified students. Hardware kits are fully sponsored by the ECE department.
+                  </p>
+                  <div class="attachment-pill">
+                    📄 Bootcamp_Syllabus.pdf <span style="color:#64748b; font-weight:normal;">(1.4 MB)</span> 📥
+                  </div>
+                </div>
+
+                <!-- Announcement 2 -->
+                <div class="announcement-card">
+                  <div class="announcement-header">
+                    <span class="post-author">Posted yesterday by <strong>Nabila Hasan (VP)</strong></span>
+                    <span style="font-size:11px; color:#64748b;">General Notice</span>
+                  </div>
+                  <h3 class="announcement-title">Fall 2026 Activities & General Body Meeting</h3>
+                  <p class="announcement-body">
+                    Join us this Thursday at 4:30 PM in SAC 402 for our semester orientation. Meet the project leads, review rover hardware milestones, and get assigned to your chosen sub-team!
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- About NSU Robotics Club -->
+            <div>
+              <div class="section-header">
+                <h2 class="section-title">About NSU Robotics Club</h2>
+              </div>
+              <div class="about-card">
+                <p class="about-text">
+                  NSU Robotics Club is a student community focused on robotics, embedded electronics, autonomous systems, and engineering innovation. We compete in national rover challenges and conduct peer-led workshops for university undergrads to bridge the gap between classroom theory and practical lab engineering.
+                </p>
+
+                <div class="features-grid">
+                  <div class="feature-item">
+                    <div class="feature-icon">⚙️</div>
+                    <div>
+                      <h4 class="feature-title">Hardware Prototyping</h4>
+                      <p class="feature-desc">Custom PCB design, soldering, and sensor-actuator firmware.</p>
+                    </div>
+                  </div>
+
+                  <div class="feature-item">
+                    <div class="feature-icon green">🤖</div>
+                    <div>
+                      <h4 class="feature-title">Autonomous Rovers</h4>
+                      <p class="feature-desc">SLAM, path planning algorithms, and ROS2 navigation stacks.</p>
+                    </div>
+                  </div>
+
+                  <div class="feature-item">
+                    <div class="feature-icon">🎓</div>
+                    <div>
+                      <h4 class="feature-title">Peer Mentorship</h4>
+                      <p class="feature-desc">Weekly office hours assisting junior engineers with lab assignments.</p>
+                    </div>
+                  </div>
+
+                  <div class="feature-item">
+                    <div class="feature-icon green">🏆</div>
+                    <div>
+                      <h4 class="feature-title">Inter-University Contests</h4>
+                      <p class="feature-desc">Active track record in National Robotics Competitions and Battlebots.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent Lab Activities & Builds -->
+            <div>
+              <div class="section-header">
+                <h2 class="section-title">Recent Lab Activities & Builds</h2>
+                <span style="font-size: 11.5px; color: #64748b;">Spring-Fall 2026 Archive</span>
+              </div>
+              
+              <div class="activities-card">
+                <div class="gallery-grid">
+                  <!-- Image 1 -->
+                  <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=400&q=80" alt="Chassis assembly">
+                    <div class="gallery-overlay">
+                      <span class="gallery-badge">Rover Lab</span>
+                      <span class="gallery-caption">Chassis assembly & stress test</span>
+                    </div>
+                  </div>
+
+                  <!-- Image 2 -->
+                  <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=400&q=80" alt="Soldering masterclass">
+                    <div class="gallery-overlay">
+                      <span class="gallery-badge green">Workshop</span>
+                      <span class="gallery-caption">Hands-on soldering masterclass</span>
+                    </div>
+                  </div>
+
+                  <!-- Image 3 -->
+                  <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=400&q=80" alt="Team showcase">
+                    <div class="gallery-overlay">
+                      <span class="gallery-badge">Team Meet</span>
+                      <span class="gallery-caption">Spring showcase finalist squad</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- RIGHT SIDEBAR -->
+          <div class="right-sidebar">
+            
+            <!-- Club Information -->
+            <div class="sidebar-card">
+              <h3 style="font-size: 15px; font-weight: 800; color: #0f172a; margin-bottom: 14px; display: flex; align-items: center; gap: 6px;">
+                ℹ️ Club Information
+              </h3>
+
+              <div class="info-list">
+                <div class="info-row">
+                  <span class="info-label">University</span>
+                  <span class="info-value">North South University</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Category</span>
+                  <span class="info-value" style="color: #004ee8;">Technology & Eng</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Founded</span>
+                  <span class="info-value">2018 (8 Years Active)</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Total Members</span>
+                  <span class="info-value">420 Students</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Meeting Lab</span>
+                  <span class="info-value">SAC Lab 402, South Campus</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">Contact Email</span>
+                  <span class="info-value" style="color: #004ee8; font-size: 11px;">robotics@northsouth.edu</span>
+                </div>
+              </div>
+
+              <div class="social-links">
+                <span style="font-size: 10px; font-weight: 800; color: #64748b; width: 100%; margin-bottom: 4px;">CONNECT & CODE</span>
+                <button class="btn-social">💻 GitHub</button>
+                <button class="btn-social">💼 LinkedIn</button>
+                <button class="btn-social">👥 FB Community</button>
+              </div>
+            </div>
+
+            <!-- Executive Committee -->
+            <div class="sidebar-card">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px;">
+                <h3 style="font-size: 15px; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 6px;">
+                  📋 Executive Committee
+                </h3>
+                <span style="font-size: 10px; color: #64748b; font-weight: 700;">2026-27</span>
+              </div>
+
+              <div class="committee-list">
+                <!-- Member 1 -->
+                <div class="member-item">
+                  <div class="member-info">
+                    <div class="member-avatar-circle">RA</div>
+                    <div>
+                      <div class="member-name">Rahim Ahmed</div>
+                      <div class="member-role">President • CSE '25</div>
+                    </div>
+                  </div>
+                  <button class="btn-msg">💬</button>
+                </div>
+
+                <!-- Member 2 -->
+                <div class="member-item">
+                  <div class="member-info">
+                    <div class="member-avatar-circle teal">NH</div>
+                    <div>
+                      <div class="member-name">Nabila Hasan</div>
+                      <div class="member-role">Vice President • EEE '26</div>
+                    </div>
+                  </div>
+                  <button class="btn-msg">💬</button>
+                </div>
+
+                <!-- Member 3 -->
+                <div class="member-item">
+                  <div class="member-info">
+                    <div class="member-avatar-circle purple">TI</div>
+                    <div>
+                      <div class="member-name">Tanvir Islam</div>
+                      <div class="member-role">General Secretary • CSE '26</div>
+                    </div>
+                  </div>
+                  <button class="btn-msg">💬</button>
+                </div>
+              </div>
+
+              <div class="advisor-box">
+                <div class="advisor-icon">🎓</div>
+                <div>
+                  <div class="member-name">Dr. M. R. Chowdhury</div>
+                  <div class="member-role">Faculty Advisor • Dept. of EECS</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Campus Affiliation -->
+            <div class="affiliation-card">
+              <div class="affiliation-title">
+                🛡️ Campus Affiliation
+              </div>
+              <p class="affiliation-desc">
+                Officially chartered by the <strong>NSU Division of Student Affairs</strong>. Meets institutional compliance, safety standards, and lab equipment protocols.
+              </p>
+              <div class="affiliation-valid">
+                ✓ Charter valid through Dec 2027
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+</html>

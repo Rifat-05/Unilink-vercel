@@ -1,0 +1,8 @@
+.git
+.env
+storage/data/*
+storage/uploads/*
+storage/php-errors.log
+*.zip
+*.rar
+req.json

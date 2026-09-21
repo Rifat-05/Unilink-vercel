@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniLink - Jobs & Internships</title>
+  <style>
+    /* Reset & Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f5f7fc;
+      color: #334155;
+      min-height: 100vh;
+    }
+
+    .app-container {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      background-color: #ffffff;
+      border-right: 1px solid #eef2f6;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 12px 28px 12px;
+    }
+
+    .logo-box {
+      width: 34px;
+      height: 34px;
+      background-color: #1a56db;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-text {
+      font-size: 20px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.3px;
+    }
+
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      list-style: none;
+    }
+
+    .nav-item a {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #64748b;
+      text-decoration: none;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-item a:hover {
+      background-color: #f1f5f9;
+      color: #1e293b;
+    }
+
+    .nav-item.active a {
+      background-color: #ebf3ff;
+      color: #1d4ed8;
+    }
+
+    .sidebar-footer {
+      border-top: 1px solid #f1f5f9;
+      padding-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    /* Main Layout */
+    .main-wrapper {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    /* Top Navigation */
+    .top-navbar {
+      background-color: #ffffff;
+      border-bottom: 1px solid #eef2f6;
+      padding: 12px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .top-search {
+      flex: 1;
+      max-width: 500px;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .top-search input {
+      width: 100%;
+      padding: 10px 14px 10px 38px;
+      background-color: #f1f5f9;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .search-icon-left {
+      position: absolute;
+      left: 12px;
+      color: #94a3b8;
+      display: flex;
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn-share {
+      background-color: #004ee8;
+      color: #ffffff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-icon-bell {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #64748b;
+      position: relative;
+      display: flex;
+      padding: 6px;
+    }
+
+    .bell-dot {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 6px;
+      height: 6px;
+      background-color: #ef4444;
+      border-radius: 50%;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: #cbd5e1;
+      overflow: hidden;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .user-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1e293b;
+      line-height: 1.2;
+    }
+
+    .user-univ {
+      font-size: 11px;
+      color: #64748b;
+    }
+
+    /* Content Area */
+    .content-container {
+      padding: 32px 40px;
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Page Header */
+    .page-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .tag-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .status-tag {
+      font-size: 11px;
+      font-weight: 800;
+      color: #0d9488;
+      background-color: #ccfbf1;
+      padding: 3px 8px;
+      border-radius: 12px;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-tag::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      background-color: #0d9488;
+      border-radius: 50%;
+    }
+
+    .batch-tag {
+      font-size: 11px;
+      font-weight: 800;
+      color: #64748b;
+      letter-spacing: 0.5px;
+    }
+
+    .page-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .page-desc {
+      font-size: 14px;
+      color: #64748b;
+      max-width: 600px;
+      line-height: 1.4;
+    }
+
+    .stats-box-group {
+      display: flex;
+      gap: 24px;
+      background-color: #ffffff;
+      padding: 16px 24px;
+      border-radius: 12px;
+      border: 1px solid #eef2f6;
+    }
+
+    .header-stat {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header-stat-num {
+      font-size: 22px;
+      font-weight: 800;
+      color: #004ee8;
+      line-height: 1.2;
+    }
+
+    .header-stat-label {
+      font-size: 9.5px;
+      font-weight: 800;
+      color: #64748b;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* Filters Section */
+    .search-filter-card {
+      background-color: #ffffff;
+      border: 1px solid #eef2f6;
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .search-input-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-input-container input {
+      width: 100%;
+      padding: 12px 70px 12px 42px;
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 13.5px;
+      outline: none;
+    }
+
+    .search-icon-inside {
+      position: absolute;
+      left: 14px;
+      color: #94a3b8;
+    }
+
+    .shortcut-keys {
+      position: absolute;
+      right: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .shortcut-badge {
+      background-color: #e2e8f0;
+      color: #475569;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .filter-options-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .select-dropdown {
+      background-color: #ebf3ff;
+      color: #1d4ed8;
+      border: 1px solid transparent;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .select-dropdown span {
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .results-count {
+      margin-left: auto;
+      font-size: 12.5px;
+      color: #64748b;
+    }
+
+    .results-count strong {
+      color: #0f172a;
+    }
+
+    /* Main Grid: Jobs Left, Sidebar Right */
+    .two-column-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 24px;
+    }
+
+    .job-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Job Card Base */
+    .job-card {
+      background-color: #ffffff;
+      border-radius: 14px;
+      border: 1px solid #eef2f6;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.01);
+    }
+
+    .job-card.featured {
+      border: 1.5px solid #60a5fa;
+    }
+
+    .card-top-tags {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tag-featured {
+      background-color: #1e40af;
+      color: #ffffff;
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tag-verified-partner {
+      background-color: #ccfbf1;
+      color: #0f766e;
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tag-verified-employer {
+      background-color: #ccfbf1;
+      color: #0f766e;
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tag-category {
+      font-size: 10.5px;
+      font-weight: 800;
+      color: #4338ca;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .deadline-urgent {
+      margin-left: auto;
+      color: #dc2626;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .deadline-normal {
+      margin-left: auto;
+      color: #64748b;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .job-header {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .company-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background-color: #ebf3ff;
+      color: #1d4ed8;
+      font-weight: 800;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .job-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .company-meta {
+      font-size: 13px;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .company-name {
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .meta-bullet {
+      color: #cbd5e1;
+    }
+
+    .salary-duration-box {
+      background-color: #f8fafc;
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 13px;
+    }
+
+    .salary-text {
+      font-weight: 800;
+      color: #004ee8;
+      font-size: 14px;
+    }
+
+    .salary-sub {
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .meta-item {
+      color: #475569;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .skills-pills-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .skill-pill {
+      background-color: #f1f5f9;
+      color: #334155;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .skill-more {
+      background-color: #ebf3ff;
+      color: #1d4ed8;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .job-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 14px;
+      margin-top: 4px;
+    }
+
+    .posted-info {
+      font-size: 12px;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .applicants-badge {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: #1d4ed8;
+      font-weight: 600;
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-details {
+      background-color: #f1f5f9;
+      color: #334155;
+      border: 1px solid #e2e8f0;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-apply-primary {
+      background-color: #004ee8;
+      color: #ffffff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Callout Banner */
+    .hire-banner {
+      background: linear-gradient(135deg, #004ee8 0%, #1d4ed8 100%);
+      border-radius: 14px;
+      padding: 24px;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .banner-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .banner-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .banner-title {
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 2px;
+    }
+
+    .banner-desc {
+      font-size: 12.5px;
+      opacity: 0.9;
+    }
+
+    .btn-banner {
+      background-color: #ffffff;
+      color: #004ee8;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* Right Sidebar Column */
+    .right-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .side-card {
+      background-color: #ffffff;
+      border-radius: 14px;
+      border: 1px solid #eef2f6;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .side-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .side-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .matched-badge {
+      background-color: #ebf3ff;
+      color: #1d4ed8;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .major-box {
+      background-color: #f8fafc;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 12px;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .recommended-item {
+      border-top: 1px solid #f1f5f9;
+      padding-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .rec-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .rec-company {
+      font-size: 10px;
+      font-weight: 800;
+      color: #64748b;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .rec-deadline {
+      font-size: 10px;
+      font-weight: 700;
+      color: #dc2626;
+    }
+
+    .rec-role {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .rec-tags {
+      font-size: 11px;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 2px;
+    }
+
+    .rec-view-link {
+      color: #004ee8;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .btn-explore-matched {
+      background-color: #f1f5f9;
+      color: #004ee8;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+      width: 100%;
+    }
+
+    /* Tips & Alerts */
+    .tip-item {
+      background-color: #f8fafc;
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .tip-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .tip-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 2px;
+    }
+
+    .tip-desc {
+      font-size: 11px;
+      color: #64748b;
+      line-height: 1.4;
+    }
+
+    .alert-card {
+      background-color: #f8fafc;
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      gap: 12px;
+    }
+
+    /* Resume Score Progress */
+    .score-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .score-title {
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .score-val {
+      font-weight: 800;
+      color: #004ee8;
+    }
+
+    .progress-bar {
+      height: 6px;
+      background-color: #e2e8f0;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .progress-fill {
+      width: 85%;
+      height: 100%;
+      background-color: #004ee8;
+    }
+
+    .score-hint {
+      font-size: 11px;
+      color: #64748b;
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .edit-profile-link {
+      font-size: 12px;
+      font-weight: 800;
+      color: #004ee8;
+      text-decoration: none;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1100px) {
+      .two-column-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .app-container {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        display: none;
+      }
+      .page-header-row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div>
+        <div class="brand-logo">
+          <div class="logo-box">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M7 16V9A5 5 0 0 1 17 9V16" stroke="white" stroke-width="3" stroke-linecap="round"/>
+              <path d="M12 11V16" stroke="white" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="logo-text">UniLink</span>
+        </div>
+
+        <ul class="nav-menu">
+          <li class="nav-item"><a href="#">Home</a></li>
+          <li class="nav-item"><a href="#">Resources</a></li>
+          <li class="nav-item"><a href="#">Study Partners</a></li>
+          <li class="nav-item"><a href="#">Clubs</a></li>
+          <li class="nav-item active"><a href="#">Jobs & Internships</a></li>
+          <li class="nav-item"><a href="#">Profile</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="nav-item"><a href="#">Settings</a></div>
+        <div class="nav-item"><a href="#">Logout</a></div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-wrapper">
+      
+      <!-- Top Navbar -->
+      <header class="top-navbar">
+        <div class="top-search">
+          <span class="search-icon-left">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </span>
+          <input type="text" placeholder="Search notes, courses, students, clubs or jobs...">
+        </div>
+
+        <div class="navbar-right">
+          <button class="btn-share">Share Resource</button>
+          
+          <button class="btn-icon-bell">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            <span class="bell-dot"></span>
+          </button>
+
+          <div class="user-profile">
+            <div class="avatar">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Rakib Hasan">
+            </div>
+            <div>
+              <span class="user-name">Rakib Hasan</span>
+              <span class="user-univ">North South University</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Container -->
+      <div class="content-container">
+        
+        <!-- Header Banner & Stats -->
+        <div class="page-header-row">
+          <div>
+            <div class="tag-group">
+              <span class="status-tag">ACTIVE RECRUITMENT CYCLE</span>
+              <span class="batch-tag">FALL '26 BATCH</span>
+            </div>
+            <h1 class="page-title">Jobs & Internships</h1>
+            <p class="page-desc">
+              Discover verified entry-level roles and internships from companies actively seeking university undergraduate talent.
+            </p>
+          </div>
+
+          <div class="stats-box-group">
+            <div class="header-stat">
+              <span class="header-stat-num">142</span>
+              <span class="header-stat-label">Verified Roles</span>
+            </div>
+            <div class="header-stat">
+              <span class="header-stat-num">580+</span>
+              <span class="header-stat-label">Hired Alumni</span>
+            </div>
+            <div class="header-stat">
+              <span class="header-stat-num">48</span>
+              <span class="header-stat-label">Partner Firms</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="search-filter-card">
+          <div class="search-input-container">
+            <span class="search-icon-inside">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </span>
+            <input type="text" placeholder="Search by job title, required skill, or company (e.g. Software Engineer, React, Grameenphone)...">
+            <div class="shortcut-keys">
+              <span class="shortcut-badge">⌘K</span>
+              <span style="color: #cbd5e1;">|</span>
+              <span style="color: #64748b; font-size: 14px;">⚙</span>
+            </div>
+          </div>
+
+          <div class="filter-options-row">
+            <div class="select-dropdown"><span>Type:</span> Internships & Full-time ▾</div>
+            <div class="select-dropdown"><span>Location:</span> Dhaka / Remote ▾</div>
+            <div class="select-dropdown"><span>Dept:</span> Computer Science & Eng ▾</div>
+            <div class="select-dropdown"><span>Skills:</span> All Skills ▾</div>
+            <div class="select-dropdown">⏰ Closing Soon ▾</div>
+
+            <div class="results-count">
+              Showing <strong>4 active</strong> opportunities
+            </div>
+          </div>
+        </div>
+
+        <!-- Two Column Main Layout -->
+        <div class="two-column-layout">
+          
+          <!-- Left: Job Listings Feed -->
+          <div class="job-list">
+            
+            <!-- Job Card 1 -->
+            <div class="job-card featured">
+              <div class="card-top-tags">
+                <span class="tag-featured">☆ FEATURED INTERNSHIP</span>
+                <span class="tag-verified-partner">✓ VERIFIED PARTNER</span>
+                <span class="deadline-urgent">⏰ Closing in 3 days</span>
+              </div>
+
+              <div class="job-header">
+                <div class="company-logo">BS23</div>
+                <div>
+                  <h2 class="job-title">Software Engineering Intern (Frontend / Full-stack)</h2>
+                  <div class="company-meta">
+                    <span class="company-name">Brain Station 23</span>
+                    <span class="meta-bullet">•</span>
+                    <span>📍 Gulshan, Dhaka</span>
+                    <span class="meta-bullet">•</span>
+                    <span>🎧 Hybrid</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="salary-duration-box">
+                <div>
+                  <span class="salary-text">৳25,000 / month</span>
+                  <span class="salary-sub"> (Paid Internship)</span>
+                </div>
+                <span class="meta-bullet">•</span>
+                <div class="meta-item">📅 6 Months Duration</div>
+                <span class="meta-bullet">•</span>
+                <div class="meta-item">🎓 Min. CGPA 3.20</div>
+              </div>
+
+              <div class="skills-pills-row">
+                <span class="skill-pill">JavaScript</span>
+                <span class="skill-pill">React</span>
+                <span class="skill-pill">Node.js</span>
+                <span class="skill-pill">Git</span>
+                <span class="skill-pill">REST APIs</span>
+                <span class="skill-more">+2 more</span>
+              </div>
+
+              <div class="job-footer">
+                <div class="posted-info">
+                  <span>Posted 2 days ago</span>
+                  <span class="applicants-badge">👥 18 applicants from NSU</span>
+                  <span>Deadline: Sep 30, 2026</span>
+                </div>
+                <div class="card-actions">
+                  <button class="btn-details">View Details</button>
+                  <button class="btn-apply-primary">⚡ Apply Now <br/><span style="font-size: 9px; opacity:0.8">(UniLink 1-Click)</span></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Job Card 2 -->
+            <div class="job-card">
+              <div class="card-top-tags">
+                <span class="tag-category">TELECOMMUNICATIONS</span>
+                <span class="tag-verified-employer">✓ VERIFIED EMPLOYER</span>
+                <span class="deadline-normal">Deadline: Oct 05, 2026</span>
+              </div>
+
+              <div class="job-header">
+                <div class="company-logo" style="background-color: #e0f2fe; color: #0284c7;">GP</div>
+                <div>
+                  <h2 class="job-title">Product & Marketing Intern</h2>
+                  <div class="company-meta">
+                    <span class="company-name">Grameenphone</span>
+                    <span class="meta-bullet">•</span>
+                    <span>📍 GPHouse, Bashundhara, Dhaka</span>
+                    <span class="meta-bullet">•</span>
+                    <span>🏢 On-site</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="salary-duration-box">
+                <div>
+                  <span class="salary-text">💵 Paid Internship</span>
+                  <span class="salary-sub"> (Standard Stipend)</span>
+                </div>
+                <span class="meta-bullet">•</span>
+                <div class="meta-item">📅 3 Months</div>
+                <span class="meta-bullet">•</span>
+                <div class="meta-item">✨ Certificate + PPO Opportunity</div>
+              </div>
+
+              <div class="skills-pills-row">
+                <span class="skill-pill">Marketing</span>
+                <span class="skill-pill">Communication</span>
+                <span class="skill-pill">Data Analysis</span>
+                <span class="skill-pill">MS Excel</span>
+              </div>
+
+              <div class="job-footer">
+                <div class="posted-info">
+                  <span>Posted 3 days ago</span>
+                  <span>👥 24 applicants</span>
+                </div>
+                <div class="card-actions">
+                  <button class="btn-details">View Details</button>
+                  <button class="btn-apply-primary">Apply Now</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Job Card 3 -->
+            <div class="job-card">
+              <div class="card-top-tags">
+                <span class="tag-category" style="color: #7c3aed;">HEALTH-TECH AI</span>
+                <span class="tag-category" style="color: #64748b;">ENTRY-LEVEL / FRESH GRAD</span>
+                <span class="deadline-normal">Deadline: Oct 10, 2026</span>
+              </div>
+
+              <div class="job-header">
+                <div class="company-logo" style="background-color: #ede9fe; color: #6d28d9;">AGX</div>
+                <div>
+                  <h2 class="job-title">Junior AI & Data Annotation Specialist</h2>
+                  <div class="company-meta">
+                    <span class="company-name">Augmedix Bangladesh</span>
+                    <span class="meta-bullet">•</span>
+                    <span>📍 Panthapath, Dhaka</span>
+                    <span class="meta-bullet">•</span>
+                    <span>💼 Full-time / Fresh Grad</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="salary-duration-box">
+                <div>
+                  <span class="salary-text">৳35,000 – ৳45,000 / month</span>
+                  <span class="salary-sub"> + Health Insurance</span>
+                </div>
+                <span class="meta-bullet">•</span>
+                <div class="meta-item">⏱ Rotational Shifts</div>
+              </div>
+
+              <div class="skills-pills-row">
+                <span class="skill-pill">Python</span>
+                <span class="skill-pill">Medical Terminology</span>
+                <span class="skill-pill">SQL</span>
+                <span class="skill-pill">Documentation</span>
+              </div>
+
+              <div class="job-footer">
+                <div class="posted-info">
+                  <span>Posted 5 days ago</span>
+                  <span>👁 142 views</span>
+                </div>
+                <div class="card-actions">
+                  <button class="btn-details">View Details</button>
+                  <button class="btn-apply-primary">Apply Now</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Job Card 4 -->
+            <div class="job-card">
+              <div class="card-top-tags">
+                <span class="tag-category" style="color: #0d9488;">B2B COMMERCE & LOGISTICS</span>
+                <span class="deadline-normal">Deadline: Oct 12, 2026</span>
+              </div>
+
+              <div class="job-header">
+                <div class="company-logo" style="background-color: #ccfbf1; color: #0f766e;">SHP</div>
+                <div>
+                  <h2 class="job-title">Business Development & Operations Intern</h2>
+                  <div class="company-meta">
+                    <span class="company-name">ShopUp</span>
+                    <span class="meta-bullet">•</span>
+                    <span>📍 Banani, Dhaka</span>
+                    <span class="meta-bullet">•</span>
+                    <span>🏢 On-site</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="salary-duration-box">
+                <div>
+                  <span class="salary-text">💵 Paid Internship</span>
+                  <span class="salary-sub"> (৳20,000 / month)</span>
+                </div>
+                <span class="meta-bullet">•</span>
+                <div class="meta-item">⏳ 4 Months Commitment</div>
+              </div>
+
+              <div class="skills-pills-row">
+                <span class="skill-pill">Operations</span>
+                <span class="skill-pill">Vendor Management</span>
+                <span class="skill-pill">Excel</span>
+                <span class="skill-pill">Problem Solving</span>
+              </div>
+
+              <div class="job-footer">
+                <div class="posted-info">
+                  <span>Posted 1 week ago</span>
+                  <span>📋 Direct HR listing</span>
+                </div>
+                <div class="card-actions">
+                  <button class="btn-details">View Details</button>
+                  <button class="btn-apply-primary">Apply Now</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recruiter Banner -->
+            <div class="hire-banner">
+              <div class="banner-left">
+                <div class="banner-icon">💼</div>
+                <div>
+                  <div class="banner-title">Are you hiring university student talent?</div>
+                  <div class="banner-desc">Post verified campus-direct opportunities and access top 5% peer-ranked candidate profiles.</div>
+                </div>
+              </div>
+              <button class="btn-banner">Post an Opening</button>
+            </div>
+
+          </div>
+
+          <!-- Right Sidebar Column -->
+          <div class="right-sidebar">
+            
+            <!-- Recommendation Box -->
+            <div class="side-card">
+              <div class="side-header">
+                <h3 class="side-title">👍 Recommended for You</h3>
+                <span class="matched-badge">MATCHED</span>
+              </div>
+
+              <div class="major-box">
+                🎓 Based on your major: <strong>Computer Science (6th Sem)</strong>
+              </div>
+
+              <!-- Recommendation 1 -->
+              <div class="recommended-item">
+                <div class="rec-top">
+                  <span class="rec-company">THERAP BD</span>
+                  <span class="rec-deadline">Closes in 5d</span>
+                </div>
+                <div class="rec-role">QA Automation Intern</div>
+                <div class="rec-tags">
+                  <span>Selenium • Java • API Testing</span>
+                  <a href="#" class="rec-view-link">View →</a>
+                </div>
+              </div>
+
+              <!-- Recommendation 2 -->
+              <div class="recommended-item">
+                <div class="rec-top">
+                  <span class="rec-company">TIGERIT</span>
+                  <span class="rec-deadline" style="color: #64748b;">Closes in 7d</span>
+                </div>
+                <div class="rec-role">Cloud Support Associate</div>
+                <div class="rec-tags">
+                  <span>AWS • Linux • Docker Basics</span>
+                  <a href="#" class="rec-view-link">View →</a>
+                </div>
+              </div>
+
+              <button class="btn-explore-matched">Explore 14 More Matched Roles ›</button>
+            </div>
+
+            <!-- Campus Tips -->
+            <div class="side-card">
+              <h3 class="side-title">💡 Campus Application Tips</h3>
+
+              <div class="tip-item">
+                <div class="tip-icon">💡</div>
+                <div>
+                  <div class="tip-title">Highlight UniLink Cred</div>
+                  <div class="tip-desc">Include your verified UniLink resource contributions to highlight academic leadership & peer mentoring.</div>
+                </div>
+              </div>
+
+              <div class="tip-item">
+                <div class="tip-icon">📄</div>
+                <div>
+                  <div class="tip-title">One-Page Tailored Resume</div>
+                  <div class="tip-desc">Keep tech resumes strictly 1 page tailored to the stack listed in the job card (e.g. emphasize React & Git).</div>
+                </div>
+              </div>
+
+              <div class="alert-card">
+                <div class="tip-icon">🎓</div>
+                <div>
+                  <div class="tip-title">Career Fair Alert</div>
+                  <div class="tip-desc">University career fair dates: <strong>Fall 2026 Fair coming November 14th</strong> at Student Activity Center.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Resume Score Card -->
+            <div class="side-card">
+              <div class="score-row">
+                <span class="score-title">Your UniLink Resume Score</span>
+                <span class="score-val">85% Complete</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill"></div>
+              </div>
+              <div class="score-hint">Add 1 github project link to unlock automatic top-tier recruiter alerts.</div>
+              <a href="#" class="edit-profile-link">Edit Career Profile →</a>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+</html>

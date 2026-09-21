@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniLink Admin Portal</title>
+  
+  <!-- Font inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --border-light: #e2e8f0;
+      --border-focus: #2563eb;
+      
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-subtle: #94a3b8;
+      
+      --primary: #1d4ed8;
+      --primary-hover: #1e40af;
+      --primary-light: #eff6ff;
+      --primary-border: #bfdbfe;
+
+      --danger: #dc2626;
+      --danger-hover: #b91c1c;
+      --danger-light: #fef2f2;
+
+      --warning: #d97706;
+      --warning-light: #fffbeb;
+
+      --success: #16a34a;
+      --success-light: #f0fdf4;
+
+      --badge-purple-bg: #f3e8ff;
+      --badge-purple-text: #6b21a8;
+
+      --badge-cyan-bg: #e0f2fe;
+      --badge-cyan-text: #0369a1;
+
+      --badge-yellow-bg: #fef3c7;
+      --badge-yellow-text: #92400e;
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-xl: 18px;
+
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      font-size: 13px;
+      line-height: 1.4;
+      min-height: 100vh;
+    }
+
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 230px;
+      background-color: var(--bg-card);
+      border-right: 1px solid var(--border-light);
+      padding: 20px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 6px 16px 6px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .brand-logo-icon {
+      width: 30px;
+      height: 30px;
+      background-color: var(--primary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-title-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.1;
+    }
+
+    .brand-subtitle {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .super-badge {
+      background-color: #dbeafe;
+      color: #1d4ed8;
+      font-size: 8.5px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 16px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 12px;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.15s ease;
+    }
+
+    .nav-link-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-link:hover {
+      background-color: #f1f5f9;
+      color: var(--text-main);
+    }
+
+    .nav-link.active {
+      background-color: var(--primary);
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .nav-badge {
+      background-color: #fee2e2;
+      color: #dc2626;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 10px;
+    }
+
+    .sidebar-footer {
+      border-top: 1px solid var(--border-light);
+      padding-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .sidebar-footer-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 12.5px;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+    }
+
+    .sidebar-footer-link:hover {
+      background-color: #f8fafc;
+      color: var(--text-main);
+    }
+
+    .sidebar-footer-link.danger {
+      color: var(--danger);
+    }
+
+    .sidebar-footer-link.danger:hover {
+      background-color: var(--danger-light);
+    }
+
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .top-header {
+      background-color: var(--bg-card);
+      border-bottom: 1px solid var(--border-light);
+      padding: 12px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .global-search {
+      position: relative;
+      width: 460px;
+    }
+
+    .global-search input {
+      width: 100%;
+      background-color: #f1f5f9;
+      border: 1px solid transparent;
+      padding: 8px 14px 8px 34px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .global-search input:focus {
+      background-color: #ffffff;
+      border-color: var(--border-focus);
+    }
+
+    .global-search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-subtle);
+      font-size: 13px;
+    }
+
+    .kbd-shortcut {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: #e2e8f0;
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+
+    .header-center-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 14px;
+    }
+
+    .status-dot-green {
+      width: 6px;
+      height: 6px;
+      background-color: #22c55e;
+      border-radius: 50%;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .nav-bell-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      position: relative;
+      padding: 6px;
+      font-size: 16px;
+      border-radius: 50%;
+    }
+
+    .nav-bell-btn:hover {
+      background-color: #f1f5f9;
+    }
+
+    .bell-dot {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 6px;
+      height: 6px;
+      background-color: #ef4444;
+      border-radius: 50%;
+      border: 1px solid #ffffff;
+    }
+
+    .user-profile-widget {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-left: 8px;
+    }
+
+    .user-avatar-img {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--border-light);
+    }
+
+    .user-details {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .user-name-text {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .user-uni-text {
+      font-size: 10.5px;
+      color: var(--text-muted);
+    }
+
+    .page-container {
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 1440px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .dashboard-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .header-title-area {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .system-label {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .page-main-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.4px;
+    }
+
+    .page-sub-title {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .header-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-light-action {
+      background-color: #ffffff;
+      border: 1px solid var(--border-light);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-light-action:hover {
+      background-color: #f8fafc;
+    }
+
+    .btn-primary-action {
+      background-color: var(--primary);
+      border: 1px solid var(--primary);
+      color: #ffffff;
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-primary-action:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .metric-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+    }
+
+    .metric-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .metric-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .metric-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .metric-icon-box {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      background-color: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+    }
+
+    .metric-value-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .metric-value {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.4px;
+    }
+
+    .metric-tag {
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    .tag-blue { background-color: #dbeafe; color: #1e40af; }
+    .tag-green { background-color: #dcfce7; color: #15803d; }
+    .tag-purple { background-color: #f3e8ff; color: #6b21a8; }
+    .tag-teal { background-color: #ccfbf1; color: #0f766e; }
+
+    .metric-subtext {
+      font-size: 10px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .section-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .section-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot-warning {
+      width: 8px;
+      height: 8px;
+      background-color: #f59e0b;
+      border-radius: 50%;
+    }
+
+    .badge-action-req {
+      background-color: #fee2e2;
+      color: #dc2626;
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 12px;
+    }
+
+    .filter-tabs {
+      display: flex;
+      background-color: #f1f5f9;
+      padding: 3px;
+      border-radius: 8px;
+      gap: 2px;
+    }
+
+    .tab-item {
+      border: none;
+      background: none;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .tab-item.active {
+      background-color: #ffffff;
+      color: var(--text-main);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .verification-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .verification-item-card {
+      background-color: #f8fafc;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .item-left-col {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .item-tags-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tag-pending-rev {
+      background-color: var(--badge-yellow-bg);
+      color: var(--badge-yellow-text);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tag-category-cyan {
+      background-color: var(--badge-cyan-bg);
+      color: var(--badge-cyan-text);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    .tag-category-purple {
+      background-color: var(--badge-purple-bg);
+      color: var(--badge-purple-text);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    .time-subtext {
+      font-size: 10.5px;
+      color: var(--text-subtle);
+    }
+
+    .item-entity-name {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .item-detail-info {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    .item-contact-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .contact-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .contact-link:hover {
+      text-decoration: underline;
+    }
+
+    .badge-verified-otp {
+      background-color: #dcfce7;
+      color: #15803d;
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    .badge-advisor-approved {
+      color: var(--success);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .item-right-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .btn-action-outline {
+      background-color: #ffffff;
+      border: 1px solid var(--border-light);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-action-outline:hover {
+      background-color: #f1f5f9;
+    }
+
+    .btn-action-approve {
+      background-color: var(--primary);
+      border: 1px solid var(--primary);
+      color: #ffffff;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-action-approve:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-action-reject {
+      background-color: #ffffff;
+      border: 1px solid var(--border-light);
+      color: var(--danger);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-action-reject:hover {
+      background-color: var(--danger-light);
+      border-color: #fca5a5;
+    }
+
+    .bottom-two-column-grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    /* Audit Stream / Feed */
+    .audit-feed-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+    }
+
+    .audit-item {
+      display: flex;
+      gap: 12px;
+      position: relative;
+    }
+
+    .audit-icon-box {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      flex-shrink: 0;
+      z-index: 2;
+    }
+
+    .audit-icon-blue { background-color: #dbeafe; color: #1d4ed8; }
+    .audit-icon-purple { background-color: #f3e8ff; color: #7e22ce; }
+    .audit-icon-green { background-color: #dcfce7; color: #15803d; }
+    .audit-icon-red { background-color: #fee2e2; color: #b91c1c; }
+    .audit-icon-amber { background-color: #fef3c7; color: #b45309; }
+
+    .audit-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      background-color: #f8fafc;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      flex: 1;
+    }
+
+    .audit-title-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .audit-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .audit-time {
+      font-size: 10px;
+      color: var(--text-subtle);
+    }
+
+    .audit-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* University Partner Card */
+    .partner-university-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .uni-head-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .uni-logo-box {
+      width: 42px;
+      height: 42px;
+      background-color: #1e3a8a;
+      color: #ffffff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 16px;
+    }
+
+    .uni-title-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .uni-name {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-partner-active {
+      background-color: #dcfce7;
+      color: #15803d;
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 10px;
+    }
+
+    .uni-location {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .uni-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .uni-info-box {
+      background-color: #f8fafc;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .uni-box-label {
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--text-subtle);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .uni-box-val {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .health-index-box {
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      border: 1px solid #bbf7d0;
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .health-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .health-label {
+      font-size: 10px;
+      font-weight: 800;
+      color: #166534;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .health-val {
+      font-size: 22px;
+      font-weight: 800;
+      color: #14532d;
+      line-height: 1.1;
+    }
+
+    .health-subtext {
+      font-size: 10px;
+      color: #15803d;
+    }
+
+    .grade-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: #15803d;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(22, 101, 52, 0.2);
+    }
+
+    .uni-btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 8px;
+    }
+
+    /* Responsive styling */
+    @media (max-width: 1200px) {
+      .metric-cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .bottom-two-column-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 840px) {
+      .sidebar { display: none; }
+      .metric-cards-grid { grid-template-columns: repeat(2, 1fr); }
+      .verification-item-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .item-right-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div>
+        <div class="sidebar-brand">
+          <div class="brand-logo-icon">UL</div>
+          <div class="brand-title-wrap">
+            <span class="brand-title">UniLink</span>
+            <span class="brand-subtitle">
+              ADMIN PORTAL
+              <span class="super-badge">Super</span>
+            </span>
+          </div>
+        </div>
+
+        <ul class="nav-list">
+          <li>
+            <a href="#" class="nav-link active">
+              <div class="nav-link-left">
+                <span>📊</span>
+                <span>Overview</span>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link">
+              <div class="nav-link-left">
+                <span>🛡</span>
+                <span>Approvals</span>
+              </div>
+              <span class="nav-badge">2</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link">
+              <div class="nav-link-left">
+                <span>👥</span>
+                <span>Users</span>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link">
+              <div class="nav-link-left">
+                <span>🏛</span>
+                <span>Universities</span>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-link">
+              <div class="nav-link-left">
+                <span>📚</span>
+                <span>Content</span>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-footer">
+        <a href="#" class="sidebar-footer-link">⚙ Settings</a>
+        <a href="#" class="sidebar-footer-link">↩ Back to UniLink</a>
+        <a href="#" class="sidebar-footer-link danger">🚪 Logout</a>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT COLUMN -->
+    <main class="main-content">
+      
+      <!-- TOP NAVIGATION BAR -->
+      <header class="top-header">
+        <div class="global-search">
+          <span class="global-search-icon">🔍</span>
+          <input type="text" placeholder="Search users, clubs, companies, content...">
+          <span class="kbd-shortcut">⌘K</span>
+        </div>
+
+        <div class="header-center-status">
+          <span class="status-dot-green"></span>
+          <span>All Systems Operational • Fall 2026</span>
+        </div>
+
+        <div class="header-actions">
+          <button class="nav-bell-btn" title="Notifications">
+            🔔
+            <span class="bell-dot"></span>
+          </button>
+
+          <div class="user-profile-widget">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Admin User" class="user-avatar-img">
+            <div class="user-details">
+              <span class="user-name-text">Admin User</span>
+              <span class="user-uni-text">Super Admin</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT CONTAINER -->
+      <div class="page-container">
+        
+        <!-- HEADER SECTION -->
+        <div class="dashboard-header-row">
+          <div class="header-title-area">
+            <span class="system-label">INSTITUTION CENTRAL • Real-time Telemetry</span>
+            <h1 class="page-main-title">UniLink Overview</h1>
+            <p class="page-sub-title">Monitor platform activity and manage UniLink access across students, clubs, companies, and partner universities.</p>
+          </div>
+
+          <div class="header-btn-group">
+            <button class="btn-light-action">
+              <span>📜</span>
+              <span>View Logs</span>
+            </button>
+            <button class="btn-primary-action">
+              <span>🔑</span>
+              <span>Grant Role</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="metric-cards-grid">
+          
+          <!-- Card 1 -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-title">Students</span>
+              <div class="metric-icon-box">🎓</div>
+            </div>
+            <div class="metric-value-row">
+              <span class="metric-value">1,245</span>
+              <span class="metric-tag tag-blue">.edu OTP</span>
+            </div>
+            <span class="metric-subtext">North South Univ.</span>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-title">Clubs</span>
+              <div class="metric-icon-box">👥</div>
+            </div>
+            <div class="metric-value-row">
+              <span class="metric-value">18</span>
+              <span class="metric-tag tag-green">+2 new</span>
+            </div>
+            <span class="metric-subtext">Campus chartered</span>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-title">Companies</span>
+              <div class="metric-icon-box">🏢</div>
+            </div>
+            <div class="metric-value-row">
+              <span class="metric-value">12</span>
+              <span class="metric-tag tag-purple">Vetted</span>
+            </div>
+            <span class="metric-subtext">Active recruiters</span>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-title">University</span>
+              <div class="metric-icon-box">🏛</div>
+            </div>
+            <div class="metric-value-row">
+              <span class="metric-value">1</span>
+              <span class="metric-tag tag-teal">Pilot</span>
+            </div>
+            <span class="metric-subtext">NSU Main Camp...</span>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-title">Jobs &amp; Internships</span>
+              <div class="metric-icon-box">💼</div>
+            </div>
+            <div class="metric-value-row">
+              <span class="metric-value">24</span>
+              <span class="metric-tag tag-blue">Live</span>
+            </div>
+            <span class="metric-subtext">8 closing this week</span>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="metric-card">
+            <div class="metric-card-top">
+              <span class="metric-title">Resources</span>
+              <div class="metric-icon-box">🛡</div>
+            </div>
+            <div class="metric-value-row">
+              <span class="metric-value">386</span>
+              <span class="metric-tag tag-green">99.2% ok</span>
+            </div>
+            <span class="metric-subtext">Notes, syllabi &amp; ...</span>
+          </div>
+
+        </div>
+
+        <section class="section-card">
+          <div class="section-header-row">
+            <div class="section-title-wrap">
+              <h2 class="section-title">
+                <span class="dot-warning"></span>
+                <span>Pending Verification Queue</span>
+              </h2>
+              <span class="badge-action-req">2 Action Required</span>
+            </div>
+
+            <div class="filter-tabs">
+              <button class="tab-item active">All (2)</button>
+              <button class="tab-item">Companies (1)</button>
+              <button class="tab-item">Clubs (1)</button>
+            </div>
+          </div>
+
+          <div class="verification-list">
+            
+            <!-- Pending Item 1: Brain Station 23 -->
+            <div class="verification-item-card">
+              <div class="item-left-col">
+                <div class="item-tags-row">
+                  <span class="tag-pending-rev">● Pending Review</span>
+                  <span class="tag-category-cyan">Company Account</span>
+                  <span class="time-subtext">10 minutes ago</span>
+                </div>
+                <h3 class="item-entity-name">Brain Station 23</h3>
+                <p class="item-detail-info">Software Development &amp; Enterprise IT Services • Head of Campus Talent: Tanvir Rahman</p>
+                <div class="item-contact-bar">
+                  <span>✉ <a href="mailto:hr@brainstation23.com" class="contact-link">hr@brainstation23.com</a></span>
+                  <span>|</span>
+                  <span>🌐 <a href="https://brainstation23.com" target="_blank" class="contact-link">brainstation23.com</a></span>
+                  <span>|</span>
+                  <span>📍 Gulshan-1, Dhaka</span>
+                </div>
+              </div>
+
+              <div class="item-right-actions">
+                <button class="btn-action-outline">Review Details</button>
+                <button class="btn-action-approve">✓ Approve</button>
+                <button class="btn-action-reject">Reject</button>
+              </div>
+            </div>
+
+            <!-- Pending Item 2: NSU Robotics Club -->
+            <div class="verification-item-card">
+              <div class="item-left-col">
+                <div class="item-tags-row">
+                  <span class="tag-pending-rev">● Pending Review</span>
+                  <span class="tag-category-purple">Student Club</span>
+                  <span class="time-subtext">1 hour ago</span>
+                </div>
+                <h3 class="item-entity-name">NSU Robotics Club</h3>
+                <p class="item-detail-info">Technology &amp; Engineering • University: North South University • Requester: Rahim Ahmed (President)</p>
+                <div class="item-contact-bar">
+                  <span>Student ID: 2121048</span>
+                  <span>|</span>
+                  <span>✉ <a href="mailto:rahim.ahmed@northsouth.edu" class="contact-link">rahim.ahmed@northsouth.edu</a> <span class="badge-verified-otp">Verified OTP</span></span>
+                  <span>|</span>
+                  <span class="badge-advisor-approved">✓ Faculty Advisor Approved</span>
+                </div>
+              </div>
+
+              <div class="item-right-actions">
+                <button class="btn-action-outline">Review Details</button>
+                <button class="btn-action-approve">✓ Approve</button>
+                <button class="btn-action-reject">Reject</button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <div class="bottom-two-column-grid">
+          
+          <!-- LEFT COLUMN: Platform Activity Feed -->
+          <div class="section-card">
+            <div class="section-header-row">
+              <h2 class="section-title">
+                <span>⚡ Platform Activity Feed (Audit Stream)</span>
+              </h2>
+              <span style="font-size: 11px; color: var(--text-muted); font-weight: 600;">Real-time System Logs</span>
+            </div>
+
+            <div class="audit-feed-list">
+              
+              <!-- Item 1 -->
+              <div class="audit-item">
+                <div class="audit-icon-box audit-icon-blue">🏢</div>
+                <div class="audit-content">
+                  <div class="audit-title-bar">
+                    <span class="audit-title">Brain Station 23 submitted a company registration</span>
+                    <span class="audit-time">10m ago</span>
+                  </div>
+                  <p class="audit-desc">Pending verification queue entry generated for corporate recruiter clearance.</p>
+                </div>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="audit-item">
+                <div class="audit-icon-box audit-icon-purple">👥</div>
+                <div class="audit-content">
+                  <div class="audit-title-bar">
+                    <span class="audit-title">NSU Robotics Club requested club charter approval</span>
+                    <span class="audit-time">1h ago</span>
+                  </div>
+                  <p class="audit-desc">Advisor approval token verified via institutional email gateway.</p>
+                </div>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="audit-item">
+                <div class="audit-icon-box audit-icon-green">🏛</div>
+                <div class="audit-content">
+                  <div class="audit-title-bar">
+                    <span class="audit-title">North South University admin account created</span>
+                    <span class="audit-time">Yesterday</span>
+                  </div>
+                  <p class="audit-desc">Role: Institutional Registrar Lead (@northsouth.edu) assigned to Elena R.</p>
+                </div>
+              </div>
+
+              <!-- Item 4 -->
+              <div class="audit-item">
+                <div class="audit-icon-box audit-icon-red">🚫</div>
+                <div class="audit-content">
+                  <div class="audit-title-bar">
+                    <span class="audit-title">Student account suspended (Honor Code violation review)</span>
+                    <span class="audit-time">Yesterday</span>
+                  </div>
+                  <p class="audit-desc">ID #1931201 flagged for unverified copyrighted midterm solution upload.</p>
+                </div>
+              </div>
+
+              <!-- Item 5 -->
+              <div class="audit-item">
+                <div class="audit-icon-box audit-icon-amber">📚</div>
+                <div class="audit-content">
+                  <div class="audit-title-bar">
+                    <span class="audit-title">MAT120 Final Question Bank flagged &amp; approved</span>
+                    <span class="audit-time">2d ago</span>
+                  </div>
+                  <p class="audit-desc">Verified by Department Teaching Assistant Peer Review Panel.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN: University Partner Card -->
+          <div class="partner-university-card">
+            <div class="uni-head-row">
+              <div class="uni-logo-box">NSU</div>
+              <div class="uni-title-wrap">
+                <span class="uni-name">
+                  North South University
+                  <span class="badge-partner-active">Active Partner</span>
+                </span>
+                <span class="uni-location">Bashundhara R/A, Dhaka 1229</span>
+              </div>
+            </div>
+
+            <div class="uni-info-grid">
+              <div class="uni-info-box">
+                <span class="uni-box-label">Restricted Domain</span>
+                <span class="uni-box-val">@northsouth.edu</span>
+                <span style="font-size: 9.5px; color: var(--success); font-weight: 700;">Strict Whitelist Active</span>
+              </div>
+
+              <div class="uni-info-box">
+                <span class="uni-box-label">Campus Admins</span>
+                <span class="uni-box-val">2 Verified</span>
+                <span style="font-size: 9.5px; color: var(--text-muted); font-weight: 600;">Elena R., Prof. M. Kabir</span>
+              </div>
+            </div>
+
+            <div class="health-index-box">
+              <div class="health-left">
+                <span class="health-label">Pilot Health Index</span>
+                <span class="health-val">98.4%</span>
+                <span class="health-subtext">Zero unresolved security incidents</span>
+              </div>
+
+              <div class="grade-circle">A+</div>
+            </div>
+
+            <div class="uni-btn-row">
+              <button class="btn-light-action" style="justify-content: center;">Manage Domain</button>
+              <button class="btn-primary-action" style="justify-content: center;">+ Add University</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+</html>
