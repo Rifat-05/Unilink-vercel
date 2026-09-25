@@ -185,8 +185,20 @@
 
     const loadMessages = async () => {
       if (!active) { messages.replaceChildren(); el('p', 'Select a conversation to view messages.', messages, 'empty-state'); return; }
-      await list(messages, '/conversations/' + active + '/messages', 'No messages yet.', (m, c) => {
-        const mine = Number(m.sender_id) === Number(me.user_id);
+      await list(
+  messages,
+  '/conversations/' +
+    active +
+    '/messages',
+  'No messages yet.',
+  (m, c) => {
+
+    // Store database message ID on the element
+    c.dataset.messageId = String(m.message_id);
+
+    const mine =
+      Number(m.sender_id) ===
+      Number(me.user_id);
         c.classList.add(mine ? 'message-mine' : 'message-other');
         el('strong', mine ? 'You' : (m.sender_name || 'Student'), c);
         el('p', m.body, c);
