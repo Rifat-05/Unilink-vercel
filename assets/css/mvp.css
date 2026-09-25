@@ -245,3 +245,171 @@ button[aria-current="true"] {
     max-width: 92%;
   }
 }
+/* =========================================================
+   DIRECT MESSAGING - FIXED VIEWPORT LAYOUT
+   ========================================================= */
+
+body[data-page="messages"] {
+  height: 100vh;
+  overflow: hidden;
+}
+
+body[data-page="messages"] .mvp-main {
+  height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+body[data-page="messages"] #app {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+body[data-page="messages"] .message-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 16px;
+
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* LEFT SIDE - CONVERSATIONS */
+
+body[data-page="messages"] .message-layout > section:first-child {
+  display: flex;
+  flex-direction: column;
+
+  min-height: 0;
+  overflow: hidden;
+}
+
+body[data-page="messages"] .message-layout > section:first-child > div {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* RIGHT SIDE - ACTIVE CHAT */
+
+body[data-page="messages"] .message-layout > section:last-child {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+  min-height: 0;
+
+  overflow: hidden;
+}
+
+/* Conversation name */
+
+body[data-page="messages"] .message-layout > section:last-child > h2 {
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   MESSAGE THREAD
+   Only this area scrolls
+   ========================================================= */
+
+body[data-page="messages"] .message-thread {
+  flex: 1;
+
+  min-height: 0;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding-right: 6px;
+
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+}
+
+/* Prevent message cards from shrinking */
+
+body[data-page="messages"] .message-thread > article {
+  flex-shrink: 0;
+}
+
+/* Long messages should wrap instead of expanding page */
+
+body[data-page="messages"] .message-thread p {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* =========================================================
+   SEND MESSAGE FORM
+   Always stays visible at bottom
+   ========================================================= */
+
+body[data-page="messages"] .message-layout > section:last-child > form {
+  flex-shrink: 0;
+
+  margin-top: 12px;
+
+  background: #ffffff;
+
+  position: relative;
+  z-index: 2;
+}
+
+body[data-page="messages"] .message-layout > section:last-child > form label {
+  display: block;
+}
+
+body[data-page="messages"] .message-layout > section:last-child > form textarea {
+  width: 100%;
+
+  min-height: 60px;
+  max-height: 120px;
+
+  resize: vertical;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  body[data-page="messages"] {
+    overflow: auto;
+  }
+
+  body[data-page="messages"] .mvp-main {
+    height: auto;
+    min-height: calc(100vh - 60px);
+    overflow: visible;
+  }
+
+  body[data-page="messages"] #app {
+    overflow: visible;
+  }
+
+  body[data-page="messages"] .message-layout {
+    display: flex;
+    flex-direction: column;
+
+    height: auto;
+    overflow: visible;
+  }
+
+  body[data-page="messages"] .message-layout > section:first-child {
+    max-height: 220px;
+  }
+
+  body[data-page="messages"] .message-layout > section:last-child {
+    min-height: 500px;
+  }
+
+  body[data-page="messages"] .message-thread {
+    min-height: 300px;
+    max-height: 55vh;
+  }
+}
