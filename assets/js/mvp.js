@@ -205,14 +205,8 @@
     });
     await run(refreshConversations);
     await run(loadMessages);
-    let polling = false;
-    setInterval(async () => {
-      if (document.hidden || polling) return;
-      polling = true;
-      try { await refreshConversations(); await loadMessages(); }
-      catch (e) { showNotice(e.message); }
-      finally { polling = false; }
-    }, 4000);
+    // Automatic polling temporarily disabled.
+// Messages are loaded after sending and when selecting a conversation.
   }
 
   if (page === 'resources') {
