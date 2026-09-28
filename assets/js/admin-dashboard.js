@@ -80,7 +80,57 @@
         });
 
       });
+    // =====================================================
+    // 7. APPROVE / REJECT BUTTONS
+    // =====================================================
 
+    const approvalList =
+      document.getElementById('approvalList');
+
+    if (approvalList) {
+
+      approvalList.addEventListener('click', async function (e) {
+
+        const approveButton =
+          e.target.closest('[data-approve-id]');
+
+        const rejectButton =
+          e.target.closest('[data-reject-id]');
+
+
+        // APPROVE
+        if (approveButton) {
+
+          const approvalId =
+            Number(approveButton.dataset.approveId);
+
+          await processApproval(
+            approvalId,
+            'approve',
+            approveButton
+          );
+
+          return;
+        }
+
+
+        // REJECT
+        if (rejectButton) {
+
+          const approvalId =
+            Number(rejectButton.dataset.rejectId);
+
+          await processApproval(
+            approvalId,
+            'reject',
+            rejectButton
+          );
+
+        }
+
+      });
+
+    }
 
   } catch (err) {
 
