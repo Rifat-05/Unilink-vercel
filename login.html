@@ -513,40 +513,80 @@
 
 </body>
 <script src="assets/js/api.js?v=2"></script>
+
 <script>
 const loginForm = document.getElementById('loginForm');
+
 const loginMessage = document.createElement('div');
-loginMessage.setAttribute('role','status');
-loginMessage.style.cssText='margin:0 0 14px;font-weight:700;color:#b42318';
+loginMessage.setAttribute('role', 'status');
+loginMessage.style.cssText =
+  'margin:0 0 14px;font-weight:700;color:#b42318';
+
 loginForm.prepend(loginMessage);
-loginForm.addEventListener('submit', async function(e) {
+
+loginForm.addEventListener('submit', async function (e) {
   e.preventDefault();
-  loginMessage.textContent='';
-  const submit=this.querySelector('button[type="submit"]');
-  submit.disabled=true;
+
+  loginMessage.textContent = '';
+
+  const submit =
+    this.querySelector('button[type="submit"]');
+
+  submit.disabled = true;
+
   try {
-    await UniLinkAPI.post('/auth/login', {
-      email: document.getElementById('email').value.trim(),
-      password: document.getElementById('password').value
-    });
-    const next = new URLSearchParams(location.search).get('next');
+
+    const result = await UniLinkAPI.post(
+      '/auth/login',
+      {
+        email:
+          document
+            .getElementById('email')
+            .value
+            .trim(),
+
+        password:
+          document
+            .getElementById('password')
+            .value
+      }
+    );
+
     const user = result.user;
 
-if (user.account_type === 'super_admin') {
+    const next =
+      new URLSearchParams(
+        location.search
+      ).get('next');
 
-    location.href = 'admin-dashboard.html';
+    // Super Admin
+    if (
+      user.account_type ===
+      'super_admin'
+    ) {
+      location.href =
+        'admin-dashboard.html';
 
-} else {
+      return;
+    }
 
+    // Normal student/user
     location.href =
-        next && next.startsWith('/')
-            ? next
-            : 'unilink_main_feed.html';
+      next &&
+      next.startsWith('/')
+        ? next
+        : 'unilink_main_feed.html';
 
-};
   } catch (err) {
-    loginMessage.textContent=err.message;
-  } finally { submit.disabled=false; }
+
+    loginMessage.textContent =
+      err.message;
+
+  } finally {
+
+    submit.disabled = false;
+
+  }
 });
 </script>
 </html>
