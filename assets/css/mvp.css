@@ -413,3 +413,284 @@ body[data-page="messages"] .message-layout > section:last-child > form textarea 
     max-height: 55vh;
   }
 }
+/* =========================================================
+   UNILINK - GLOBAL MOBILE RESPONSIVE LAYER
+   ========================================================= */
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img,
+video,
+iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .mvp-main {
+    width: 100%;
+    max-width: 100%;
+    margin: 16px auto;
+    padding: 16px;
+  }
+
+  .mvp-main article,
+  .mvp-main form,
+  .mvp-main section {
+    max-width: 100%;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  /* ---------- NAVIGATION ---------- */
+
+  .mvp-nav {
+    width: 100%;
+    flex-wrap: nowrap;
+
+    gap: 8px;
+
+    padding: 10px 12px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    white-space: nowrap;
+
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: none;
+  }
+
+  .mvp-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mvp-nav strong {
+    font-size: 21px;
+    flex-shrink: 0;
+
+    margin-right: 5px;
+  }
+
+  .mvp-nav a {
+    flex-shrink: 0;
+
+    font-size: 13px;
+
+    padding: 8px 10px;
+
+    border-radius: 7px;
+
+    background: #f8fafc;
+  }
+
+  .mvp-nav button {
+    flex-shrink: 0;
+
+    font-size: 13px;
+
+    padding: 8px 12px;
+
+    margin: 0;
+  }
+
+
+  /* ---------- MAIN CONTENT ---------- */
+
+  .mvp-main {
+    width: 100%;
+
+    margin: 0 auto;
+
+    padding: 12px;
+  }
+
+  .mvp-main h1 {
+    font-size: 24px;
+
+    line-height: 1.25;
+
+    margin-top: 8px;
+    margin-bottom: 10px;
+  }
+
+  .mvp-main h2 {
+    font-size: 19px;
+  }
+
+  .mvp-main h3 {
+    overflow-wrap: anywhere;
+  }
+
+
+  /* ---------- CARDS ---------- */
+
+  .mvp-main article,
+  .mvp-main form,
+  .mvp-main section {
+    width: 100%;
+    max-width: 100%;
+
+    padding: 14px;
+
+    margin: 10px 0;
+
+    border-radius: 11px;
+
+    overflow-wrap: anywhere;
+  }
+
+
+  /* ---------- FORMS ---------- */
+
+  .mvp-main input,
+  .mvp-main textarea,
+  .mvp-main select {
+    width: 100%;
+
+    max-width: 100%;
+
+    font-size: 16px;
+
+    padding: 11px;
+
+    margin-bottom: 13px;
+  }
+
+  .mvp-main textarea {
+    min-height: 95px;
+  }
+
+  .mvp-main button {
+    max-width: 100%;
+
+    min-height: 42px;
+
+    padding: 10px 14px;
+
+    white-space: normal;
+  }
+
+
+  /* ---------- TEXT ---------- */
+
+  .mvp-main p,
+  .mvp-main a,
+  .mvp-main small {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+
+  /* ---------- MESSAGING ---------- */
+
+  .message-layout {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    gap: 12px;
+  }
+
+  .message-layout > section {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .message-thread {
+    width: 100%;
+
+    min-height: 280px;
+    max-height: 55vh;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .message-thread article {
+    width: auto;
+
+    max-width: 88%;
+
+    padding: 10px 12px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  .mvp-main {
+    padding: 10px;
+  }
+
+  .mvp-main h1 {
+    font-size: 22px;
+  }
+
+  .mvp-main article,
+  .mvp-main form,
+  .mvp-main section {
+    padding: 12px;
+  }
+
+  .mvp-nav {
+    padding: 9px 10px;
+  }
+
+  .mvp-nav strong {
+    font-size: 20px;
+  }
+
+  .message-thread article {
+    max-width: 92%;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+  .mvp-main {
+    padding: 8px;
+  }
+
+  .mvp-main article,
+  .mvp-main form,
+  .mvp-main section {
+    padding: 10px;
+  }
+
+  .mvp-nav a {
+    padding: 7px 8px;
+    font-size: 12px;
+  }
+
+}
