@@ -576,6 +576,100 @@ if (
         'user' => $u
     ]);
 }
+// ---------------------------------------------------------
+// Current Super Admin
+// ---------------------------------------------------------
+
+if (
+    $path === '/api/admin/me' &&
+    $method === 'GET'
+) {
+    $u = require_user($pdo);
+
+    require_role(
+        $u,
+        ['super_admin']
+    );
+
+    unset(
+        $u['password_hash']
+    );
+
+    json_response([
+        'user' => $u
+    ]);
+}
+
+
+// ---------------------------------------------------------
+// Super Admin Dashboard Statistics
+// ---------------------------------------------------------
+
+if (
+    $path === '/api/admin/stats' &&
+    $method === 'GET'
+) {
+    $u = require_user($pdo);
+
+    require_role(
+        $u,
+        ['super_admin']
+    );
+
+    $stats = [];
+
+    $stats['students'] = (int)$pdo
+        ->query(
+            "SELECT COUNT(*)
+             FROM users
+             WHERE account_type='student'"
+        )
+        ->fetchColumn();
+
+    $stats['clubs'] = (int)$pdo
+        ->query(
+            "SELECT COUNT(*)
+             FROM clubs
+             WHERE status='active'"
+        )
+        ->fetchColumn();
+
+    $stats['companies'] = (int)$pdo
+        ->query(
+            "SELECT COUNT(*)
+             FROM companies
+             WHERE status='active'"
+        )
+        ->fetchColumn();
+
+    $stats['universities'] = (int)$pdo
+        ->query(
+            "SELECT COUNT(*)
+             FROM universities
+             WHERE status='active'"
+        )
+        ->fetchColumn();
+
+    $stats['jobs'] = (int)$pdo
+        ->query(
+            "SELECT COUNT(*)
+             FROM jobs
+             WHERE status='active'"
+        )
+        ->fetchColumn();
+
+    $stats['resources'] = (int)$pdo
+        ->query(
+            "SELECT COUNT(*)
+             FROM resources
+             WHERE status='active'"
+        )
+        ->fetchColumn();
+
+    json_response([
+        'stats' => $stats
+    ]);
+}
 
 // ---------------------------------------------------------
 // Profile
