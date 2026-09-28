@@ -761,6 +761,184 @@ if (
 }
 
 // ---------------------------------------------------------
+// Super Admin - Approve / Reject Approval Request
+// ---------------------------------------------------------
+
+if (
+    preg_match(
+        '#^/api/admin/approvals/(\d+)/(approve|reject)$#',
+        $path,
+        $m
+    ) &&
+    $method === 'POST'
+) {
+    $u = require_user($pdo);
+    require_role($u, ['super_admin']);
+
+    $approvalId = (int)$m[1];
+    $action = $m[2];
+
+    if ($approvalId <= 0) {
+        json_response(
+            ['error' => 'Invalid approval request.'],
+            422
+        );
+    }
+
+    try {
+
+        $pdo->beginTransaction();
+
+        // Lock the approval request while processing it
+        $stmt = $pdo->prepare(
+            "SELECT
+                approval_id,
+                requester_user_id,
+                entity_type,
+                entity_id,
+                status
+             FROM approval_requests
+             WHERE approval_id = ?
+             FOR UPDATE"
+        );
+
+        $stmt->execute([$approvalId]);
+
+        $approval = $stmt->fetch();
+
+        if (!$approval) {
+            $pdo->rollBack();
+
+            json_response(
+                ['error' => 'Approval request not found.'],
+                404
+            );
+        }
+
+        // Prevent approving/rejecting the same request twice
+        if ($approval['status'] !== 'pending') {
+            $pdo->rollBack();
+
+            json_response(
+                ['error' => 'This request has already been reviewed.'],
+                409
+            );
+        }
+
+        $entityType = $approval['entity_type'];
+        $entityId = (int)$approval['entity_id'];
+
+        if (!in_array($entityType, ['company', 'club'], true)) {
+            $pdo->rollBack();
+
+            json_response(
+                ['error' => 'Unsupported approval type.'],
+                422
+            );
+        }
+
+        $entityStatus =
+            $action === 'approve'
+                ? 'active'
+                : 'rejected';
+
+        $requestStatus =
+            $action === 'approve'
+                ? 'approved'
+                : 'rejected';
+
+
+        // ---------------------------------------------
+        // Update company or club
+        // ---------------------------------------------
+
+        if ($entityType === 'company') {
+
+            $entityStmt = $pdo->prepare(
+                "UPDATE companies
+                 SET status = ?
+                 WHERE company_id = ?"
+            );
+
+        } else {
+
+            $entityStmt = $pdo->prepare(
+                "UPDATE clubs
+                 SET status = ?
+                 WHERE club_id = ?"
+            );
+
+        }
+
+        $entityStmt->execute([
+            $entityStatus,
+            $entityId
+        ]);
+
+        if ($entityStmt->rowCount() !== 1) {
+            $pdo->rollBack();
+
+            json_response(
+                ['error' => 'The company or club could not be found.'],
+                404
+            );
+        }
+
+
+        // ---------------------------------------------
+        // Update approval request
+        // ---------------------------------------------
+
+        $reviewStmt = $pdo->prepare(
+            "UPDATE approval_requests
+             SET
+                status = ?,
+                reviewer_user_id = ?,
+                reviewed_at = NOW()
+             WHERE approval_id = ?
+             AND status = 'pending'"
+        );
+
+        $reviewStmt->execute([
+            $requestStatus,
+            (int)$u['user_id'],
+            $approvalId
+        ]);
+
+        if ($reviewStmt->rowCount() !== 1) {
+            $pdo->rollBack();
+
+            json_response(
+                ['error' => 'The approval request could not be updated.'],
+                409
+            );
+        }
+
+        $pdo->commit();
+
+        json_response([
+            'ok' => true,
+            'message' =>
+                $action === 'approve'
+                    ? 'Request approved successfully.'
+                    : 'Request rejected successfully.',
+            'approval_id' => $approvalId,
+            'entity_type' => $entityType,
+            'entity_id' => $entityId,
+            'status' => $requestStatus
+        ]);
+
+    } catch (Throwable $e) {
+
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+
+        throw $e;
+    }
+}
+
+// ---------------------------------------------------------
 // Profile
 // ---------------------------------------------------------
 
