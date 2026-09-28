@@ -673,6 +673,94 @@ $stats['companies'] = (int)$pdo
 }
 
 // ---------------------------------------------------------
+// Super Admin - Pending Approval Queue
+// ---------------------------------------------------------
+
+if (
+    $path === '/api/admin/approvals' &&
+    $method === 'GET'
+) {
+    $u = require_user($pdo);
+
+    require_role(
+        $u,
+        ['super_admin']
+    );
+
+    $s = $pdo->query(
+        "SELECT
+            ar.approval_id,
+            ar.requester_user_id,
+            ar.entity_type,
+            ar.entity_id,
+            ar.status,
+            ar.created_at,
+
+            u.full_name AS requester_name,
+            u.email AS requester_email,
+
+            CASE
+                WHEN ar.entity_type = 'company'
+                    THEN c.name
+                WHEN ar.entity_type = 'club'
+                    THEN cl.name
+                ELSE NULL
+            END AS entity_name,
+
+            CASE
+                WHEN ar.entity_type = 'company'
+                    THEN c.description
+                WHEN ar.entity_type = 'club'
+                    THEN cl.description
+                ELSE NULL
+            END AS description,
+
+            CASE
+                WHEN ar.entity_type = 'company'
+                    THEN c.status
+                WHEN ar.entity_type = 'club'
+                    THEN cl.status
+                ELSE NULL
+            END AS entity_status,
+
+            c.industry AS company_industry,
+            c.website AS company_website,
+            c.location AS company_location,
+
+            cl.category AS club_category,
+            cl.university_id AS club_university_id,
+
+            uni.name AS university_name
+
+         FROM approval_requests ar
+
+         JOIN users u
+            ON u.user_id = ar.requester_user_id
+
+         LEFT JOIN companies c
+            ON ar.entity_type = 'company'
+            AND c.company_id = ar.entity_id
+
+         LEFT JOIN clubs cl
+            ON ar.entity_type = 'club'
+            AND cl.club_id = ar.entity_id
+
+         LEFT JOIN universities uni
+            ON uni.university_id = cl.university_id
+
+         WHERE ar.status = 'pending'
+
+         ORDER BY
+            ar.created_at DESC,
+            ar.approval_id DESC"
+    );
+
+    json_response([
+        'items' => $s->fetchAll()
+    ]);
+}
+
+// ---------------------------------------------------------
 // Profile
 // ---------------------------------------------------------
 
