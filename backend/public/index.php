@@ -618,30 +618,23 @@ if (
 
     $stats = [];
 
+    // Real student count
     $stats['students'] = (int)$pdo
         ->query(
             "SELECT COUNT(*)
              FROM users
-             WHERE account_type='student'"
+             WHERE account_type='student'
+             AND account_status='active'"
         )
         ->fetchColumn();
 
-    $stats['clubs'] = (int)$pdo
-        ->query(
-            "SELECT COUNT(*)
-             FROM clubs
-             WHERE status='active'"
-        )
-        ->fetchColumn();
+    // Clubs table has not been implemented in production yet
+    $stats['clubs'] = 0;
 
-    $stats['companies'] = (int)$pdo
-        ->query(
-            "SELECT COUNT(*)
-             FROM companies
-             WHERE status='active'"
-        )
-        ->fetchColumn();
+    // Companies table has not been implemented in production yet
+    $stats['companies'] = 0;
 
+    // Real university count
     $stats['universities'] = (int)$pdo
         ->query(
             "SELECT COUNT(*)
@@ -650,14 +643,10 @@ if (
         )
         ->fetchColumn();
 
-    $stats['jobs'] = (int)$pdo
-        ->query(
-            "SELECT COUNT(*)
-             FROM jobs
-             WHERE status='active'"
-        )
-        ->fetchColumn();
+    // Jobs table has not been implemented in production yet
+    $stats['jobs'] = 0;
 
+    // Real resource count
     $stats['resources'] = (int)$pdo
         ->query(
             "SELECT COUNT(*)
