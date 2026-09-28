@@ -198,7 +198,98 @@
 
   }
 
+  // =======================================================
+  // PROCESS APPROVAL / REJECTION
+  // =======================================================
 
+  async function processApproval(
+    approvalId,
+    action,
+    button
+  ) {
+
+    if (!approvalId) return;
+
+
+    const item =
+      approvals.find(
+        approval =>
+          Number(approval.approval_id) === approvalId
+      );
+
+    if (!item) {
+      alert('Approval request could not be found.');
+      return;
+    }
+
+
+    const entityName =
+      item.entity_name || 'this request';
+
+    const actionText =
+      action === 'approve'
+        ? 'approve'
+        : 'reject';
+
+
+    const confirmed =
+      window.confirm(
+        `Are you sure you want to ${actionText} "${entityName}"?`
+      );
+
+    if (!confirmed) return;
+
+
+    const originalText =
+      button.textContent;
+
+    button.disabled = true;
+
+    button.textContent =
+      action === 'approve'
+        ? 'Approving...'
+        : 'Rejecting...';
+
+
+    try {
+
+      await UniLinkAPI.post(
+        `/admin/approvals/${approvalId}/${action}`,
+        {}
+      );
+
+
+      // Reload the real pending queue
+      await loadApprovals();
+
+
+      // Reload dashboard counts because approving a
+      // company/club changes the active entity totals.
+      await loadDashboardStats();
+
+
+    } catch (err) {
+
+      console.error(
+        `Unable to ${action} request:`,
+        err
+      );
+
+      alert(
+        err.message ||
+        `Unable to ${action} this request.`
+      );
+
+
+      // The card may still exist after a failed request.
+      if (document.body.contains(button)) {
+        button.disabled = false;
+        button.textContent = originalText;
+      }
+
+    }
+
+  }
 
   // =======================================================
   // LOAD APPROVALS
