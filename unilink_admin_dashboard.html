@@ -1079,7 +1079,7 @@
       <div class="sidebar-footer">
         <a href="#" class="sidebar-footer-link">⚙ Settings</a>
         <a href="#" class="sidebar-footer-link">↩ Back to UniLink</a>
-        <a href="#" class="sidebar-footer-link danger">🚪 Logout</a>
+        <a href="#" id="adminLogout" class="sidebar-footer-link danger">🚪 Logout</a>
       </div>
     </aside>
 
@@ -1108,7 +1108,7 @@
           <div class="user-profile-widget">
             <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Admin User" class="user-avatar-img">
             <div class="user-details">
-              <span class="user-name-text">Admin User</span>
+              <span class="user-name-text" data-admin-name>Admin User</span>
               <span class="user-uni-text">Super Admin</span>
             </div>
           </div>
@@ -1420,6 +1420,10 @@
     </main>
 
   </div>
+
+<script src="assets/js/api.js?v=2"></script>
+<script src="assets/js/admin-auth.js?v=1"></script>
+<script src="assets/js/admin-dashboard.js?v=1"></script>
 
 </body>
 </html>
