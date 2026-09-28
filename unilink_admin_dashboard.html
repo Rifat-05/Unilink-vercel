@@ -1220,79 +1220,65 @@
 
         </div>
 
-        <section class="section-card">
-          <div class="section-header-row">
-            <div class="section-title-wrap">
-              <h2 class="section-title">
-                <span class="dot-warning"></span>
-                <span>Pending Verification Queue</span>
-              </h2>
-              <span class="badge-action-req">2 Action Required</span>
-            </div>
+        <section class="section-card" id="approvalSection">
 
-            <div class="filter-tabs">
-              <button class="tab-item active">All (2)</button>
-              <button class="tab-item">Companies (1)</button>
-              <button class="tab-item">Clubs (1)</button>
-            </div>
-          </div>
+  <div class="section-header-row">
 
-          <div class="verification-list">
-            
-            <!-- Pending Item 1: Brain Station 23 -->
-            <div class="verification-item-card">
-              <div class="item-left-col">
-                <div class="item-tags-row">
-                  <span class="tag-pending-rev">● Pending Review</span>
-                  <span class="tag-category-cyan">Company Account</span>
-                  <span class="time-subtext">10 minutes ago</span>
-                </div>
-                <h3 class="item-entity-name">Brain Station 23</h3>
-                <p class="item-detail-info">Software Development &amp; Enterprise IT Services • Head of Campus Talent: Tanvir Rahman</p>
-                <div class="item-contact-bar">
-                  <span>✉ <a href="mailto:hr@brainstation23.com" class="contact-link">hr@brainstation23.com</a></span>
-                  <span>|</span>
-                  <span>🌐 <a href="https://brainstation23.com" target="_blank" class="contact-link">brainstation23.com</a></span>
-                  <span>|</span>
-                  <span>📍 Gulshan-1, Dhaka</span>
-                </div>
-              </div>
+    <div class="section-title-wrap">
+      <h2 class="section-title">
+        <span class="dot-warning"></span>
+        <span>Pending Verification Queue</span>
+      </h2>
 
-              <div class="item-right-actions">
-                <button class="btn-action-outline">Review Details</button>
-                <button class="btn-action-approve">✓ Approve</button>
-                <button class="btn-action-reject">Reject</button>
-              </div>
-            </div>
+      <span
+        class="badge-action-req"
+        id="approvalActionCount"
+      >
+        0 Action Required
+      </span>
+    </div>
 
-            <!-- Pending Item 2: NSU Robotics Club -->
-            <div class="verification-item-card">
-              <div class="item-left-col">
-                <div class="item-tags-row">
-                  <span class="tag-pending-rev">● Pending Review</span>
-                  <span class="tag-category-purple">Student Club</span>
-                  <span class="time-subtext">1 hour ago</span>
-                </div>
-                <h3 class="item-entity-name">NSU Robotics Club</h3>
-                <p class="item-detail-info">Technology &amp; Engineering • University: North South University • Requester: Rahim Ahmed (President)</p>
-                <div class="item-contact-bar">
-                  <span>Student ID: 2121048</span>
-                  <span>|</span>
-                  <span>✉ <a href="mailto:rahim.ahmed@northsouth.edu" class="contact-link">rahim.ahmed@northsouth.edu</a> <span class="badge-verified-otp">Verified OTP</span></span>
-                  <span>|</span>
-                  <span class="badge-advisor-approved">✓ Faculty Advisor Approved</span>
-                </div>
-              </div>
+    <div class="filter-tabs">
 
-              <div class="item-right-actions">
-                <button class="btn-action-outline">Review Details</button>
-                <button class="btn-action-approve">✓ Approve</button>
-                <button class="btn-action-reject">Reject</button>
-              </div>
-            </div>
+      <button
+        class="tab-item active"
+        data-approval-filter="all"
+      >
+        All (0)
+      </button>
 
-          </div>
-        </section>
+      <button
+        class="tab-item"
+        data-approval-filter="company"
+      >
+        Companies (0)
+      </button>
+
+      <button
+        class="tab-item"
+        data-approval-filter="club"
+      >
+        Clubs (0)
+      </button>
+
+    </div>
+
+  </div>
+
+  <div
+    class="verification-list"
+    id="approvalList"
+  >
+    <div style="
+      padding:20px;
+      text-align:center;
+      color:var(--text-muted);
+    ">
+      Loading pending approvals...
+    </div>
+  </div>
+
+</section>
 
         <div class="bottom-two-column-grid">
           
