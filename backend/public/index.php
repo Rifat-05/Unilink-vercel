@@ -628,11 +628,23 @@ if (
         )
         ->fetchColumn();
 
-    // Clubs table has not been implemented in production yet
-    $stats['clubs'] = 0;
+    // Real active club count
+$stats['clubs'] = (int)$pdo
+    ->query(
+        "SELECT COUNT(*)
+         FROM clubs
+         WHERE status='active'"
+    )
+    ->fetchColumn();
 
-    // Companies table has not been implemented in production yet
-    $stats['companies'] = 0;
+// Real active company count
+$stats['companies'] = (int)$pdo
+    ->query(
+        "SELECT COUNT(*)
+         FROM companies
+         WHERE status='active'"
+    )
+    ->fetchColumn();
 
     // Real university count
     $stats['universities'] = (int)$pdo
