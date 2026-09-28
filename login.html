@@ -530,7 +530,20 @@ loginForm.addEventListener('submit', async function(e) {
       password: document.getElementById('password').value
     });
     const next = new URLSearchParams(location.search).get('next');
-    location.href = next && next.startsWith('/') ? next : 'unilink_main_feed.html';
+    const user = result.user;
+
+if (user.account_type === 'super_admin') {
+
+    location.href = 'admin-dashboard.html';
+
+} else {
+
+    location.href =
+        next && next.startsWith('/')
+            ? next
+            : 'unilink_main_feed.html';
+
+};
   } catch (err) {
     loginMessage.textContent=err.message;
   } finally { submit.disabled=false; }
