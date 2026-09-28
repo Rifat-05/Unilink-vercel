@@ -328,6 +328,143 @@
       background-color: #10b981;
       border-radius: 50%;
     }
+    /* =========================================================
+   MOBILE RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  body {
+    min-height: 100dvh;
+    padding: 20px 14px;
+    align-items: flex-start;
+  }
+
+  .page-wrapper {
+    max-width: 100%;
+  }
+
+  .card {
+    padding: 28px 20px;
+    border-radius: 16px;
+  }
+
+  .brand-header {
+    margin-bottom: 22px;
+  }
+
+  .logo-container {
+    margin-bottom: 12px;
+  }
+
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .logo-text {
+    font-size: 25px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
+  .tab {
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-input {
+    font-size: 16px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+  }
+
+  .form-options {
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 12px;
+  }
+
+  .forgot-link {
+    max-width: 55%;
+    text-align: right;
+    line-height: 1.35;
+  }
+
+  .btn-submit {
+    min-height: 48px;
+  }
+
+  .info-banner {
+    align-items: flex-start;
+    font-size: 12px;
+  }
+
+  .features-list {
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .feature-dot {
+    display: none;
+  }
+
+  .feature-item {
+    font-size: 10px;
+  }
+
+  .status-pill {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+}
+
+
+/* Very small phones */
+
+@media (max-width: 380px) {
+
+  body {
+    padding: 12px 10px;
+  }
+
+  .card {
+    padding: 24px 16px;
+  }
+
+  .logo-text {
+    font-size: 23px;
+  }
+
+  .tab {
+    font-size: 12px;
+    gap: 5px;
+  }
+
+  .form-options {
+    flex-direction: column;
+  }
+
+  .forgot-link {
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .features-list {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+}
   </style>
 </head>
 <body>
