@@ -931,7 +931,428 @@
         margin-top: 16px;
       }
     }
+    /* =========================================================
+   STUDENT PROFILE - MOBILE RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Legacy profile layout protection */
+
+  .app-container {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .main-wrapper {
+    width: 100%;
+    min-width: 0;
+  }
+
+
+  /* ---------- TOP NAVBAR ---------- */
+
+  .top-navbar {
+    width: 100%;
+    padding: 10px 14px;
+    gap: 10px;
+  }
+
+  .top-search {
+    min-width: 0;
+  }
+
+  .top-search input {
+    font-size: 16px;
+  }
+
+  .navbar-right {
+    gap: 8px;
+  }
+
+  .user-profile .user-name,
+  .user-profile .user-univ {
+    display: none;
+  }
+
+
+  /* ---------- CONTENT ---------- */
+
+  .content-container {
+    width: 100%;
+    max-width: 100%;
+
+    padding: 16px;
+
+    gap: 16px;
+  }
+
+
+  /* ---------- PROFILE HERO ---------- */
+
+  .hero-banner {
+    height: 130px;
+  }
+
+  .hero-content {
+    padding: 0 20px 22px;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 10px;
+  }
+
+  .hero-avatar-wrapper {
+    margin-top: -48px;
+    margin-bottom: 8px;
+  }
+
+  .profile-avatar {
+    width: 96px;
+    height: 96px;
+  }
+
+  .avatar-verified-badge {
+    width: 22px;
+    height: 22px;
+  }
+
+  .name-row {
+    flex-wrap: wrap;
+  }
+
+  .profile-name {
+    font-size: 22px;
+  }
+
+  .profile-meta-row {
+    flex-wrap: wrap;
+
+    gap: 6px 10px;
+  }
+
+  .email-row {
+    max-width: 100%;
+
+    overflow-wrap: anywhere;
+  }
+
+  .action-buttons-group {
+    width: 100%;
+
+    margin-top: 12px;
+
+    flex-wrap: wrap;
+  }
+
+  .btn-edit-profile,
+  .btn-share-profile {
+    flex: 1;
+
+    justify-content: center;
+
+    min-height: 42px;
+  }
+
+
+  /* ---------- PROFILE STATS ---------- */
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 12px;
+  }
+
+  .stat-card,
+  .stat-card-blue-hero {
+    min-width: 0;
+
+    padding: 16px;
+  }
+
+  .stat-card {
+    gap: 10px;
+  }
+
+  .stat-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .stat-number {
+    font-size: 22px;
+  }
+
+
+  /* ---------- MAIN PROFILE LAYOUT ---------- */
+
+  .profile-layout {
+    grid-template-columns: 1fr;
+
+    gap: 16px;
+  }
+
+  .left-profile-col,
+  .right-profile-col {
+    width: 100%;
+    min-width: 0;
+  }
+
+
+  /* ---------- PROFILE TABS ---------- */
+
+  .tab-bar {
+    width: 100%;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    white-space: nowrap;
+
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: none;
+  }
+
+  .tab-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab-button {
+    flex-shrink: 0;
+  }
+
+
+  /* ---------- RESOURCE HEADER ---------- */
+
+  .resource-list-header {
+    gap: 10px;
+
+    flex-wrap: wrap;
+  }
+
+
+  /* ---------- RESOURCE CARDS ---------- */
+
+  .profile-resource-card {
+    width: 100%;
+
+    padding: 16px;
+  }
+
+  .card-tags-row {
+    gap: 10px;
+
+    flex-wrap: wrap;
+  }
+
+  .left-tags {
+    flex-wrap: wrap;
+  }
+
+  .resource-title {
+    overflow-wrap: anywhere;
+  }
+
+  .resource-meta {
+    flex-wrap: wrap;
+  }
+
+  .card-actions-row {
+    flex-wrap: wrap;
+  }
+
+
+  /* ---------- ACTIVITY ---------- */
+
+  .activity-card {
+    padding: 18px;
+  }
+
+  .activity-header {
+    gap: 10px;
+
+    flex-wrap: wrap;
+  }
+
+  .timeline-text,
+  .timeline-subtext {
+    overflow-wrap: anywhere;
+  }
+
+
+  /* ---------- PROFILE WIDGETS ---------- */
+
+  .profile-widget {
+    width: 100%;
+
+    padding: 18px;
+  }
+
+  .course-item {
+    gap: 10px;
+
+    align-items: flex-start;
+  }
+
+  .course-badge-row {
+    min-width: 0;
+
+    flex-wrap: wrap;
+  }
+
+  .skills-flex {
+    width: 100%;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  .content-container {
+    padding: 12px;
+  }
+
+  .hero-banner {
+    height: 110px;
+  }
+
+  .hero-content {
+    padding: 0 16px 18px;
+  }
+
+  .hero-avatar-wrapper {
+    margin-top: -42px;
+  }
+
+  .profile-avatar {
+    width: 84px;
+    height: 84px;
+  }
+
+  .profile-name {
+    font-size: 20px;
+  }
+
+  .profile-sub {
+    font-size: 13px;
+  }
+
+
+  /* Stats become one per row on small phones */
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card,
+  .stat-card-blue-hero {
+    min-height: 76px;
+  }
+
+
+  /* Profile buttons */
+
+  .action-buttons-group {
+    flex-direction: column;
+  }
+
+  .btn-edit-profile,
+  .btn-share-profile {
+    width: 100%;
+  }
+
+
+  /* Resources */
+
+  .profile-resource-card {
+    padding: 14px;
+  }
+
+  .card-actions-row {
+    flex-direction: column;
+  }
+
+  .btn-view-doc,
+  .btn-edit-doc {
+    width: 100%;
+
+    justify-content: center;
+  }
+
+
+  /* Activity */
+
+  .activity-card {
+    padding: 16px;
+  }
+
+  .activity-timeline {
+    padding-left: 26px;
+  }
+
+
+  /* Widgets */
+
+  .profile-widget {
+    padding: 16px;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+  .content-container {
+    padding: 10px;
+  }
+
+  .hero-content {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .profile-name {
+    font-size: 19px;
+  }
+
+  .profile-meta-row {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .stat-card,
+  .stat-card-blue-hero,
+  .profile-resource-card,
+  .activity-card,
+  .profile-widget {
+    padding: 14px;
+  }
+
+}
   </style>
-<link rel="stylesheet" href="assets/css/mvp.css?v=2"></head>
+<link rel="stylesheet" href="assets/css/mvp.css?v=3"></head>
 <body data-page="profile"><nav class="mvp-nav" aria-label="Main navigation"><strong>UniLink</strong><a href="unilink_main_feed.html">Feed</a><a href="unilink-study-partners.html">Study Partners</a><a href="unilink_direct_messaging.html">Messages</a><a href="sharing-resources.html">Resources</a><a href="student-profile.html">Profile</a><button data-logout>Logout</button></nav><main class="mvp-main"><h1>My Profile</h1><p id="notice" role="status">Loading?</p><div id="app"></div></main><script src="assets/js/api.js?v=2"></script><script src="assets/js/auth.js?v=2"></script><script src="assets/js/mvp.js?v=2"></script></body>
 </html>
