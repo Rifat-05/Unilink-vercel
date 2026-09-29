@@ -1040,7 +1040,452 @@
         display: none;
       }
     }
+    /* =========================================================
+   DIRECT MESSAGING - MOBILE RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+
+  /* =======================================================
+     LEGACY MESSAGING DESIGN
+     ======================================================= */
+
+  .app-layout {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .main-content {
+    width: 100%;
+    min-width: 0;
+  }
+
+
+  /* ---------- OLD TOP HEADER ---------- */
+
+  .top-header {
+    width: 100%;
+
+    padding: 9px 12px;
+
+    gap: 8px;
+  }
+
+  .global-search {
+    width: auto;
+    min-width: 0;
+
+    flex: 1;
+  }
+
+  .global-search input {
+    width: 100%;
+
+    font-size: 16px;
+  }
+
+  .header-actions {
+    gap: 7px;
+  }
+
+  .user-details {
+    display: none;
+  }
+
+  .btn-share-resource {
+    padding: 7px 10px;
+
+    font-size: 11px;
+  }
+
+
+  /* ---------- MESSAGING WRAPPER ---------- */
+
+  .messaging-wrapper {
+    width: 100%;
+
+    min-width: 0;
+
+    height: calc(100dvh - 53px);
+  }
+
+
+  /* ---------- PAGE HEADER ---------- */
+
+  .page-sub-header {
+    padding: 12px 14px;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+  }
+
+  .page-title {
+    font-size: 18px;
+  }
+
+  .page-desc {
+    line-height: 1.4;
+  }
+
+  .header-btns {
+    flex-wrap: wrap;
+  }
+
+
+  /* ---------- CONVERSATION + CHAT ---------- */
+
+  .messaging-body {
+    width: 100%;
+
+    min-width: 0;
+
+    grid-template-columns: 1fr;
+  }
+
+  .conversations-panel,
+  .chat-window {
+    width: 100%;
+
+    min-width: 0;
+  }
+
+
+  /* ---------- CONVERSATION LIST ---------- */
+
+  .conv-search-box {
+    padding: 10px 12px 7px;
+  }
+
+  .conv-search-input-wrap input {
+    min-height: 42px;
+
+    font-size: 16px;
+  }
+
+  .conv-filter-tabs {
+    padding: 4px 12px 9px;
+
+    overflow-x: auto;
+
+    white-space: nowrap;
+
+    scrollbar-width: none;
+  }
+
+  .conv-filter-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter-tab {
+    flex-shrink: 0;
+  }
+
+  .conversation-list {
+    width: 100%;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .conv-item {
+    padding: 11px 12px;
+  }
+
+  .conv-details {
+    min-width: 0;
+  }
+
+  .conv-name {
+    min-width: 0;
+
+    overflow-wrap: anywhere;
+  }
+
+
+  /* ---------- CHAT HEADER ---------- */
+
+  .chat-header {
+    width: 100%;
+
+    padding: 9px 12px;
+
+    gap: 8px;
+  }
+
+  .chat-user-info {
+    min-width: 0;
+
+    gap: 8px;
+  }
+
+  .chat-avatar {
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+  }
+
+  .chat-title-group {
+    min-width: 0;
+  }
+
+  .chat-name-row {
+    min-width: 0;
+
+    flex-wrap: wrap;
+
+    gap: 4px;
+  }
+
+  .chat-user-name,
+  .chat-user-sub {
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+  }
+
+  .chat-header-actions {
+    flex-shrink: 0;
+
+    gap: 5px;
+  }
+
+
+  /* ---------- MESSAGE AREA ---------- */
+
+  .chat-body {
+    width: 100%;
+
+    padding: 12px;
+
+    gap: 12px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .msg-group {
+    max-width: 88%;
+  }
+
+  .msg-content-block {
+    min-width: 0;
+  }
+
+  .msg-bubble {
+    max-width: 100%;
+
+    padding: 9px 12px;
+
+    overflow-wrap: anywhere;
+
+    word-break: break-word;
+  }
+
+  .system-banner {
+    width: 100%;
+
+    align-items: flex-start;
+
+    overflow-wrap: anywhere;
+  }
+
+
+  /* ---------- INVITE CARDS ---------- */
+
+  .invite-widget-card {
+    width: 100%;
+    max-width: 320px;
+  }
+
+
+  /* ---------- MESSAGE INPUT ---------- */
+
+  .chat-footer {
+    width: 100%;
+
+    padding: 8px 10px 10px;
+
+    gap: 7px;
+  }
+
+  .quick-pills-row {
+    width: 100%;
+
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: none;
+  }
+
+  .quick-pills-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .input-box-wrapper {
+    width: 100%;
+
+    min-width: 0;
+  }
+
+  .chat-text-input {
+    min-width: 0;
+
+    font-size: 16px;
+  }
+
+  .btn-send-message {
+    flex-shrink: 0;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  .page-sub-header {
+    padding: 10px 12px;
+  }
+
+  .header-btns {
+    width: 100%;
+  }
+
+  .btn-circles,
+  .btn-new-msg {
+    flex: 1;
+
+    justify-content: center;
+  }
+
+
+  /* Chat */
+
+  .chat-header {
+    padding: 8px 10px;
+  }
+
+  .chat-avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .chat-user-name {
+    font-size: 13px;
+  }
+
+  .match-tag-pill {
+    font-size: 8px;
+  }
+
+  .btn-header-outline {
+    padding: 5px 7px;
+
+    font-size: 10px;
+  }
+
+
+  /* Messages */
+
+  .chat-body {
+    padding: 10px;
+
+    gap: 10px;
+  }
+
+  .msg-group {
+    max-width: 92%;
+
+    gap: 7px;
+  }
+
+  .msg-sender-avatar {
+    width: 25px;
+    height: 25px;
+  }
+
+  .msg-bubble {
+    font-size: 12px;
+
+    padding: 9px 11px;
+  }
+
+
+  /* Invite */
+
+  .invite-widget-card {
+    max-width: 100%;
+  }
+
+
+  /* Input */
+
+  .chat-footer {
+    padding: 7px 8px 9px;
+  }
+
+  .input-box-wrapper {
+    padding-left: 9px;
+  }
+
+  .btn-send-message {
+    padding: 7px 11px;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+  .btn-header-outline {
+    display: none;
+  }
+
+  .chat-body {
+    padding: 8px;
+  }
+
+  .msg-group {
+    max-width: 94%;
+  }
+
+  .msg-sender-avatar {
+    display: none;
+  }
+
+  .chat-footer-subtext {
+    display: none;
+  }
+
+}
+    
   </style>
-<link rel="stylesheet" href="assets/css/mvp.css?v=2"></head>
+<link rel="stylesheet" href="assets/css/mvp.css?v=3"></head>
 <body data-page="messages"><nav class="mvp-nav" aria-label="Main navigation"><strong>UniLink</strong><a href="unilink_main_feed.html">Feed</a><a href="unilink-study-partners.html">Study Partners</a><a href="unilink_direct_messaging.html">Messages</a><a href="sharing-resources.html">Resources</a><a href="student-profile.html">Profile</a><button data-logout>Logout</button></nav><main class="mvp-main"><h1>Messages</h1><p id="notice" role="status">Loading?</p><div id="app"></div></main><script src="assets/js/api.js?v=2"></script><script src="assets/js/auth.js?v=2"></script><script src="assets/js/mvp.js?v=2"></script></body>
 </html>
