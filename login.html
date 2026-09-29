@@ -659,6 +659,21 @@
 <script>
 const loginForm = document.getElementById('loginForm');
 
+// Show / hide password
+const passwordInput = document.getElementById('password');
+const passwordToggle = document.querySelector('.input-icon-right');
+
+passwordToggle.addEventListener('click', function () {
+  const isHidden = passwordInput.type === 'password';
+
+  passwordInput.type = isHidden ? 'text' : 'password';
+
+  passwordToggle.setAttribute(
+    'aria-label',
+    isHidden ? 'Hide password' : 'Show password'
+  );
+});
+
 const loginMessage = document.createElement('div');
 loginMessage.setAttribute('role', 'status');
 loginMessage.style.cssText =
