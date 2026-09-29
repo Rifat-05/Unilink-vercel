@@ -1256,7 +1256,466 @@
         grid-template-columns: 1fr;
       }
     }
+    /* =========================================================
+   STUDY PARTNERS - MOBILE RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* ---------- LEGACY PAGE LAYOUT ---------- */
+
+  .app-layout {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .main-content {
+    width: 100%;
+    min-width: 0;
+  }
+
+
+  /* ---------- OLD TOP HEADER ---------- */
+
+  .top-header {
+    width: 100%;
+
+    padding: 10px 14px;
+
+    gap: 10px;
+  }
+
+  .global-search {
+    width: auto;
+    min-width: 0;
+
+    flex: 1;
+  }
+
+  .global-search input {
+    width: 100%;
+
+    font-size: 16px;
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+
+  .user-details {
+    display: none;
+  }
+
+
+  /* ---------- PAGE CONTAINER ---------- */
+
+  .page-container {
+    width: 100%;
+    max-width: 100%;
+
+    padding: 16px;
+
+    gap: 16px;
+  }
+
+
+  /* ---------- HERO / FIND PARTNER ---------- */
+
+  .hero-banner {
+    width: 100%;
+
+    padding: 18px;
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 16px;
+  }
+
+  .banner-left {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .banner-title {
+    font-size: 19px;
+  }
+
+  .banner-controls {
+    width: 100%;
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 8px;
+  }
+
+  .banner-select-box {
+    width: 100%;
+
+    min-height: 42px;
+  }
+
+  .banner-select-box select {
+    width: 100%;
+
+    font-size: 16px;
+  }
+
+  .btn-find-partner-action {
+    width: 100%;
+
+    min-height: 42px;
+  }
+
+
+  /* ---------- PAGE TITLE / TABS ---------- */
+
+  .page-title-row {
+    width: 100%;
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 12px;
+  }
+
+  .title-group h2 {
+    font-size: 19px;
+  }
+
+  .toggle-tabs {
+    width: 100%;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    white-space: nowrap;
+
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: none;
+  }
+
+  .toggle-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab-btn {
+    flex-shrink: 0;
+  }
+
+
+  /* ---------- FILTER PANEL ---------- */
+
+  .filter-panel {
+    width: 100%;
+
+    padding: 14px;
+  }
+
+  .filter-search-input {
+    font-size: 16px;
+
+    min-height: 42px;
+  }
+
+  .filter-shortcut-kbd {
+    display: none;
+  }
+
+  .filter-chips-row {
+    width: 100%;
+
+    align-items: stretch;
+  }
+
+  .filter-select-dropdown {
+    max-width: 100%;
+
+    min-height: 36px;
+  }
+
+  .btn-clear-all {
+    margin-left: 0;
+  }
+
+  .common-skills-bar {
+    align-items: flex-start;
+  }
+
+  .filter-status-info {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+
+  /* ---------- MAIN CONTENT ---------- */
+
+  .content-grid {
+    width: 100%;
+
+    grid-template-columns: 1fr;
+
+    gap: 16px;
+  }
+
+
+  /* ---------- PARTNER CARDS ---------- */
+
+  .partner-cards-wrapper {
+    width: 100%;
+
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+  }
+
+  .partner-card {
+    width: 100%;
+
+    min-width: 0;
+
+    padding: 14px;
+  }
+
+  .card-head-bar {
+    align-items: flex-start;
+  }
+
+  .user-main-info {
+    min-width: 0;
+  }
+
+  .card-user-details {
+    min-width: 0;
+  }
+
+  .card-user-name,
+  .card-user-dept {
+    overflow-wrap: anywhere;
+  }
+
+  .pills-flex {
+    width: 100%;
+  }
+
+  .quote-bubble {
+    overflow-wrap: anywhere;
+  }
+
+  .card-btn-grid {
+    width: 100%;
+
+    gap: 8px;
+  }
+
+  .btn-profile-outline,
+  .btn-connect-primary,
+  .btn-sent-disabled,
+  .btn-accept-incoming {
+    min-height: 40px;
+  }
+
+
+  /* ---------- RIGHT-SIDE WIDGETS ---------- */
+
+  .widgets-column {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+  }
+
+  .sidebar-widget-card {
+    width: 100%;
+
+    min-width: 0;
+
+    padding: 14px;
+  }
+
+
+  /* ---------- CONNECTION REQUESTS ---------- */
+
+  .incoming-request-box {
+    width: 100%;
+  }
+
+  .request-info {
+    min-width: 0;
+  }
+
+  .request-name,
+  .request-subtext,
+  .request-quote-text {
+    overflow-wrap: anywhere;
+  }
+
+  .sent-request-row {
+    width: 100%;
+
+    flex-wrap: wrap;
+  }
+
+  .sent-user-flex {
+    min-width: 0;
+  }
+
+
+  /* ---------- STUDY CIRCLES ---------- */
+
+  .circle-card-title-row,
+  .circle-card-footer {
+    gap: 8px;
+
+    flex-wrap: wrap;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  .page-container {
+    padding: 12px;
+  }
+
+
+  /* Old header */
+
+  .top-header {
+    padding: 9px 10px;
+  }
+
+  .btn-share-resource {
+    padding: 7px 10px;
+
+    font-size: 11px;
+  }
+
+  .user-profile-widget {
+    padding-left: 0;
+  }
+
+
+  /* Hero */
+
+  .hero-banner {
+    padding: 14px;
+  }
+
+  .banner-title {
+    font-size: 18px;
+  }
+
+
+  /* Filters */
+
+  .filter-panel {
+    padding: 12px;
+  }
+
+  .filter-chips-row {
+    gap: 6px;
+  }
+
+
+  /* Cards */
+
+  .partner-card {
+    padding: 13px;
+  }
+
+  .card-user-avatar {
+    width: 38px;
+    height: 38px;
+  }
+
+  .card-btn-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-profile-outline,
+  .btn-connect-primary,
+  .btn-sent-disabled,
+  .btn-accept-incoming {
+    width: 100%;
+  }
+
+
+  /* Requests */
+
+  .request-btn-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .sidebar-widget-card {
+    padding: 12px;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+  .page-container {
+    padding: 10px;
+  }
+
+  .hero-banner,
+  .filter-panel,
+  .partner-card,
+  .sidebar-widget-card {
+    padding: 11px;
+  }
+
+  .banner-title {
+    font-size: 17px;
+  }
+
+  .card-head-bar {
+    flex-direction: column;
+  }
+
+  .request-btn-row {
+    grid-template-columns: 1fr;
+  }
+
+  .sent-request-row {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+}
+    
   </style>
-<link rel="stylesheet" href="assets/css/mvp.css?v=2"></head>
+<link rel="stylesheet" href="assets/css/mvp.css?v=3"></head>
 <body data-page="partners"><nav class="mvp-nav" aria-label="Main navigation"><strong>UniLink</strong><a href="unilink_main_feed.html">Feed</a><a href="unilink-study-partners.html">Study Partners</a><a href="unilink_direct_messaging.html">Messages</a><a href="sharing-resources.html">Resources</a><a href="student-profile.html">Profile</a><button data-logout>Logout</button></nav><main class="mvp-main"><h1>Study Partners</h1><p id="notice" role="status">Loading?</p><div id="app"></div></main><script src="assets/js/api.js?v=2"></script><script src="assets/js/auth.js?v=2"></script><script src="assets/js/mvp.js?v=2"></script></body>
 </html>
