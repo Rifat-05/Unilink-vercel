@@ -1242,6 +1242,419 @@
         align-items: flex-start;
       }
     }
+
+    /* =========================================================
+   CAMPUS FEED - MOBILE RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+
+  /* =======================================================
+     LEGACY DASHBOARD PROTECTION
+     ======================================================= */
+
+  .app-layout {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .main-content {
+    width: 100%;
+    min-width: 0;
+  }
+
+
+  /* ---------- OLD TOP HEADER ---------- */
+
+  .top-header {
+    width: 100%;
+
+    padding: 10px 14px;
+
+    gap: 10px;
+  }
+
+  .global-search {
+    width: auto;
+    min-width: 0;
+
+    flex: 1;
+  }
+
+  .global-search input {
+    width: 100%;
+
+    font-size: 16px;
+  }
+
+  .kbd-shortcut {
+    display: none;
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+
+  .user-details {
+    display: none;
+  }
+
+
+  /* ---------- PAGE CONTAINER ---------- */
+
+  .page-container {
+    width: 100%;
+    max-width: 100%;
+
+    padding: 16px;
+
+    gap: 16px;
+  }
+
+
+  /* ---------- ALERT ---------- */
+
+  .urgent-alert-banner {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    padding: 12px 14px;
+  }
+
+  .alert-left-content {
+    align-items: flex-start;
+
+    flex-wrap: wrap;
+  }
+
+  .alert-right-actions {
+    width: 100%;
+
+    justify-content: flex-end;
+  }
+
+
+  /* ---------- GREETING ---------- */
+
+  .greeting-header-row {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 12px;
+  }
+
+  .greeting-title-flex {
+    flex-wrap: wrap;
+  }
+
+  .greeting-title-flex h1 {
+    font-size: 20px;
+  }
+
+  .stats-pills-group {
+    width: 100%;
+
+    flex-wrap: wrap;
+  }
+
+
+  /* ---------- QUICK ACTIONS ---------- */
+
+  .action-shortcuts-grid {
+    width: 100%;
+
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+  }
+
+  .shortcut-card {
+    width: 100%;
+
+    padding: 14px;
+  }
+
+
+  /* ---------- SECTION HEADERS ---------- */
+
+  .section-header-bar {
+    gap: 10px;
+
+    flex-wrap: wrap;
+  }
+
+
+  /* ---------- RECOMMENDED RESOURCES ---------- */
+
+  .recommended-grid {
+    width: 100%;
+
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+  }
+
+  .recommended-card {
+    width: 100%;
+
+    min-width: 0;
+
+    padding: 14px;
+  }
+
+  .rec-card-title,
+  .uploader-text {
+    overflow-wrap: anywhere;
+  }
+
+  .rec-meta-info {
+    flex-wrap: wrap;
+  }
+
+  .rec-card-actions {
+    flex-wrap: wrap;
+  }
+
+
+  /* ---------- FEED + SIDEBAR ---------- */
+
+  .feed-sidebar-grid {
+    width: 100%;
+
+    grid-template-columns: 1fr;
+
+    gap: 16px;
+  }
+
+  .feed-column,
+  .sidebar-widgets-column {
+    width: 100%;
+
+    min-width: 0;
+  }
+
+
+  /* ---------- FEED TABS ---------- */
+
+  .feed-tabs-row {
+    width: 100%;
+
+    gap: 18px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    white-space: nowrap;
+
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: none;
+  }
+
+  .feed-tabs-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .feed-tab-btn {
+    flex-shrink: 0;
+  }
+
+
+  /* ---------- FEED CARDS ---------- */
+
+  .feed-card {
+    width: 100%;
+
+    min-width: 0;
+
+    padding: 14px;
+  }
+
+  .feed-card-header {
+    gap: 10px;
+
+    flex-wrap: wrap;
+  }
+
+  .author-info-flex {
+    min-width: 0;
+  }
+
+  .author-name-group {
+    min-width: 0;
+  }
+
+  .author-name-row {
+    flex-wrap: wrap;
+  }
+
+  .author-name,
+  .feed-card-title,
+  .post-text-p {
+    overflow-wrap: anywhere;
+  }
+
+  .post-resource-embed {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .embed-file-info {
+    width: 100%;
+
+    min-width: 0;
+  }
+
+  .embed-text-flex {
+    min-width: 0;
+  }
+
+  .embed-filename {
+    overflow-wrap: anywhere;
+  }
+
+  .feed-card-buttons-row {
+    flex-wrap: wrap;
+  }
+
+
+  /* ---------- RIGHT WIDGETS ---------- */
+
+  .sidebar-widgets-column {
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+  }
+
+  .widget-box {
+    width: 100%;
+
+    min-width: 0;
+
+    padding: 14px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  .page-container {
+    padding: 12px;
+  }
+
+
+  /* Greeting */
+
+  .greeting-title-flex h1 {
+    font-size: 19px;
+  }
+
+  .stats-pills-group {
+    flex-direction: column;
+  }
+
+  .stat-pill-btn {
+    width: 100%;
+
+    justify-content: center;
+  }
+
+
+  /* Cards */
+
+  .shortcut-card,
+  .recommended-card,
+  .feed-card,
+  .widget-box {
+    padding: 12px;
+  }
+
+
+  /* Resource buttons */
+
+  .rec-card-actions {
+    flex-direction: column;
+  }
+
+  .btn-rec-preview,
+  .btn-rec-download {
+    width: 100%;
+  }
+
+
+  /* Feed */
+
+  .feed-card-buttons-row {
+    flex-direction: column;
+  }
+
+  .btn-feed-action-primary,
+  .btn-feed-action-secondary {
+    width: 100%;
+  }
+
+
+  /* Event widget */
+
+  .event-item-row {
+    gap: 8px;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+  .page-container {
+    padding: 10px;
+  }
+
+  .urgent-alert-banner,
+  .shortcut-card,
+  .recommended-card,
+  .feed-card,
+  .widget-box {
+    padding: 11px;
+  }
+
+  .greeting-title-flex {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .feed-card-header {
+    flex-direction: column;
+  }
+
+}
+
+    
   </style>
 <link rel="stylesheet" href="assets/css/mvp.css?v=3"></head>
 <body data-page="feed"><nav class="mvp-nav" aria-label="Main navigation"><strong>UniLink</strong><a href="unilink_main_feed.html">Feed</a><a href="unilink-study-partners.html">Study Partners</a><a href="unilink_direct_messaging.html">Messages</a><a href="sharing-resources.html">Resources</a><a href="student-profile.html">Profile</a><button data-logout>Logout</button></nav><main class="mvp-main"><h1>Campus Feed</h1><p id="notice" role="status">Loading?</p><div id="app"></div></main><script src="assets/js/api.js?v=2"></script><script src="assets/js/auth.js?v=2"></script><script src="assets/js/mvp.js?v=2"></script></body>
