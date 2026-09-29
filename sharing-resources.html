@@ -776,7 +776,301 @@
         padding: 20px;
       }
     }
+    /* =========================================================
+   RESOURCES PAGE - MOBILE RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Legacy layout protection */
+
+  .app-container {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .main-wrapper {
+    width: 100%;
+    min-width: 0;
+  }
+
+
+  /* Top navbar if legacy layout is ever used */
+
+  .top-navbar {
+    width: 100%;
+    padding: 10px 14px;
+    gap: 10px;
+  }
+
+  .top-search {
+    min-width: 0;
+  }
+
+  .top-search input {
+    font-size: 16px;
+  }
+
+  .navbar-right {
+    gap: 8px;
+  }
+
+  .user-profile .user-name,
+  .user-profile .user-univ {
+    display: none;
+  }
+
+
+  /* Content */
+
+  .content-container {
+    width: 100%;
+    max-width: 100%;
+
+    padding: 16px;
+
+    gap: 16px;
+  }
+
+
+  /* Header banner */
+
+  .header-banner {
+    padding: 20px;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 18px;
+  }
+
+  .banner-title {
+    font-size: 23px;
+  }
+
+  .banner-desc {
+    max-width: 100%;
+  }
+
+  .quality-score-box {
+    width: 100%;
+  }
+
+
+  /* Form */
+
+  .form-card {
+    width: 100%;
+
+    padding: 20px;
+
+    gap: 22px;
+  }
+
+  .section-header-row {
+    gap: 10px;
+
+    flex-wrap: wrap;
+  }
+
+  .form-grid-2 {
+    grid-template-columns: 1fr;
+
+    gap: 16px;
+  }
+
+  .input-field {
+    width: 100%;
+
+    max-width: 100%;
+
+    font-size: 16px;
+  }
+
+
+  /* Upload area */
+
+  .upload-dropzone {
+    padding: 28px 14px;
+  }
+
+  .upload-text {
+    font-size: 14px;
+  }
+
+  .security-badges {
+    justify-content: center;
+
+    flex-wrap: wrap;
+  }
+
+
+  /* Selected file */
+
+  .file-item-card {
+    gap: 14px;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .file-details {
+    width: 100%;
+
+    min-width: 0;
+  }
+
+  .file-name {
+    overflow-wrap: anywhere;
+  }
+
+  .file-actions {
+    width: 100%;
+
+    justify-content: flex-end;
+  }
+
+
+  /* Tags */
+
+  .tags-container {
+    width: 100%;
+
+    overflow-wrap: anywhere;
+  }
+
+
+  /* Honor box */
+
+  .honor-box {
+    align-items: flex-start;
+  }
+
+
+  /* Bottom buttons */
+
+  .form-footer-action {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 16px;
+  }
+
+  .button-group-right {
+    width: 100%;
+  }
+
+  .btn-cancel,
+  .btn-submit {
+    flex: 1;
+
+    min-height: 44px;
+
+    justify-content: center;
+  }
+
+
+  /* Bottom feature cards */
+
+  .features-grid {
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  .content-container {
+    padding: 12px;
+  }
+
+  .header-banner {
+    padding: 16px;
+  }
+
+  .banner-title {
+    font-size: 21px;
+  }
+
+  .form-card {
+    padding: 16px;
+  }
+
+  .upload-dropzone {
+    padding: 24px 12px;
+  }
+
+  .security-badges {
+    gap: 7px;
+  }
+
+  .sec-badge {
+    font-size: 10px;
+
+    padding: 4px 7px;
+  }
+
+  .file-details {
+    align-items: flex-start;
+  }
+
+  .button-group-right {
+    flex-direction: column;
+  }
+
+  .btn-cancel,
+  .btn-submit {
+    width: 100%;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+  .content-container {
+    padding: 10px;
+  }
+
+  .header-banner,
+  .form-card {
+    padding: 14px;
+  }
+
+  .banner-title {
+    font-size: 20px;
+  }
+
+  .feature-card {
+    padding: 14px;
+  }
+
+}
   </style>
-<link rel="stylesheet" href="assets/css/mvp.css?v=2"></head>
+<link rel="stylesheet" href="assets/css/mvp.css?v=3"></head>
 <body data-page="resources"><nav class="mvp-nav" aria-label="Main navigation"><strong>UniLink</strong><a href="unilink_main_feed.html">Feed</a><a href="unilink-study-partners.html">Study Partners</a><a href="unilink_direct_messaging.html">Messages</a><a href="sharing-resources.html">Resources</a><a href="student-profile.html">Profile</a><button data-logout>Logout</button></nav><main class="mvp-main"><h1>Resources</h1><p id="notice" role="status">Loading?</p><div id="app"></div></main><script src="assets/js/api.js?v=2"></script><script src="assets/js/auth.js?v=2"></script><script src="assets/js/mvp.js?v=2"></script></body>
 </html>
