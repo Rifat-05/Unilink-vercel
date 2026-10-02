@@ -1062,53 +1062,165 @@ if (
         'SELECT
             p.post_id,
             p.content,
+            p.image_name,
+            p.image_mime,
+            p.image_size,
+            CASE
+                WHEN p.image_data IS NOT NULL
+                THEN 1
+                ELSE 0
+            END AS has_image,
             p.created_at,
             u.user_id author_id,
             u.full_name author_name
          FROM posts p
          JOIN users u
-         ON u.user_id=p.author_id
+         ON u.user_id = p.author_id
          ORDER BY
             p.created_at DESC,
             p.post_id DESC
          LIMIT 100'
     );
 
+    $items = $s->fetchAll();
+
+    foreach ($items as &$item) {
+
+        if ((int)$item['has_image'] === 1) {
+            $item['image_url'] =
+                '/api/posts/' .
+                $item['post_id'] .
+                '/image';
+        } else {
+            $item['image_url'] = null;
+        }
+
+        unset($item['has_image']);
+    }
+
+    unset($item);
+
     json_response([
-        'items' =>
-            $s->fetchAll()
+        'items' => $items
     ]);
 }
+
+
+// ---------------------------------------------------------
+// Feed post image
+// ---------------------------------------------------------
+
+if (
+    preg_match(
+        '#^/api/posts/(\d+)/image$#',
+        $path,
+        $m
+    ) &&
+    $method === 'GET'
+) {
+
+    require_user($pdo);
+
+    $postId = (int)$m[1];
+
+    $s = $pdo->prepare(
+        'SELECT
+            image_data,
+            image_mime,
+            image_name,
+            image_size
+         FROM posts
+         WHERE post_id = ?
+         LIMIT 1'
+    );
+
+    $s->execute([
+        $postId
+    ]);
+
+    $post = $s->fetch();
+
+    if (
+        !$post ||
+        $post['image_data'] === null
+    ) {
+        json_response([
+            'error' => 'Image not found'
+        ], 404);
+    }
+
+    header(
+        'Content-Type: ' .
+        (
+            $post['image_mime']
+            ?: 'application/octet-stream'
+        )
+    );
+
+    if (!empty($post['image_size'])) {
+        header(
+            'Content-Length: ' .
+            (int)$post['image_size']
+        );
+    }
+
+    header(
+        'Content-Disposition: inline; filename="' .
+        str_replace(
+            '"',
+            '',
+            basename(
+                (string)(
+                    $post['image_name']
+                    ?: 'post-image'
+                )
+            )
+        ) .
+        '"'
+    );
+
+    echo $post['image_data'];
+    exit;
+}
+
+
+// ---------------------------------------------------------
+// Create feed post
+// ---------------------------------------------------------
 
 if (
     $path === '/api/posts' &&
     $method === 'POST'
 ) {
 
-    $u =
-        require_user($pdo);
+    $u = require_user($pdo);
 
-    $b =
-        body();
+    $content = trim(
+        (string)(
+            $_POST['content'] ??
+            ''
+        )
+    );
 
-    $content =
-        trim(
-            (string)(
-                $b['content'] ??
-                ''
-            )
-        );
+    $hasImage =
+        isset($_FILES['image']) &&
+        (
+            $_FILES['image']['error'] ??
+            UPLOAD_ERR_NO_FILE
+        ) !== UPLOAD_ERR_NO_FILE;
 
-    if ($content === '') {
+    if (
+        $content === '' &&
+        !$hasImage
+    ) {
         json_response([
             'error' =>
-                'Post cannot be empty'
+                'Write something or choose an image'
         ], 422);
     }
 
     if (
-        strlen($content) >
-        5000
+        strlen($content) > 5000
     ) {
         json_response([
             'error' =>
@@ -1116,22 +1228,187 @@ if (
         ], 422);
     }
 
-    $s =
-        $pdo->prepare(
-            'INSERT INTO posts
-                (author_id,content)
-             VALUES(?,?)'
+    $imageData = null;
+    $imageName = null;
+    $imageMime = null;
+    $imageSize = null;
+
+    if ($hasImage) {
+
+        $file = $_FILES['image'];
+
+        if (
+            ($file['error'] ?? UPLOAD_ERR_NO_FILE)
+            !== UPLOAD_ERR_OK
+        ) {
+            json_response([
+                'error' =>
+                    'Image upload failed'
+            ], 422);
+        }
+
+        // 5 MB limit
+        if (
+            ($file['size'] ?? 0) < 1 ||
+            ($file['size'] ?? 0) >
+            5 * 1024 * 1024
+        ) {
+            json_response([
+                'error' =>
+                    'Image must be smaller than 5 MB'
+            ], 422);
+        }
+
+        if (
+            !is_uploaded_file(
+                $file['tmp_name']
+            )
+        ) {
+            json_response([
+                'error' =>
+                    'Invalid image upload'
+            ], 422);
+        }
+
+        if (!class_exists('finfo')) {
+            json_response([
+                'error' =>
+                    'Server fileinfo extension is not enabled'
+            ], 500);
+        }
+
+        $fi = new finfo(
+            FILEINFO_MIME_TYPE
         );
 
-    $s->execute([
-        $u['user_id'],
+        $mime = (string)$fi->file(
+            $file['tmp_name']
+        );
+
+        $allowedMime = [
+            'image/jpeg',
+            'image/png',
+            'image/webp'
+        ];
+
+        if (
+            !in_array(
+                $mime,
+                $allowedMime,
+                true
+            )
+        ) {
+            json_response([
+                'error' =>
+                    'Only JPG, PNG and WEBP images are allowed'
+            ], 422);
+        }
+
+        $imageData =
+            file_get_contents(
+                $file['tmp_name']
+            );
+
+        if ($imageData === false) {
+            json_response([
+                'error' =>
+                    'Server could not read the image'
+            ], 500);
+        }
+
+        $imageName =
+            basename(
+                (string)$file['name']
+            );
+
+        $imageMime = $mime;
+        $imageSize =
+            (int)$file['size'];
+    }
+
+    $s = $pdo->prepare(
+        'INSERT INTO posts
+        (
+            author_id,
+            content,
+            image_url,
+            image_name,
+            image_mime,
+            image_size,
+            image_data
+        )
+        VALUES(
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?,
+            ?
+        )'
+    );
+
+    $s->bindValue(
+        1,
+        (int)$u['user_id'],
+        PDO::PARAM_INT
+    );
+
+    $s->bindValue(
+        2,
         $content
-    ]);
+    );
+
+    $s->bindValue(
+        3,
+        $imageData !== null
+            ? 'database'
+            : null
+    );
+
+    $s->bindValue(
+        4,
+        $imageName
+    );
+
+    $s->bindValue(
+        5,
+        $imageMime
+    );
+
+    if ($imageSize !== null) {
+        $s->bindValue(
+            6,
+            $imageSize,
+            PDO::PARAM_INT
+        );
+    } else {
+        $s->bindValue(
+            6,
+            null,
+            PDO::PARAM_NULL
+        );
+    }
+
+    if ($imageData !== null) {
+        $s->bindValue(
+            7,
+            $imageData,
+            PDO::PARAM_LOB
+        );
+    } else {
+        $s->bindValue(
+            7,
+            null,
+            PDO::PARAM_NULL
+        );
+    }
+
+    $s->execute();
 
     json_response([
         'post_id' =>
-            (int)$pdo
-                ->lastInsertId()
+            (int)$pdo->lastInsertId()
     ], 201);
 }
 
