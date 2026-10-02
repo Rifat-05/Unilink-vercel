@@ -357,60 +357,253 @@
   // ---------------------------------------------
 
   const refresh = () =>
-    list(
-      box,
-      '/posts',
-      'No posts yet. Be the first to post.',
-      (p, c) => {
+  list(
+    box,
+    '/posts',
+    'No posts yet. Be the first to post.',
+    (p, c) => {
+      c.classList.add('feed-post-card');
 
-        c.classList.add(
-          'feed-post-card'
-        );
+      el(
+        'strong',
+        p.author_name || 'Student',
+        c,
+        'feed-post-author'
+      );
 
+      if (p.content) {
         el(
-          'strong',
-          p.author_name || 'Student',
+          'p',
+          p.content,
           c,
-          'feed-post-author'
-        );
-
-        if (p.content) {
-          el(
-            'p',
-            p.content,
-            c,
-            'feed-post-content'
-          );
-        }
-
-        if (p.image_url) {
-
-          const img =
-            document.createElement('img');
-
-          img.className =
-            'feed-post-image';
-
-img.src =
-  p.image_url;
-
-          img.alt =
-            p.image_name ||
-            'Post image';
-
-          img.loading = 'lazy';
-
-          c.append(img);
-        }
-
-        el(
-          'small',
-          formatDate(p.created_at),
-          c,
-          'feed-post-time'
+          'feed-post-content'
         );
       }
-    );
+
+      if (p.image_url) {
+        const img =
+          document.createElement('img');
+
+        img.className =
+          'feed-post-image';
+
+        img.src =
+          p.image_url;
+
+        img.alt =
+          p.image_name ||
+          'Post image';
+
+        img.loading = 'lazy';
+
+        c.append(img);
+      }
+
+      el(
+        'small',
+        formatDate(p.created_at),
+        c,
+        'feed-post-time'
+      );
+
+
+      // =====================================
+      // COMMENTS
+      // =====================================
+
+      const commentsSection =
+        el(
+          'div',
+          undefined,
+          c,
+          'feed-comments'
+        );
+
+      const commentsList =
+        el(
+          'div',
+          undefined,
+          commentsSection,
+          'feed-comments-list'
+        );
+
+      const loadComments =
+        async () => {
+
+          const result =
+            await api.get(
+              '/posts/' +
+              encodeURIComponent(
+                p.post_id
+              ) +
+              '/comments'
+            );
+
+          const comments =
+            Array.isArray(
+              result.items
+            )
+              ? result.items
+              : [];
+
+          commentsList
+            .replaceChildren();
+
+          if (!comments.length) {
+
+            el(
+              'p',
+              'No comments yet.',
+              commentsList,
+              'feed-no-comments'
+            );
+
+            return;
+          }
+
+          comments.forEach(
+            comment => {
+
+              const item =
+                el(
+                  'div',
+                  undefined,
+                  commentsList,
+                  'feed-comment-item'
+                );
+
+              el(
+                'strong',
+                comment.author_name ||
+                  'Student',
+                item,
+                'feed-comment-author'
+              );
+
+              el(
+                'p',
+                comment.body,
+                item,
+                'feed-comment-body'
+              );
+
+              el(
+                'small',
+                formatDate(
+                  comment.created_at
+                ),
+                item,
+                'feed-comment-time'
+              );
+            }
+          );
+        };
+
+
+      // Comment form
+
+      const commentForm =
+        document.createElement(
+          'form'
+        );
+
+      commentForm.className =
+        'feed-comment-form';
+
+      commentsSection.append(
+        commentForm
+      );
+
+      const commentInput =
+        document.createElement(
+          'input'
+        );
+
+      commentInput.type =
+        'text';
+
+      commentInput.placeholder =
+        'Write a comment...';
+
+      commentInput.maxLength =
+        2000;
+
+      commentInput.className =
+        'feed-comment-input';
+
+      commentForm.append(
+        commentInput
+      );
+
+      const commentButton =
+        document.createElement(
+          'button'
+        );
+
+      commentButton.type =
+        'submit';
+
+      commentButton.textContent =
+        'Comment';
+
+      commentButton.className =
+        'feed-comment-button';
+
+      commentForm.append(
+        commentButton
+      );
+
+
+      commentForm.addEventListener(
+        'submit',
+        e =>
+          run(async () => {
+
+            e.preventDefault();
+
+            const text =
+              commentInput.value
+                .trim();
+
+            if (!text) {
+              throw new Error(
+                'Write a comment first.'
+              );
+            }
+
+            commentButton.disabled =
+              true;
+
+            try {
+
+              await api.post(
+                '/posts/' +
+                encodeURIComponent(
+                  p.post_id
+                ) +
+                '/comments',
+                {
+                  body: text
+                }
+              );
+
+              commentInput.value =
+                '';
+
+              await loadComments();
+
+            } finally {
+
+              commentButton.disabled =
+                false;
+            }
+          })
+      );
+
+
+      run(loadComments);
+    }
+  );
 
   // ---------------------------------------------
   // SUBMIT POST
