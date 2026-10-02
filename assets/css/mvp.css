@@ -694,3 +694,103 @@ iframe {
   }
 
 }
+
+.feed-create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 18px;
+}
+
+.feed-create-form textarea {
+  width: 100%;
+  min-height: 110px;
+  resize: vertical;
+}
+
+.feed-image-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.feed-image-preview-box {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+}
+
+.feed-image-preview {
+  width: 100%;
+  max-height: 450px;
+  object-fit: contain;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.feed-image-remove {
+  margin-top: 8px;
+}
+
+.feed-publish-btn {
+  align-self: flex-start;
+}
+
+.feed-post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.feed-post-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.feed-post-author {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.feed-post-content {
+  margin-bottom: 12px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.feed-post-image {
+  display: block;
+  width: 100%;
+  max-height: 650px;
+  object-fit: contain;
+  border-radius: 10px;
+  margin: 10px 0;
+  background: #f8fafc;
+}
+
+.feed-post-time {
+  display: block;
+  margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+  .feed-create-form,
+  .feed-post-card {
+    padding: 12px;
+  }
+
+  .feed-post-image {
+    max-height: 500px;
+  }
+
+  .feed-publish-btn {
+    width: 100%;
+  }
+}
