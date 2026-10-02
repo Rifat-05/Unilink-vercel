@@ -165,74 +165,320 @@
   // =========================================================
 
   if (page === 'feed') {
-    const intro = el('section', undefined);
+  const intro = el('section', undefined);
 
-    el(
-      'h2',
-      `Welcome, ${me.full_name}`,
-      intro
-    );
+  el(
+    'h2',
+    `Welcome, ${me.full_name}`,
+    intro
+  );
 
-    el(
-      'p',
-      'Share an update with your campus community. Posts are stored in the database.',
-      intro
-    );
+  el(
+    'p',
+    'Share an update with your campus community.',
+    intro
+  );
 
-    const f = makeForm(
-      app,
-      'Publish post',
-      async (data, form) => {
-        await api.post('/posts', data);
+  // ---------------------------------------------
+  // CREATE POST FORM
+  // ---------------------------------------------
 
-        form.reset();
+  const f = document.createElement('form');
+  f.className = 'feed-create-form';
+  app.append(f);
+
+  const contentLabel = el(
+    'label',
+    'What would you like to share?',
+    f
+  );
+
+  const input = document.createElement('textarea');
+  input.name = 'content';
+  input.maxLength = 5000;
+  input.placeholder = 'Share something with your campus...';
+  contentLabel.append(input);
+
+  // ---------------------------------------------
+  // IMAGE INPUT
+  // ---------------------------------------------
+
+  const imageLabel = el(
+    'label',
+    'Add image',
+    f,
+    'feed-image-label'
+  );
+
+  const imageInput =
+    document.createElement('input');
+
+  imageInput.type = 'file';
+  imageInput.name = 'image';
+  imageInput.accept =
+    'image/jpeg,image/png,image/webp';
+
+  imageLabel.append(imageInput);
+
+  // ---------------------------------------------
+  // IMAGE PREVIEW
+  // ---------------------------------------------
+
+  const previewBox = el(
+    'div',
+    undefined,
+    f,
+    'feed-image-preview-box'
+  );
+
+  previewBox.hidden = true;
+
+  const previewImage =
+    document.createElement('img');
+
+  previewImage.className =
+    'feed-image-preview';
+
+  previewBox.append(previewImage);
+
+  const removeImage = el(
+    'button',
+    'Remove image',
+    previewBox,
+    'feed-image-remove'
+  );
+
+  removeImage.type = 'button';
+
+  let previewUrl = null;
+
+  const clearImagePreview = () => {
+
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+      previewUrl = null;
+    }
+
+    imageInput.value = '';
+    previewImage.removeAttribute('src');
+    previewBox.hidden = true;
+  };
+
+  removeImage.addEventListener(
+    'click',
+    clearImagePreview
+  );
+
+  imageInput.addEventListener(
+    'change',
+    () => {
+
+      const file =
+        imageInput.files?.[0];
+
+      if (!file) {
+        clearImagePreview();
+        return;
+      }
+
+      const allowed = [
+        'image/jpeg',
+        'image/png',
+        'image/webp'
+      ];
+
+      if (!allowed.includes(file.type)) {
+
+        clearImagePreview();
 
         showNotice(
-          'Post published.',
-          'success'
+          'Only JPG, PNG and WEBP images are allowed.'
         );
 
-        await refresh();
+        return;
+      }
+
+      if (
+        file.size >
+        5 * 1024 * 1024
+      ) {
+
+        clearImagePreview();
+
+        showNotice(
+          'Image must be smaller than 5 MB.'
+        );
+
+        return;
+      }
+
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+
+      previewUrl =
+        URL.createObjectURL(file);
+
+      previewImage.src =
+        previewUrl;
+
+      previewBox.hidden = false;
+
+      showNotice('');
+    }
+  );
+
+  // ---------------------------------------------
+  // SUBMIT BUTTON
+  // ---------------------------------------------
+
+  const submit = el(
+    'button',
+    'Publish post',
+    f,
+    'feed-publish-btn'
+  );
+
+  submit.type = 'submit';
+
+  // ---------------------------------------------
+  // POSTS CONTAINER
+  // ---------------------------------------------
+
+  const box = el(
+    'div',
+    undefined,
+    app,
+    'feed-post-list'
+  );
+
+  // ---------------------------------------------
+  // RENDER POSTS
+  // ---------------------------------------------
+
+  const refresh = () =>
+    list(
+      box,
+      '/posts',
+      'No posts yet. Be the first to post.',
+      (p, c) => {
+
+        c.classList.add(
+          'feed-post-card'
+        );
+
+        el(
+          'strong',
+          p.author_name || 'Student',
+          c,
+          'feed-post-author'
+        );
+
+        if (p.content) {
+          el(
+            'p',
+            p.content,
+            c,
+            'feed-post-content'
+          );
+        }
+
+        if (p.image_url) {
+
+          const img =
+            document.createElement('img');
+
+          img.className =
+            'feed-post-image';
+
+          img.src =
+            api.url(p.image_url);
+
+          img.alt =
+            p.image_name ||
+            'Post image';
+
+          img.loading = 'lazy';
+
+          c.append(img);
+        }
+
+        el(
+          'small',
+          formatDate(p.created_at),
+          c,
+          'feed-post-time'
+        );
       }
     );
 
-    const input = field(
-      f,
-      'content',
-      'What would you like to share?',
-      '',
-      'textarea'
-    );
+  // ---------------------------------------------
+  // SUBMIT POST
+  // ---------------------------------------------
 
-    input.required = true;
-    input.maxLength = 5000;
+  f.addEventListener(
+    'submit',
+    e =>
+      run(async () => {
 
-    const box = el('div');
+        e.preventDefault();
 
-    const refresh = () =>
-      list(
-        box,
-        '/posts',
-        'No posts yet. Be the first to post.',
-        (p, c) => {
-          el(
-            'strong',
-            p.author_name || 'Student',
-            c
-          );
+        const content =
+          input.value.trim();
 
-          el('p', p.content, c);
+        const image =
+          imageInput.files?.[0];
 
-          el(
-            'small',
-            formatDate(p.created_at),
-            c
+        if (!content && !image) {
+          throw new Error(
+            'Write something or choose an image.'
           );
         }
-      );
 
-    await run(refresh);
-  }
+        submit.disabled = true;
+
+        try {
+
+          const data =
+            new FormData();
+
+          data.append(
+            'content',
+            content
+          );
+
+          if (image) {
+            data.append(
+              'image',
+              image
+            );
+          }
+
+          await api.post(
+            '/posts',
+            data
+          );
+
+          input.value = '';
+
+          clearImagePreview();
+
+          showNotice(
+            'Post published.',
+            'success'
+          );
+
+          await refresh();
+
+        } finally {
+
+          submit.disabled = false;
+        }
+      })
+  );
+
+  await run(refresh);
+}
 
   // =========================================================
   // PROFILE
