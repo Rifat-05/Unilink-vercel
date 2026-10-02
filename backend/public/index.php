@@ -1411,6 +1411,156 @@ if (
             (int)$pdo->lastInsertId()
     ], 201);
 }
+// ---------------------------------------------------------
+// Get post comments
+// ---------------------------------------------------------
+
+if (
+    preg_match(
+        '#^/api/posts/(\d+)/comments$#',
+        $path,
+        $m
+    ) &&
+    $method === 'GET'
+) {
+
+    require_user($pdo);
+
+    $postId = (int)$m[1];
+
+    $check = $pdo->prepare(
+        'SELECT post_id
+         FROM posts
+         WHERE post_id = ?
+         LIMIT 1'
+    );
+
+    $check->execute([
+        $postId
+    ]);
+
+    if (!$check->fetchColumn()) {
+        json_response([
+            'error' => 'Post not found'
+        ], 404);
+    }
+
+    $s = $pdo->prepare(
+        'SELECT
+            pc.comment_id,
+            pc.post_id,
+            pc.author_id,
+            pc.body,
+            pc.created_at,
+            pc.updated_at,
+            u.full_name author_name
+         FROM post_comments pc
+         JOIN users u
+         ON u.user_id = pc.author_id
+         WHERE pc.post_id = ?
+         ORDER BY
+            pc.created_at ASC,
+            pc.comment_id ASC'
+    );
+
+    $s->execute([
+        $postId
+    ]);
+
+    json_response([
+        'items' => $s->fetchAll()
+    ]);
+}
+
+
+// ---------------------------------------------------------
+// Add post comment
+// ---------------------------------------------------------
+
+if (
+    preg_match(
+        '#^/api/posts/(\d+)/comments$#',
+        $path,
+        $m
+    ) &&
+    $method === 'POST'
+) {
+
+    $u = require_user($pdo);
+
+    $postId = (int)$m[1];
+
+    $b = body();
+
+    $text = trim(
+        (string)(
+            $b['body'] ??
+            ''
+        )
+    );
+
+    if ($text === '') {
+        json_response([
+            'error' =>
+                'Comment cannot be empty'
+        ], 422);
+    }
+
+    if (strlen($text) > 2000) {
+        json_response([
+            'error' =>
+                'Comment is too long'
+        ], 422);
+    }
+
+    $check = $pdo->prepare(
+        'SELECT post_id
+         FROM posts
+         WHERE post_id = ?
+         LIMIT 1'
+    );
+
+    $check->execute([
+        $postId
+    ]);
+
+    if (!$check->fetchColumn()) {
+        json_response([
+            'error' => 'Post not found'
+        ], 404);
+    }
+
+    $s = $pdo->prepare(
+        'INSERT INTO post_comments
+        (
+            post_id,
+            author_id,
+            body
+        )
+        VALUES(
+            ?,
+            ?,
+            ?
+        )'
+    );
+
+    $s->execute([
+        $postId,
+        $u['user_id'],
+        $text
+    ]);
+
+    $commentId =
+        (int)$pdo->lastInsertId();
+
+    json_response([
+        'comment_id' => $commentId,
+        'post_id' => $postId,
+        'author_id' => (int)$u['user_id'],
+        'author_name' => $u['full_name'],
+        'body' => $text
+    ], 201);
+}
 
 // ---------------------------------------------------------
 // Study partner search
