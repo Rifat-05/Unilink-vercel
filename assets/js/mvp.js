@@ -391,8 +391,8 @@
           img.className =
             'feed-post-image';
 
-          img.src =
-            api.url(p.image_url);
+img.src =
+  p.image_url;
 
           img.alt =
             p.image_name ||
