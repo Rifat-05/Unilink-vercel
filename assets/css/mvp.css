@@ -794,3 +794,68 @@ iframe {
     width: 100%;
   }
 }
+
+.feed-comments {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.feed-comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.feed-comment-item {
+  background: #f8fafc;
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+.feed-comment-author {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 3px;
+}
+
+.feed-comment-body {
+  margin: 0 0 4px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.feed-comment-time {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.feed-no-comments {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.feed-comment-form {
+  display: flex;
+  gap: 8px;
+}
+
+.feed-comment-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.feed-comment-button {
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .feed-comment-form {
+    flex-direction: column;
+  }
+
+  .feed-comment-button {
+    width: 100%;
+  }
+}
